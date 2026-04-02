@@ -2,6 +2,9 @@
 	import type { CVData } from '../types';
 
 	const { cvData } = $props<{ cvData: CVData }>();
+type ExpItem = CVData['experiencia'][number];
+type EduItem = CVData['educacion'][number];
+type IdiomaItem = CVData['idiomas'][number];
 
 	const textScale = $derived(() => {
 		const resumeLen = cvData.resumen.trim().length;
@@ -49,6 +52,30 @@
 	}
 
 	const primaryRgb = $derived(hexToRgbTriplet(cvData.colorPrimario));
+	const hasText = (v: string | null | undefined) => Boolean(v && v.trim().length > 0);
+	const experiencias = $derived(
+		cvData.experiencia.filter(
+			(e: ExpItem) =>
+				hasText(e.empresa) ||
+				hasText(e.puesto) ||
+				hasText(e.descripcion) ||
+				hasText(e.fechaInicio) ||
+				hasText(e.fechaFin) ||
+				e.actual
+		)
+	);
+	const educaciones = $derived(
+		cvData.educacion.filter(
+			(e: EduItem) =>
+				hasText(e.centro) ||
+				hasText(e.titulo) ||
+				hasText(e.descripcion) ||
+				hasText(e.fechaInicio) ||
+				hasText(e.fechaFin)
+		)
+	);
+	const habilidades = $derived(cvData.habilidades.filter((h: string) => hasText(h)));
+	const idiomas = $derived(cvData.idiomas.filter((l: IdiomaItem) => hasText(l.idioma) || hasText(l.nivel)));
 </script>
 
 <div
@@ -85,7 +112,7 @@
 		</div>
 
 		<div class="contactGrid">
-			<div class="contactCell">
+			{#if hasText(cvData.email)}<div class="contactCell">
 				<svg viewBox="0 0 24 24" class="icon" aria-hidden="true">
 					<path
 						d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.11 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.98.38 1.93.74 2.84a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.24-1.26a2 2 0 0 1 2.11-.45c.91.36 1.86.61 2.84.74A2 2 0 0 1 22 16.92Z"
@@ -97,9 +124,9 @@
 					/>
 				</svg>
 				<span>{cvData.email}</span>
-			</div>
+			</div>{/if}
 
-			<div class="contactCell">
+			{#if hasText(cvData.telefono)}<div class="contactCell">
 				<svg viewBox="0 0 24 24" class="icon" aria-hidden="true">
 					<path
 						d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.11 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.98.38 1.93.74 2.84a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.24-1.26a2 2 0 0 1 2.11-.45c.91.36 1.86.61 2.84.74A2 2 0 0 1 22 16.92Z"
@@ -111,9 +138,9 @@
 					/>
 				</svg>
 				<span>{cvData.telefono}</span>
-			</div>
+			</div>{/if}
 
-			<div class="contactCell">
+			{#if hasText(cvData.ubicacion)}<div class="contactCell">
 				<svg viewBox="0 0 24 24" class="icon" aria-hidden="true">
 					<path
 						d="M12 21s-6-4.35-6-10a6 6 0 1 1 12 0c0 5.65-6 10-6 10Z"
@@ -126,9 +153,9 @@
 					<circle cx="12" cy="11" r="2.2" fill="none" stroke="currentColor" stroke-width="1.8" />
 				</svg>
 				<span>{cvData.ubicacion}</span>
-			</div>
+			</div>{/if}
 
-			<div class="contactCell">
+			{#if hasText(cvData.linkedin)}<div class="contactCell">
 				<svg viewBox="0 0 24 24" class="icon" aria-hidden="true">
 					<path
 						d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7H10V9h4v2"
@@ -142,9 +169,9 @@
 					<circle cx="4" cy="4" r="2" fill="none" stroke="currentColor" stroke-width="1.8" />
 				</svg>
 				<span>{cvData.linkedin.replace(/^https?:\/\//, '')}</span>
-			</div>
+			</div>{/if}
 
-			<div class="contactCell">
+			{#if hasText(cvData.website)}<div class="contactCell">
 				<svg viewBox="0 0 24 24" class="icon" aria-hidden="true">
 					<path
 						d="M10 13a5 5 0 0 1 0-7l1-1a5 5 0 0 1 7 7l-1 1"
@@ -164,80 +191,90 @@
 					/>
 				</svg>
 				<span>{cvData.website.replace(/^https?:\/\//, '')}</span>
-			</div>
-
-			<div class="contactCell contactEmpty">
-				<span>&nbsp;</span>
-			</div>
+			</div>{/if}
 		</div>
 	</header>
 
 	<main class="main">
-		<section class="block">
-			<div class="blockTitle">Resumen</div>
-			<div class="summary">{cvData.resumen}</div>
-		</section>
+		{#if hasText(cvData.resumen)}
+			<section class="block">
+				<div class="blockTitle">Resumen</div>
+				<div class="summary">{cvData.resumen}</div>
+			</section>
+		{/if}
 
-		<section class="block">
-			<div class="blockTitle">Experiencia</div>
-			<div class="list">
-				{#each cvData.experiencia as exp}
+		{#if experiencias.length > 0}
+			<section class="block">
+				<div class="blockTitle">Experiencia</div>
+				<div class="list">
+					{#each experiencias as exp}
 					<article class="item">
 						<div class="itemTop">
-							<div class="role">{exp.puesto}</div>
-							<div class="company">{exp.empresa}</div>
+							{#if hasText(exp.puesto)}<div class="role">{exp.puesto}</div>{/if}
+							{#if hasText(exp.empresa)}<div class="company">{exp.empresa}</div>{/if}
 						</div>
-						<div class="dates">
-							<span>{formatMonthYear(exp.fechaInicio)}</span>
-							<span class="sep">—</span>
-							<span>{formatFin(exp)}</span>
-						</div>
-						<div class="desc">{exp.descripcion}</div>
+						{#if hasText(exp.fechaInicio) || exp.actual || hasText(exp.fechaFin)}
+							<div class="dates">
+								{#if hasText(exp.fechaInicio)}<span>{formatMonthYear(exp.fechaInicio)}</span>{/if}
+								{#if hasText(exp.fechaInicio) && (exp.actual || hasText(exp.fechaFin))}<span class="sep">—</span>{/if}
+								{#if exp.actual || hasText(exp.fechaFin)}<span>{formatFin(exp)}</span>{/if}
+							</div>
+						{/if}
+						{#if hasText(exp.descripcion)}<div class="desc">{exp.descripcion}</div>{/if}
 					</article>
-				{/each}
-			</div>
-		</section>
+					{/each}
+				</div>
+			</section>
+		{/if}
 
-		<section class="block">
-			<div class="blockTitle">Educación</div>
-			<div class="list">
-				{#each cvData.educacion as edu}
+		{#if educaciones.length > 0}
+			<section class="block">
+				<div class="blockTitle">Educación</div>
+				<div class="list">
+					{#each educaciones as edu}
 					<article class="item">
 						<div class="itemTop">
-							<div class="role">{edu.titulo}</div>
-							<div class="company">{edu.centro}</div>
+							{#if hasText(edu.titulo)}<div class="role">{edu.titulo}</div>{/if}
+							{#if hasText(edu.centro)}<div class="company">{edu.centro}</div>{/if}
 						</div>
-						<div class="dates">
-							<span>{formatMonthYear(edu.fechaInicio)}</span>
-							<span class="sep">—</span>
-							<span>{formatFinEdu(edu)}</span>
-						</div>
-						<div class="desc">{edu.descripcion}</div>
+						{#if hasText(edu.fechaInicio) || hasText(edu.fechaFin)}
+							<div class="dates">
+								{#if hasText(edu.fechaInicio)}<span>{formatMonthYear(edu.fechaInicio)}</span>{/if}
+								{#if hasText(edu.fechaInicio) && hasText(edu.fechaFin)}<span class="sep">—</span>{/if}
+								{#if hasText(edu.fechaFin)}<span>{formatFinEdu(edu)}</span>{/if}
+							</div>
+						{/if}
+						{#if hasText(edu.descripcion)}<div class="desc">{edu.descripcion}</div>{/if}
 					</article>
-				{/each}
-			</div>
-		</section>
+					{/each}
+				</div>
+			</section>
+		{/if}
 
-		<section class="block blockSkills">
-			<div class="blockTitle">Habilidades</div>
-			<div class="skillsLine">
-				{#each cvData.habilidades as h}
-					<span class="skill">{h}</span>
-				{/each}
-			</div>
-			{#if cvData.idiomas.length > 0}
+		{#if habilidades.length > 0 || idiomas.length > 0}
+			<section class="block blockSkills">
+				{#if habilidades.length > 0}
+					<div class="blockTitle">Habilidades</div>
+					<div class="skillsLine">
+						{#each habilidades as h}
+							<span class="skill">{h}</span>
+						{/each}
+					</div>
+				{/if}
+				{#if idiomas.length > 0}
 				<div class="langLine">
 					<div class="miniTitle">Idiomas</div>
 					<div class="langs">
-						{#each cvData.idiomas as l}
+						{#each idiomas as l}
 							<span class="lang">
-								{l.idioma} <span class="langLevel">{l.nivel}</span>
+								{l.idioma || 'Idioma'} {#if hasText(l.nivel)}<span class="langLevel">{l.nivel}</span>{/if}
 							</span>
 						{/each}
 					</div>
 				</div>
-			{/if}
-		</section>
+				{/if}
+			</section>
+		{/if}
 	</main>
 </div>
 

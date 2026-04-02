@@ -2,6 +2,9 @@
 	import type { CVData } from '../types';
 
 	const { cvData } = $props<{ cvData: CVData }>();
+type ExpItem = CVData['experiencia'][number];
+type EduItem = CVData['educacion'][number];
+type IdiomaItem = CVData['idiomas'][number];
 
 	const textScale = $derived(() => {
 		const resumeLen = cvData.resumen.trim().length;
@@ -49,6 +52,30 @@
 	}
 
 	const primaryRgb = $derived(hexToRgbTriplet(cvData.colorPrimario));
+	const hasText = (v: string | null | undefined) => Boolean(v && v.trim().length > 0);
+	const experiencias = $derived(
+		cvData.experiencia.filter(
+			(e: ExpItem) =>
+				hasText(e.empresa) ||
+				hasText(e.puesto) ||
+				hasText(e.descripcion) ||
+				hasText(e.fechaInicio) ||
+				hasText(e.fechaFin) ||
+				e.actual
+		)
+	);
+	const educaciones = $derived(
+		cvData.educacion.filter(
+			(e: EduItem) =>
+				hasText(e.centro) ||
+				hasText(e.titulo) ||
+				hasText(e.descripcion) ||
+				hasText(e.fechaInicio) ||
+				hasText(e.fechaFin)
+		)
+	);
+	const habilidades = $derived(cvData.habilidades.filter((h: string) => hasText(h)));
+	const idiomas = $derived(cvData.idiomas.filter((l: IdiomaItem) => hasText(l.idioma) || hasText(l.nivel)));
 </script>
 
 <div
@@ -86,98 +113,112 @@
 	<div class="dividerThin" />
 
 	<div class="contactGrid">
-		<div class="contactItem">
+		{#if hasText(cvData.email)}<div class="contactItem">
 			<span class="label">Email</span>
 			<span class="value">{cvData.email}</span>
-		</div>
-		<div class="contactItem">
+		</div>{/if}
+		{#if hasText(cvData.telefono)}<div class="contactItem">
 			<span class="label">Tel</span>
 			<span class="value">{cvData.telefono}</span>
-		</div>
-		<div class="contactItem">
+		</div>{/if}
+		{#if hasText(cvData.ubicacion)}<div class="contactItem">
 			<span class="label">Ubicación</span>
 			<span class="value">{cvData.ubicacion}</span>
-		</div>
-		<div class="contactItem">
+		</div>{/if}
+		{#if hasText(cvData.linkedin)}<div class="contactItem">
 			<span class="label">LinkedIn</span>
 			<span class="value">{cvData.linkedin.replace(/^https?:\/\//, '')}</span>
-		</div>
-		<div class="contactItem">
+		</div>{/if}
+		{#if hasText(cvData.website)}<div class="contactItem">
 			<span class="label">Web</span>
 			<span class="value">{cvData.website.replace(/^https?:\/\//, '')}</span>
-		</div>
+		</div>{/if}
 	</div>
 
 	<div class="dividerThin" />
 
 	<div class="content">
-		<section class="section">
-			<div class="sectionTitle">Resumen</div>
-			<div class="summary">{cvData.resumen}</div>
-		</section>
+		{#if hasText(cvData.resumen)}
+			<section class="section">
+				<div class="sectionTitle">Resumen</div>
+				<div class="summary">{cvData.resumen}</div>
+			</section>
+		{/if}
 
-		<section class="section">
-			<div class="sectionTitle">Experiencia</div>
-			<div class="list">
-				{#each cvData.experiencia as exp}
+		{#if experiencias.length > 0}
+			<section class="section">
+				<div class="sectionTitle">Experiencia</div>
+				<div class="list">
+					{#each experiencias as exp}
 					<article class="item">
 						<div class="itemHeader">
-							<div class="role">{exp.puesto}</div>
-							<div class="dates">
-								<span class="d">{formatMonthYear(exp.fechaInicio)}</span>
-								<span class="sep">—</span>
-								<span class="d">{formatFin(exp)}</span>
-							</div>
+							{#if hasText(exp.puesto)}<div class="role">{exp.puesto}</div>{/if}
+							{#if hasText(exp.fechaInicio) || exp.actual || hasText(exp.fechaFin)}
+								<div class="dates">
+									{#if hasText(exp.fechaInicio)}<span class="d">{formatMonthYear(exp.fechaInicio)}</span>{/if}
+									{#if hasText(exp.fechaInicio) && (exp.actual || hasText(exp.fechaFin))}<span class="sep">—</span>{/if}
+									{#if exp.actual || hasText(exp.fechaFin)}<span class="d">{formatFin(exp)}</span>{/if}
+								</div>
+							{/if}
 						</div>
-						<div class="company">{exp.empresa}</div>
-						<div class="desc">{exp.descripcion}</div>
+						{#if hasText(exp.empresa)}<div class="company">{exp.empresa}</div>{/if}
+						{#if hasText(exp.descripcion)}<div class="desc">{exp.descripcion}</div>{/if}
 					</article>
-				{/each}
-			</div>
-		</section>
+					{/each}
+				</div>
+			</section>
+		{/if}
 
-		<section class="section">
-			<div class="sectionTitle">Educación</div>
-			<div class="list">
-				{#each cvData.educacion as edu}
+		{#if educaciones.length > 0}
+			<section class="section">
+				<div class="sectionTitle">Educación</div>
+				<div class="list">
+					{#each educaciones as edu}
 					<article class="item">
 						<div class="itemHeader">
-							<div class="role">{edu.titulo}</div>
-							<div class="dates">
-								<span class="d">{formatMonthYear(edu.fechaInicio)}</span>
-								<span class="sep">—</span>
-								<span class="d">{formatFinEdu(edu)}</span>
-							</div>
+							{#if hasText(edu.titulo)}<div class="role">{edu.titulo}</div>{/if}
+							{#if hasText(edu.fechaInicio) || hasText(edu.fechaFin)}
+								<div class="dates">
+									{#if hasText(edu.fechaInicio)}<span class="d">{formatMonthYear(edu.fechaInicio)}</span>{/if}
+									{#if hasText(edu.fechaInicio) && hasText(edu.fechaFin)}<span class="sep">—</span>{/if}
+									{#if hasText(edu.fechaFin)}<span class="d">{formatFinEdu(edu)}</span>{/if}
+								</div>
+							{/if}
 						</div>
-						<div class="company">{edu.centro}</div>
-						<div class="desc">{edu.descripcion}</div>
+						{#if hasText(edu.centro)}<div class="company">{edu.centro}</div>{/if}
+						{#if hasText(edu.descripcion)}<div class="desc">{edu.descripcion}</div>{/if}
 					</article>
-				{/each}
-			</div>
-		</section>
+					{/each}
+				</div>
+			</section>
+		{/if}
 
-		<section class="section">
-			<div class="sectionTitle">Habilidades</div>
-			<ul class="skillsList">
-				{#each cvData.habilidades as h}
-					<li class="skill">{h}</li>
-				{/each}
-			</ul>
+		{#if habilidades.length > 0 || idiomas.length > 0}
+			<section class="section">
+				{#if habilidades.length > 0}
+					<div class="sectionTitle">Habilidades</div>
+					<ul class="skillsList">
+						{#each habilidades as h}
+							<li class="skill">{h}</li>
+						{/each}
+					</ul>
+				{/if}
 
-			{#if cvData.idiomas.length > 0}
+			{#if idiomas.length > 0}
 				<div class="langBlock">
 					<div class="langTitle">Idiomas</div>
 					<ul class="skillsList">
-						{#each cvData.idiomas as l}
+						{#each idiomas as l}
 							<li class="skill">
-								<span class="langName">{l.idioma}</span>
-								<span class="langLevel">{l.nivel}</span>
+								<span class="langName">{l.idioma || 'Idioma'}</span>
+								{#if hasText(l.nivel)}<span class="langLevel">{l.nivel}</span>{/if}
 							</li>
 						{/each}
 					</ul>
 				</div>
 			{/if}
-		</section>
+			</section>
+		{/if}
 	</div>
 </div>
 
