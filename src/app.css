@@ -1,11 +1,11 @@
 /* src/app.css */
-/* Importamos la fuente Inter para ese look moderno y limpio */
+/* Base moderna con acento naranja premium */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
 
 :root {
-  /* Tus colores de marca NovaKit */
-  --accent: #6366f1;
-  --accent-hover: #4f46e5;
+  --accent: #f97316;
+  --accent-hover: #ea580c;
+  --accent-soft: rgba(249, 115, 22, 0.14);
   --text-main: #111827;
   --text-secondary: #6b7280;
   --bg-main: #ffffff;
@@ -37,7 +37,10 @@ html {
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: var(--bg-main);
+  background:
+    radial-gradient(circle at 20% 10%, rgba(249, 115, 22, 0.12), transparent 30%),
+    radial-gradient(circle at 85% 0%, rgba(251, 146, 60, 0.08), transparent 24%),
+    #faf7f2;
   color: var(--text-main);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased; /* Suaviza el renderizado de las letras en Mac/iOS */
@@ -45,7 +48,7 @@ body {
 } 
 
 .gradient-text {
-  background: linear-gradient(135deg, #7c5cbf, #4f8ef7);
+  background: linear-gradient(135deg, #f97316, #fb923c);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -90,7 +93,7 @@ body {
 .motion-card:hover {
   transform: translateY(-10px) scale(1.028);
   box-shadow: var(--shadow-soft-lg);
-  border-color: rgba(99, 102, 241, 0.4);
+  border-color: rgba(249, 115, 22, 0.34);
 }
 
 .btn-primary,
@@ -146,6 +149,11 @@ body {
 .btn-secondary:hover {
   transform: translateY(-2.5px) scale(1.02);
   box-shadow: var(--shadow-soft-md);
+}
+
+::selection {
+  background: rgba(249, 115, 22, 0.28);
+  color: #fff;
 }
 
 .btn-primary:hover::before,

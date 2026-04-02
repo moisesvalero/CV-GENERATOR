@@ -1,3 +1,78 @@
+# CV-generator
+
+Generador de CVs moderno **100% client‑side** construido con **SvelteKit 5 (Runes)**. Rellenas un formulario multi‑paso, eliges plantilla/colores/fuentes, ves el **preview en tiempo real** y descargas tu CV en **PDF** desde el navegador.
+
+## Features
+
+- **SvelteKit 5 + Runes** (`$state`, `$derived`, `$effect`, `$props`) + TypeScript.
+- **Formulario multi‑paso** (datos, experiencia, educación, habilidades/idiomas + estilo).
+- **3 plantillas A4** (Executive / Editorial / Minimal) con preview en tiempo real.
+- **Generación de PDF en cliente** con `html2canvas` + `jsPDF`.
+  - Exportación desde un **clon oculto** para evitar “saltos” visuales en la UI.
+  - CSS ajustado para compatibilidad con `html2canvas` (sin `color-mix()` / funciones de color no soportadas).
+- **PWA** (manifest + service worker) + banner de instalación **solo en móvil**:
+  - Android/Chrome: botón de instalación cuando el navegador lo permite.
+  - iOS: guía de “Añadir a pantalla de inicio” (iOS no permite instalación automática).
+- **Iconos/manifest** y favicon personalizados.
+- **Sin backend**: los datos del CV viven en memoria del navegador (no se envían a ningún servidor).
+
+## Estructura (resumen)
+
+- `src/lib/cv/`: tipos, store, pasos del formulario, preview, templates y descarga PDF.
+- `src/lib/pwa/InstallPrompt.svelte`: banner de instalación.
+- `src/service-worker.ts`: service worker para cache básico.
+- `static/manifest.webmanifest` + `static/*.png`: PWA y favicons.
+- `src/routes/+page.svelte`: UI principal en `/`.
+- `src/routes/cv/+page.ts`: redirección de `/cv` → `/`.
+
+## Requisitos
+
+- Node.js (recomendado **Node 18+** o superior)
+- npm
+
+## Desarrollo local
+
+```bash
+npm install
+npm run dev
+```
+
+Abre la URL que te indique la terminal (normalmente `http://localhost:5173`).
+
+## Build (producción)
+
+```bash
+npm run build
+npm run preview
+```
+
+## Despliegue en Vercel
+
+No necesitas configurar nada especial.
+
+- **Build Command**: `npm run build`
+- **Install Command**: `npm install`
+- **Framework Preset**: SvelteKit (normalmente lo detecta solo)
+
+### Variables de entorno (opcional)
+
+- `PUBLIC_SITE_URL` *(opcional)*: solo afecta a `robots.txt`, `sitemap.xml` y algunas URLs absolutas de metadatos.  
+  Si no la pones, no rompe la app.
+
+## Privacidad
+
+- Este proyecto está diseñado para ser **client‑side**.
+- La generación de PDF ocurre **en tu navegador**.
+- No hay guardado en servidor por defecto.
+
+## Créditos
+
+Desarrollado por **Moisés Valero**.
+
+## Licencia
+
+Este proyecto se publica bajo licencia **MIT**. Ver [`LICENSE`](./LICENSE).
+
 ## NovaKit SvelteKit Starter
 
 Plantilla base para crear **páginas web modernas** (landings y pantallas de producto) con **SvelteKit 2 + Svelte 5 + TypeScript**.

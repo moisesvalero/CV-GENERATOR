@@ -1,6 +1,7 @@
 import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { PORTFOLIO_LOCALE_COOKIE, type SiteLocale } from '$lib/i18n/site-locale';
+import { dev } from '$app/environment';
 
 export const POST: RequestHandler = async ({ request, cookies }) => {
   let body: unknown;
@@ -19,7 +20,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
     maxAge: 60 * 60 * 24 * 365,
     httpOnly: true,
     sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production'
+    secure: !dev
   });
   return json({ ok: true, locale });
 };
