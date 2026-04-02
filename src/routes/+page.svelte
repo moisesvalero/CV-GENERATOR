@@ -50,6 +50,29 @@
 
 		if (linkEl.href !== href) linkEl.href = href;
 	});
+
+	$effect(() => {
+		if (typeof document === 'undefined' || typeof window === 'undefined') return;
+		if (window.innerWidth > 768) return;
+
+		const html = document.documentElement;
+		const body = document.body;
+		const prevHtmlOverflow = html.style.overflow;
+		const prevBodyOverflow = body.style.overflow;
+		const prevBodyTouchAction = body.style.touchAction;
+
+		if (showPreviewDrawer) {
+			html.style.overflow = 'hidden';
+			body.style.overflow = 'hidden';
+			body.style.touchAction = 'none';
+		}
+
+		return () => {
+			html.style.overflow = prevHtmlOverflow;
+			body.style.overflow = prevBodyOverflow;
+			body.style.touchAction = prevBodyTouchAction;
+		};
+	});
 </script>
 
 <svelte:head>
@@ -138,16 +161,24 @@
 				</div>
 
 				<div class="previewCol">
-					<div class="previewSticky" class:drawer-open={showPreviewDrawer}>
-						<button
-							type="button"
-							class="drawerToggle"
-							onclick={() => (showPreviewDrawer = !showPreviewDrawer)}
-							aria-label="Ver / ocultar preview"
-						>
-							{#if showPreviewDrawer} Cerrar preview {:else} Ver preview {/if}
-						</button>
+					<button
+						type="button"
+						class="drawerToggleMobile"
+						onclick={() => (showPreviewDrawer = true)}
+						aria-label="Ver preview"
+					>
+						Ver preview
+					</button>
 
+					<button
+						type="button"
+						class="drawerBackdrop"
+						class:open={showPreviewDrawer}
+						onclick={() => (showPreviewDrawer = false)}
+						aria-label="Cerrar preview"
+					></button>
+
+					<div class="previewSticky" class:drawer-open={showPreviewDrawer}>
 						<div class="previewInner" aria-hidden={!showPreviewDrawer}>
 							<CVPreview />
 						</div>
@@ -449,11 +480,15 @@
 		justify-content: center;
 	}
 
-	.drawerToggle {
+	.drawerToggleMobile {
 		display: none;
 	}
 
 	.drawerClose {
+		display: none;
+	}
+
+	.drawerBackdrop {
 		display: none;
 	}
 
@@ -470,35 +505,62 @@
 			position: fixed;
 			left: 12px;
 			right: 12px;
-			bottom: 12px;
+			bottom: calc(12px + env(safe-area-inset-bottom, 0px));
 			top: auto;
 			padding: 12px;
 			z-index: 50;
-			transform: translateY(120%);
+			transform: translate3d(0, 115%, 0);
 			opacity: 0;
-			transition: transform 0.25s ease, opacity 0.25s ease;
+			transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.24s ease;
 			pointer-events: none;
 			overflow: hidden;
+			max-height: calc(100dvh - 24px);
+			background: rgba(255, 255, 255, 0.96);
+			border: 1px solid rgba(249, 115, 22, 0.18);
+			box-shadow: 0 22px 48px rgba(0, 0, 0, 0.16);
+			will-change: transform, opacity;
 		}
 
 		.previewSticky.drawer-open {
-			transform: translateY(0%);
+			transform: translate3d(0, 0, 0);
 			opacity: 1;
 			pointer-events: auto;
 		}
 
 		.previewInner {
 			transform-origin: top center;
+			justify-content: center;
+			align-items: flex-start;
+			overflow: auto;
+			max-height: calc(100dvh - 90px);
+			-webkit-overflow-scrolling: touch;
 		}
 
-		.drawerToggle {
+		.drawerBackdrop {
+			display: block;
+			position: fixed;
+			inset: 0;
+			z-index: 45;
+			background: rgba(15, 23, 42, 0.34);
+			backdrop-filter: blur(2px);
+			opacity: 0;
+			pointer-events: none;
+			transition: opacity 0.2s ease;
+		}
+
+		.drawerBackdrop.open {
+			opacity: 1;
+			pointer-events: auto;
+		}
+
+		.drawerToggleMobile {
 			display: block;
 			width: 100%;
 			margin-top: 12px;
 			border-radius: 14px;
 			border: 1px solid rgba(249, 115, 22, 0.18);
 			background: rgba(249, 115, 22, 0.08);
-			color: #f5f0e8;
+			color: #c2410c;
 			padding: 12px 14px;
 			font-weight: 950;
 			cursor: pointer;

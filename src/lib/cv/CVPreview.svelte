@@ -58,5 +58,23 @@
 		padding: 8px 10px;
 		border-radius: 999px;
 	}
+
+	@media (max-width: 768px) {
+		.previewOuter {
+			height: 500px;
+			max-width: 100%;
+		}
+
+		.previewScale {
+			transform: scale(0.445);
+			transform-origin: top center;
+		}
+
+		.badge {
+			top: 8px;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+	}
 </style>
 
