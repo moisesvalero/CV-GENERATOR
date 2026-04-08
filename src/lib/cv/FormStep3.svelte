@@ -53,34 +53,47 @@
 
 			<div class="grid2">
 				<div class="field">
-					<label class="label">{$t('cv.form.step3.school')}</label>
-					<input class="input" type="text" bind:value={edu.centro} placeholder={$t('cv.form.step3.schoolPh')} />
+					<label class="label" for={`${edu.id}_centro`}>{$t('cv.form.step3.school')}</label>
+					<input
+						id={`${edu.id}_centro`}
+						class="input"
+						type="text"
+						bind:value={edu.centro}
+						placeholder={$t('cv.form.step3.schoolPh')}
+					/>
 				</div>
 				<div class="field">
-					<label class="label">{$t('cv.form.step3.degree')}</label>
-					<input class="input" type="text" bind:value={edu.titulo} placeholder={$t('cv.form.step3.degreePh')} />
+					<label class="label" for={`${edu.id}_titulo`}>{$t('cv.form.step3.degree')}</label>
+					<input
+						id={`${edu.id}_titulo`}
+						class="input"
+						type="text"
+						bind:value={edu.titulo}
+						placeholder={$t('cv.form.step3.degreePh')}
+					/>
 				</div>
 			</div>
 
 			<div class="grid2">
 				<div class="field">
-					<label class="label">{$t('cv.form.step3.startDate')}</label>
-					<input class="input" type="month" bind:value={edu.fechaInicio} />
+					<label class="label" for={`${edu.id}_inicio`}>{$t('cv.form.step3.startDate')}</label>
+					<input id={`${edu.id}_inicio`} class="input" type="month" bind:value={edu.fechaInicio} />
 				</div>
 				<div class="field">
-					<label class="label">{$t('cv.form.step3.endDate')}</label>
-					<input class="input" type="month" bind:value={edu.fechaFin} />
+					<label class="label" for={`${edu.id}_fin`}>{$t('cv.form.step3.endDate')}</label>
+					<input id={`${edu.id}_fin`} class="input" type="month" bind:value={edu.fechaFin} />
 				</div>
 			</div>
 
 			<div class="field">
-				<label class="label">{$t('cv.form.step3.description')}</label>
+				<label class="label" for={`${edu.id}_desc`}>{$t('cv.form.step3.description')}</label>
 				<textarea
+					id={`${edu.id}_desc`}
 					class="textarea"
 					bind:value={edu.descripcion}
 					rows={3}
 					placeholder={$t('cv.form.step3.descriptionPh')}
-				/>
+				></textarea>
 			</div>
 		</div>
 	{/each}
@@ -99,7 +112,7 @@
 
 	.itemCard {
 		border-radius: 16px;
-		border: 1px solid rgba(249, 115, 22, 0.14);
+		border: 1px solid color-mix(in srgb, var(--site-primary) 14%, transparent);
 		background: rgba(255, 255, 255, 0.84);
 		padding: 16px;
 		display: flex;
@@ -123,9 +136,9 @@
 		width: 40px;
 		height: 40px;
 		border-radius: 12px;
-		border: 1px solid rgba(249, 115, 22, 0.16);
-		background: rgba(249, 115, 22, 0.06);
-		color: #c2410c;
+		border: 1px solid color-mix(in srgb, var(--site-primary) 16%, transparent);
+		background: color-mix(in srgb, var(--site-primary) 6%, transparent);
+		color: var(--site-accent-text);
 		cursor: pointer;
 		display: grid;
 		place-items: center;
@@ -134,7 +147,7 @@
 
 	.iconBtn:hover {
 		transform: translateY(-1px);
-		background: rgba(249, 115, 22, 0.12);
+		background: color-mix(in srgb, var(--site-primary) 12%, transparent);
 	}
 
 	.trash {
@@ -169,7 +182,7 @@
 	.input {
 		width: 100%;
 		border-radius: 12px;
-		border: 1px solid rgba(249, 115, 22, 0.15);
+		border: 1px solid color-mix(in srgb, var(--site-primary) 15%, transparent);
 		background: rgba(255, 255, 255, 0.92);
 		color: #111827;
 		padding: 12px 12px;
@@ -179,7 +192,7 @@
 	.textarea {
 		width: 100%;
 		border-radius: 12px;
-		border: 1px solid rgba(249, 115, 22, 0.15);
+		border: 1px solid color-mix(in srgb, var(--site-primary) 15%, transparent);
 		background: rgba(255, 255, 255, 0.92);
 		color: #111827;
 		padding: 12px 12px;
@@ -191,9 +204,9 @@
 	.addBtn {
 		width: 100%;
 		border-radius: 14px;
-		border: 1px dashed rgba(249, 115, 22, 0.22);
-		background: rgba(249, 115, 22, 0.06);
-		color: #c2410c;
+		border: 1px dashed color-mix(in srgb, var(--site-primary) 22%, transparent);
+		background: color-mix(in srgb, var(--site-primary) 6%, transparent);
+		color: var(--site-accent-text);
 		padding: 12px 14px;
 		font-weight: 900;
 		cursor: pointer;
@@ -202,7 +215,7 @@
 
 	.addBtn:hover {
 		transform: translateY(-1px);
-		background: rgba(249, 115, 22, 0.1);
+		background: color-mix(in srgb, var(--site-primary) 10%, transparent);
 	}
 </style>
 

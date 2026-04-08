@@ -1,52 +1,56 @@
 import type { CVData, IdiomaNivel } from './types';
 
+/** Creates stable row IDs for experience/education blocks (client-only; falls back if `crypto.randomUUID` is missing). */
 const uid = () => {
-	// En cliente normalmente existe `crypto.randomUUID()`. En caso contrario, fallback.
 	const c = (globalThis as unknown as { crypto?: Crypto }).crypto;
 	if (c && 'randomUUID' in c) return (c as Crypto & { randomUUID: () => string }).randomUUID();
 	return `${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 9)}`;
 };
 
+/**
+ * Demo `CVData` shown on first load so the preview is not empty.
+ * Replace or clear in your fork; user-entered data stays in memory only (no default server persistence).
+ */
 export const cvData = $state<CVData>({
-	nombre: 'Laura Martínez',
-	titulo: 'Coordinadora de Operaciones',
-	email: 'laura.martinez@ejemplo.com',
-	telefono: '+34 600 123 456',
-	ubicacion: 'Madrid, España',
-	linkedin: 'https://www.linkedin.com/in/laura-martinez/',
-	website: 'https://ejemplo-servicios.com',
+	nombre: 'Jane Doe',
+	titulo: 'Operations Coordinator',
+	email: 'jane.doe@example.com',
+	telefono: '+1 555 010 2030',
+	ubicacion: 'London, UK',
+	linkedin: 'https://www.linkedin.com/in/example-profile/',
+	website: 'https://example.com',
 	resumen:
-		'Profesional de operaciones en entornos de servicios, enfocada en coordinación, mejora de procesos y calidad. Acostumbrada a trabajar con equipos, proveedores y clientes para asegurar entregas consistentes y eficientes.',
+		'Operations professional focused on coordination, process improvement, and service quality. Experienced working with teams, vendors, and end users to deliver reliable outcomes.',
 	foto: null,
 
 	experiencia: [
 		{
 			id: 'exp_1',
-			empresa: 'Meridian Servicios',
-			puesto: 'Coordinadora de Operaciones',
+			empresa: 'Example Services Ltd.',
+			puesto: 'Operations Coordinator',
 			fechaInicio: '2021-05',
 			fechaFin: '',
 			actual: true,
 			descripcion:
-				'Coordinación diaria de equipos y proveedores. Seguimiento de incidencias, control de calidad y mejora continua de procesos para reducir tiempos de respuesta.'
+				'Day-to-day team and vendor coordination, incident follow-up, quality checks, and continuous improvement initiatives to shorten response times.'
 		}
 	],
 
 	educacion: [
 		{
 			id: 'edu_1',
-			centro: 'Centro de Formación Profesional',
-			titulo: 'Gestión Administrativa y Operaciones',
+			centro: 'Example Training Institute',
+			titulo: 'Business Administration & Operations',
 			fechaInicio: '2019-09',
 			fechaFin: '2021-06',
-			descripcion: 'Planificación, gestión documental, atención al cliente y fundamentos de mejora de procesos.'
+			descripcion: 'Planning, document management, customer service, and introductory process improvement.'
 		}
 	],
 
-	habilidades: ['Coordinación de equipos', 'Mejora de procesos', 'Atención al cliente', 'Excel', 'Gestión de incidencias'],
+	habilidades: ['Team coordination', 'Process improvement', 'Customer service', 'Excel', 'Incident management'],
 	idiomas: [
-		{ idioma: 'Español', nivel: 'native' },
-		{ idioma: 'Inglés', nivel: 'advanced' }
+		{ idioma: 'English', nivel: 'native' },
+		{ idioma: 'Spanish', nivel: 'advanced' }
 	],
 
 	template: 'executive',
@@ -117,7 +121,11 @@ export function addIdioma(idioma: string = '', nivel: IdiomaNivel = 'intermediat
 	cvData.idiomas = [...cvData.idiomas, { idioma: value, nivel }];
 }
 
+/** Appends an empty language row for the form (user fills name in the UI). */
+export function addEmptyIdiomaRow(nivel: IdiomaNivel = 'intermediate') {
+	cvData.idiomas = [...cvData.idiomas, { idioma: '', nivel }];
+}
+
 export function removeIdioma(i: number) {
 	cvData.idiomas = cvData.idiomas.filter((_, idx) => idx !== i);
 }
-

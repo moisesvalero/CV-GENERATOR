@@ -56,9 +56,9 @@
 		top: 12px;
 		left: 12px;
 		z-index: 2;
-		background: rgba(249, 115, 22, 0.12);
-		border: 1px solid rgba(249, 115, 22, 0.2);
-		color: #c2410c;
+		background: color-mix(in srgb, var(--site-primary) 12%, transparent);
+		border: 1px solid color-mix(in srgb, var(--site-primary) 20%, transparent);
+		color: var(--site-accent-text);
 		backdrop-filter: blur(10px);
 		font-weight: 800;
 		font-size: 11px;

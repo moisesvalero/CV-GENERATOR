@@ -16,6 +16,10 @@
 			.replace(/[^\w-]+/g, '')
 	);
 
+	/**
+	 * Exports `#cv-preview-render` to a one-page A4 PDF entirely in the browser.
+	 * Clones the node off-screen so html2canvas does not distort the on-screen preview layout.
+	 */
 	async function downloadPdf() {
 		if (generating) return;
 		errorMessage = null;
@@ -26,7 +30,7 @@
 
 			const el = document.getElementById('cv-preview-render') as HTMLElement | null;
 			if (!el) throw new Error(getTranslator()('cv.download.missingElement'));
-			// Render oculto: no tocamos la UI (evita “preview grande” y glitches).
+
 			const wrap = document.createElement('div');
 			wrap.style.position = 'fixed';
 			wrap.style.left = '-10000px';
@@ -73,7 +77,7 @@
 <div class="downloadWrap">
 	<button class="downloadBtn" type="button" disabled={generating} onclick={downloadPdf}>
 		{#if generating}
-			<span class="spinner" aria-hidden="true" />
+			<span class="spinner" aria-hidden="true"></span>
 			<span>{$t('cv.download.generating')}</span>
 		{:else}
 			<span>{label ?? $t('cv.download.defaultLabel')}</span>
@@ -95,9 +99,9 @@
 
 	.downloadBtn {
 		width: 100%;
-		border: 1px solid rgba(249, 115, 22, 0.18);
-		background: linear-gradient(135deg, rgba(249, 115, 22, 0.12), rgba(251, 146, 60, 0.08));
-		color: #c2410c;
+		border: 1px solid color-mix(in srgb, var(--site-primary) 18%, transparent);
+		background: linear-gradient(135deg, color-mix(in srgb, var(--site-primary) 12%, transparent), color-mix(in srgb, var(--site-gradient-end) 8%, transparent));
+		color: var(--site-accent-text);
 		border-radius: 14px;
 		min-height: 46px;
 		padding: 12px 14px;
@@ -112,8 +116,8 @@
 
 	.downloadBtn:hover:not(:disabled) {
 		transform: translateY(-1px);
-		background: linear-gradient(135deg, rgba(249, 115, 22, 0.18), rgba(251, 146, 60, 0.12));
-		border-color: rgba(251, 146, 60, 0.3);
+		background: linear-gradient(135deg, color-mix(in srgb, var(--site-primary) 18%, transparent), color-mix(in srgb, var(--site-gradient-end) 12%, transparent));
+		border-color: color-mix(in srgb, var(--site-gradient-end) 30%, transparent);
 	}
 
 	.downloadBtn:disabled {
@@ -145,4 +149,3 @@
 		font-size: 0.92em;
 	}
 </style>
-

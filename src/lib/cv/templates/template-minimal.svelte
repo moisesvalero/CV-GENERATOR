@@ -110,7 +110,7 @@ type IdiomaItem = CVData['idiomas'][number];
 		</div>
 	</div>
 
-	<div class="dividerThin" />
+	<div class="dividerThin"></div>
 
 	<div class="contactGrid">
 		{#if hasText(cvData.email)}<div class="contactItem">
@@ -135,7 +135,7 @@ type IdiomaItem = CVData['idiomas'][number];
 		</div>{/if}
 	</div>
 
-	<div class="dividerThin" />
+	<div class="dividerThin"></div>
 
 	<div class="content">
 		{#if hasText(cvData.resumen)}

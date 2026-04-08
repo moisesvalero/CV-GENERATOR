@@ -2,10 +2,14 @@
 	import type { CVData, IdiomaNivel } from './types';
 	import { locale, translateParams, t } from '$lib/i18n';
 	import { get } from 'svelte/store';
-	import { cvData, addHabilidad, removeHabilidad, addIdioma, removeIdioma } from './store.svelte.ts';
+	import { cvData, addHabilidad, removeHabilidad, addEmptyIdiomaRow, removeIdioma } from './store.svelte.ts';
 
 	let habilidadInput = $state('');
-	let idiomaInputId = $state(`idioma_${Math.random().toString(36).slice(2)}`);
+	let s4Base = $state(`s4_${Math.random().toString(36).slice(2, 11)}`);
+	const fontTitleId = () => `${s4Base}_font_titles`;
+	const fontBodyId = () => `${s4Base}_font_body`;
+	const langInputId = (i: number) => `lang_in_${i}`;
+	const langLevelId = (i: number) => `lang_lv_${i}`;
 
 	const templateKeys = ['executive', 'editorial', 'minimal'] as const;
 
@@ -53,11 +57,11 @@
 		cvData.template = tpl;
 	}
 	function addBlankIdioma() {
-		addIdioma();
-		// Un toque para que el usuario sepa dónde escribir (sin depender de scroll).
+		addEmptyIdiomaRow();
+		// Defer focus until the new row exists in the DOM after the reactive update.
 		setTimeout(() => {
-			const el = document.getElementById(idiomaInputId) as HTMLInputElement | null;
-			el?.focus?.();
+			const i = cvData.idiomas.length - 1;
+			document.getElementById(langInputId(i))?.focus();
 		}, 0);
 	}
 </script>
@@ -103,9 +107,9 @@
 			{#each cvData.idiomas as l, i}
 				<div class="langRow">
 					<div class="langField">
-						<label class="srOnly">{$t('cv.form.step4.languageLabel')}</label>
+						<label class="srOnly" for={langInputId(i)}>{$t('cv.form.step4.languageLabel')}</label>
 						<input
-							id={i === 0 ? idiomaInputId : undefined}
+							id={langInputId(i)}
 							class="input"
 							type="text"
 							bind:value={l.idioma}
@@ -114,8 +118,8 @@
 					</div>
 
 					<div class="langField">
-						<label class="srOnly">{$t('cv.form.step4.levelLabel')}</label>
-						<select class="select" bind:value={l.nivel}>
+						<label class="srOnly" for={langLevelId(i)}>{$t('cv.form.step4.levelLabel')}</label>
+						<select id={langLevelId(i)} class="select" bind:value={l.nivel}>
 							{#each langLevels as lvl}
 								<option value={lvl}>{$t(`cv.form.step4.langLevels.${lvl}`)}</option>
 							{/each}
@@ -194,7 +198,7 @@
 								style={`--dot:${p.value};`}
 								aria-label={presetAria(p.nameKey)}
 								onclick={() => (cvData.colorPrimario = p.value)}
-							/>
+							></button>
 						{/each}
 					</div>
 				</div>
@@ -215,7 +219,7 @@
 								style={`--dot:${p.value};`}
 								aria-label={presetAria(p.nameKey)}
 								onclick={() => (cvData.colorSecundario = p.value)}
-							/>
+							></button>
 						{/each}
 					</div>
 				</div>
@@ -228,8 +232,8 @@
 
 		<div class="fontGrid">
 			<div class="fontField">
-				<label class="label">{$t('cv.form.step4.fontTitles')}</label>
-				<select class="select" bind:value={cvData.fuenteTitulos}>
+				<label class="label" for={fontTitleId()}>{$t('cv.form.step4.fontTitles')}</label>
+				<select id={fontTitleId()} class="select" bind:value={cvData.fuenteTitulos}>
 					{#each titleFonts as f}
 						<option value={f}>{f}</option>
 					{/each}
@@ -237,8 +241,8 @@
 			</div>
 
 			<div class="fontField">
-				<label class="label">{$t('cv.form.step4.fontBody')}</label>
-				<select class="select" bind:value={cvData.fuenteCuerpo}>
+				<label class="label" for={fontBodyId()}>{$t('cv.form.step4.fontBody')}</label>
+				<select id={fontBodyId()} class="select" bind:value={cvData.fuenteCuerpo}>
 					{#each bodyFonts as f}
 						<option value={f}>{f}</option>
 					{/each}
@@ -259,7 +263,7 @@
 	.block {
 		padding: 12px;
 		border-radius: 16px;
-		border: 1px solid rgba(249, 115, 22, 0.14);
+		border: 1px solid color-mix(in srgb, var(--site-primary) 14%, transparent);
 		background: rgba(255, 255, 255, 0.84);
 	}
 
@@ -298,7 +302,7 @@
 	.input {
 		width: 100%;
 		border-radius: 12px;
-		border: 1px solid rgba(249, 115, 22, 0.15);
+		border: 1px solid color-mix(in srgb, var(--site-primary) 15%, transparent);
 		background: rgba(255, 255, 255, 0.92);
 		color: #111827;
 		padding: 12px 12px;
@@ -308,7 +312,7 @@
 	.select {
 		width: 100%;
 		border-radius: 12px;
-		border: 1px solid rgba(249, 115, 22, 0.15);
+		border: 1px solid color-mix(in srgb, var(--site-primary) 15%, transparent);
 		background: rgba(255, 255, 255, 0.92);
 		color: #111827;
 		padding: 12px 12px;
@@ -317,9 +321,9 @@
 
 	.ghostBtn {
 		border-radius: 12px;
-		border: 1px solid rgba(249, 115, 22, 0.18);
-		background: rgba(249, 115, 22, 0.06);
-		color: #c2410c;
+		border: 1px solid color-mix(in srgb, var(--site-primary) 18%, transparent);
+		background: color-mix(in srgb, var(--site-primary) 6%, transparent);
+		color: var(--site-accent-text);
 		padding: 12px 14px;
 		font-weight: 900;
 		cursor: pointer;
@@ -344,9 +348,9 @@
 		gap: 10px;
 		padding: 8px 10px;
 		border-radius: 999px;
-		border: 1px solid rgba(249, 115, 22, 0.16);
-		background: rgba(249, 115, 22, 0.06);
-		color: #c2410c;
+		border: 1px solid color-mix(in srgb, var(--site-primary) 16%, transparent);
+		background: color-mix(in srgb, var(--site-primary) 6%, transparent);
+		color: var(--site-accent-text);
 		font-weight: 900;
 	}
 
@@ -354,9 +358,9 @@
 		width: 22px;
 		height: 22px;
 		border-radius: 999px;
-		border: 1px solid rgba(249, 115, 22, 0.18);
+		border: 1px solid color-mix(in srgb, var(--site-primary) 18%, transparent);
 		background: rgba(255, 255, 255, 0.95);
-		color: #c2410c;
+		color: var(--site-accent-text);
 		cursor: pointer;
 		font-weight: 950;
 		line-height: 1;
@@ -395,9 +399,9 @@
 		width: 44px;
 		height: 44px;
 		border-radius: 14px;
-		border: 1px solid rgba(249, 115, 22, 0.18);
-		background: rgba(249, 115, 22, 0.06);
-		color: #c2410c;
+		border: 1px solid color-mix(in srgb, var(--site-primary) 18%, transparent);
+		background: color-mix(in srgb, var(--site-primary) 6%, transparent);
+		color: var(--site-accent-text);
 		cursor: pointer;
 		font-weight: 950;
 		font-size: 18px;
@@ -409,9 +413,9 @@
 		margin-top: 12px;
 		width: 100%;
 		border-radius: 14px;
-		border: 1px dashed rgba(249, 115, 22, 0.22);
-		background: rgba(249, 115, 22, 0.06);
-		color: #c2410c;
+		border: 1px dashed color-mix(in srgb, var(--site-primary) 22%, transparent);
+		background: color-mix(in srgb, var(--site-primary) 6%, transparent);
+		color: var(--site-accent-text);
 		padding: 12px 14px;
 		font-weight: 950;
 		cursor: pointer;
@@ -427,7 +431,7 @@
 		width: 100%;
 		padding: 8px;
 		border-radius: 16px;
-		border: 1px solid rgba(249, 115, 22, 0.14);
+		border: 1px solid color-mix(in srgb, var(--site-primary) 14%, transparent);
 		background: rgba(255, 255, 255, 0.92);
 		color: #111827;
 		cursor: pointer;
@@ -443,10 +447,10 @@
 	}
 
 	.templateCard.active {
-		border-color: rgba(251, 146, 60, 0.72);
-		background: linear-gradient(180deg, rgba(249, 115, 22, 0.12), rgba(255, 255, 255, 0.92));
+		border-color: color-mix(in srgb, var(--site-gradient-end) 72%, transparent);
+		background: linear-gradient(180deg, color-mix(in srgb, var(--site-primary) 12%, transparent), rgba(255, 255, 255, 0.92));
 		transform: translateY(-2px);
-		box-shadow: 0 16px 30px rgba(249, 115, 22, 0.1);
+		box-shadow: 0 16px 30px color-mix(in srgb, var(--site-primary) 10%, transparent);
 	}
 
 	.thumbSvg {
@@ -463,7 +467,7 @@
 	}
 
 	.templateCard.active .thumb {
-		color: #c2410c;
+		color: var(--site-accent-text);
 	}
 
 	.colorGrid {
@@ -521,7 +525,7 @@
 	.colorPicker {
 		width: 46px;
 		height: 46px;
-		border: 1px solid rgba(249, 115, 22, 0.18);
+		border: 1px solid color-mix(in srgb, var(--site-primary) 18%, transparent);
 		border-radius: 12px;
 		background: transparent;
 		padding: 0;
@@ -537,7 +541,7 @@
 		width: 22px;
 		height: 22px;
 		border-radius: 999px;
-		border: 1px solid rgba(249, 115, 22, 0.2);
+		border: 1px solid color-mix(in srgb, var(--site-primary) 20%, transparent);
 		background: var(--dot);
 		cursor: pointer;
 	}
@@ -574,7 +578,7 @@
 	}
 
 	.templateCard.active .templateLabel {
-		color: #c2410c;
+		color: var(--site-accent-text);
 	}
 </style>
 

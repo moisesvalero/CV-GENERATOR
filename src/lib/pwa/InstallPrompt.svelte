@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { t } from '$lib/i18n';
 
+	/**
+	 * Mobile-only install hint: uses `beforeinstallprompt` on Chromium Android when available,
+	 * otherwise shows short platform-specific copy (iOS “Add to Home Screen”, etc.).
+	 */
 	type BeforeInstallPromptEvent = Event & {
 		prompt: () => Promise<void>;
 		userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>;
@@ -91,7 +95,7 @@
 		justify-content: space-between;
 		gap: 12px;
 		border-radius: 18px;
-		border: 1px solid rgba(249, 115, 22, 0.18);
+		border: 1px solid color-mix(in srgb, var(--site-primary) 18%, transparent);
 		background: rgba(255, 255, 255, 0.78);
 		backdrop-filter: blur(14px);
 	}
@@ -119,9 +123,9 @@
 		display: inline-flex;
 		padding: 2px 8px;
 		border-radius: 999px;
-		border: 1px solid rgba(249, 115, 22, 0.18);
-		background: rgba(249, 115, 22, 0.06);
-		color: #c2410c;
+		border: 1px solid color-mix(in srgb, var(--site-primary) 18%, transparent);
+		background: color-mix(in srgb, var(--site-primary) 6%, transparent);
+		color: var(--site-accent-text);
 		font-weight: 850;
 	}
 
@@ -133,9 +137,9 @@
 
 	.btn {
 		border-radius: 14px;
-		border: 1px solid rgba(249, 115, 22, 0.18);
-		background: rgba(249, 115, 22, 0.08);
-		color: #c2410c;
+		border: 1px solid color-mix(in srgb, var(--site-primary) 18%, transparent);
+		background: color-mix(in srgb, var(--site-primary) 8%, transparent);
+		color: var(--site-accent-text);
 		padding: 10px 12px;
 		font-weight: 900;
 		cursor: pointer;
@@ -143,8 +147,8 @@
 	}
 
 	.btn.primary {
-		background: linear-gradient(135deg, #f97316, #fb923c);
-		border-color: rgba(251, 146, 60, 0.52);
+		background: linear-gradient(135deg, var(--site-primary), var(--site-gradient-end));
+		border-color: color-mix(in srgb, var(--site-gradient-end) 52%, transparent);
 		color: #fff;
 	}
 

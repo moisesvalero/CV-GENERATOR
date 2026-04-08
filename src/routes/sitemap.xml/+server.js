@@ -1,14 +1,8 @@
 import { env } from '$env/dynamic/public';
 
 const DEFAULT_SITE_URL = 'http://localhost:5173';
-const staticRoutes = [
-	'/',
-	'/proyectos/vshield',
-	'/proyectos/ember-iron',
-	'/proyectos/galeria-nova',
-	'/proyectos/chatbot',
-	'/proyectos/novakit'
-];
+
+const staticRoutes = ['/', '/cv'];
 
 /** @param {string | undefined} url */
 const normalizeBaseUrl = (url) => {

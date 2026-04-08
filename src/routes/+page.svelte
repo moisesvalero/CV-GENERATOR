@@ -1,5 +1,7 @@
 <script lang="ts">
+	import { env } from '$env/dynamic/public';
 	import { get } from 'svelte/store';
+	import { pickLocalized } from '$lib/sanity/pick-localized';
 	import CVPreview from '$lib/cv/CVPreview.svelte';
 	import DownloadButton from '$lib/cv/DownloadButton.svelte';
 	import FormStep1 from '$lib/cv/FormStep1.svelte';
@@ -10,6 +12,17 @@
 	import { cvData, currentStep, setStep } from '$lib/cv/store.svelte';
 	import { locale, setLocale, t } from '$lib/i18n';
 	import { LOCALE_LABELS, SUPPORTED_LOCALES } from '$lib/i18n/locales';
+
+	let { data } = $props();
+
+	const pageTitle = $derived.by(() => {
+		const loc = get(locale);
+		return pickLocalized(data.siteSettings?.metaTitle, loc) ?? get(t)('cv.meta.title');
+	});
+	const pageDescription = $derived.by(() => {
+		const loc = get(locale);
+		return pickLocalized(data.siteSettings?.metaDescription, loc) ?? get(t)('cv.meta.description');
+	});
 
 	const steps = $derived.by(() => {
 		get(locale);
@@ -33,11 +46,13 @@
 		if (currentStep.value < 4) setStep(currentStep.value + 1);
 	}
 
+	/** Builds a Google Fonts CSS URL for the two font families selected in the form. */
 	function buildGoogleFontsUrl(titlesFont: string, bodyFont: string) {
 		const normalizeFamily = (f: string) => encodeURIComponent(f.trim()).replace(/%20/g, '+');
 		return `https://fonts.googleapis.com/css2?family=${normalizeFamily(titlesFont)}:wght@400;700&family=${normalizeFamily(bodyFont)}:wght@400;500&display=swap`;
 	}
 
+	// Inject or update a <link> so preview + PDF export use the chosen Google Fonts in the live DOM.
 	$effect(() => {
 		if (typeof document === 'undefined') return;
 		const titles = cvData.fuenteTitulos;
@@ -83,8 +98,8 @@
 </script>
 
 <svelte:head>
-	<title>{$t('cv.meta.title')}</title>
-	<meta name="description" content={$t('cv.meta.description')} />
+	<title>{pageTitle}</title>
+	<meta name="description" content={pageDescription} />
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
 	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -95,7 +110,9 @@
 		<InstallPrompt />
 		<div class="brandRow">
 			<div class="brandTopRow">
-				<div class="eyebrow">{$t('cv.brand.eyebrow')}</div>
+				<div class="eyebrow">
+					{pickLocalized(data.siteSettings?.eyebrow, $locale) ?? $t('cv.brand.eyebrow')}
+				</div>
 				<div class="langSwitcher" role="group" aria-label={$t('cv.langSwitcher.aria')}>
 					{#each SUPPORTED_LOCALES as loc (loc)}
 						<button
@@ -109,15 +126,36 @@
 					{/each}
 				</div>
 			</div>
+			{#if data.siteSettings?.logoUrl}
+				<div class="logoWrap">
+					<img
+						class="siteLogo"
+						src={data.siteSettings.logoUrl}
+						alt={data.siteSettings.siteName?.trim() ? data.siteSettings.siteName : ''}
+						decoding="async"
+						loading="eager"
+					/>
+				</div>
+			{/if}
 			<h1>
-				<span class="titleTop">{$t('cv.brand.titleTop')}</span>
-				<span class="titleAccent">{$t('cv.brand.titleAccent')}</span>
+				<span class="titleTop"
+					>{pickLocalized(data.siteSettings?.titleTop, $locale) ?? $t('cv.brand.titleTop')}</span
+				>
+				<span class="titleAccent"
+					>{pickLocalized(data.siteSettings?.titleAccent, $locale) ?? $t('cv.brand.titleAccent')}</span
+				>
 			</h1>
-			<p class="heroCopy">{$t('cv.brand.heroCopy')}</p>
-			<div class="claimRow" aria-label={$t('cv.brand.benefitsAria')}>
-				<span>{$t('cv.brand.claim1')}</span>
-				<span>{$t('cv.brand.claim2')}</span>
-				<span>{$t('cv.brand.claim3')}</span>
+			<p class="heroCopy">
+				{pickLocalized(data.siteSettings?.heroCopy, $locale) ?? $t('cv.brand.heroCopy')}
+			</p>
+			<div
+				class="claimRow"
+				aria-label={pickLocalized(data.siteSettings?.benefitsAria, $locale) ??
+					$t('cv.brand.benefitsAria')}
+			>
+				<span>{pickLocalized(data.siteSettings?.claim1, $locale) ?? $t('cv.brand.claim1')}</span>
+				<span>{pickLocalized(data.siteSettings?.claim2, $locale) ?? $t('cv.brand.claim2')}</span>
+				<span>{pickLocalized(data.siteSettings?.claim3, $locale) ?? $t('cv.brand.claim3')}</span>
 			</div>
 		</div>
 
@@ -155,8 +193,14 @@
 					<div class="ctaPanel" class:final-step={currentStepNumber === 4}>
 						{#if currentStepNumber === 4}
 							<div class="ctaCopy">
-								<div class="ctaLabel">{$t('cv.cta.readyLabel')}</div>
-								<div class="ctaTitle">{$t('cv.cta.readyTitle')}</div>
+								<div class="ctaLabel">
+									{pickLocalized(data.siteSettings?.ctaReadyLabel, $locale) ??
+										$t('cv.cta.readyLabel')}
+								</div>
+								<div class="ctaTitle">
+									{pickLocalized(data.siteSettings?.ctaReadyTitle, $locale) ??
+										$t('cv.cta.readyTitle')}
+								</div>
 							</div>
 						{/if}
 
@@ -215,9 +259,14 @@
 		</div>
 
 		<footer class="footer">
-			<span>{$t('cv.footer.by')}</span>
-			<a href="https://moisesvalero.es" target="_blank" rel="noopener noreferrer">Moises Valero</a>
-			<span>{$t('cv.footer.year')}</span>
+			{#if env.PUBLIC_APP_CREDIT_URL?.trim() && env.PUBLIC_APP_CREDIT_LABEL?.trim()}
+				<span>{$t('cv.footer.by')}</span>
+				<a href={env.PUBLIC_APP_CREDIT_URL.trim()} target="_blank" rel="noopener noreferrer">
+					{env.PUBLIC_APP_CREDIT_LABEL.trim()}
+				</a>
+				<span class="footerSep" aria-hidden="true">·</span>
+			{/if}
+			<span>© {new Date().getFullYear()}</span>
 		</footer>
 	</div>
 </div>
@@ -228,8 +277,8 @@
 		height: auto;
 		overflow: visible;
 		background:
-			radial-gradient(circle at 15% 12%, rgba(249, 115, 22, 0.14), transparent 22%),
-			radial-gradient(circle at 85% 8%, rgba(251, 146, 60, 0.1), transparent 24%),
+			radial-gradient(circle at 15% 12%, color-mix(in srgb, var(--site-primary) 14%, transparent), transparent 22%),
+			radial-gradient(circle at 85% 8%, color-mix(in srgb, var(--site-gradient-end) 10%, transparent), transparent 24%),
 			linear-gradient(180deg, #fffdf9 0%, #f7f3ee 55%, #f2ede7 100%);
 		color: #1f2937;
 		font-family: 'DM Sans', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
@@ -267,7 +316,7 @@
 		padding: 4px;
 		border-radius: 999px;
 		background: rgba(255, 255, 255, 0.75);
-		border: 1px solid rgba(249, 115, 22, 0.14);
+		border: 1px solid color-mix(in srgb, var(--site-primary) 14%, transparent);
 	}
 
 	.langBtn {
@@ -282,17 +331,31 @@
 	}
 
 	.langBtn.active {
-		background: rgba(249, 115, 22, 0.14);
-		color: #c2410c;
+		background: color-mix(in srgb, var(--site-primary) 14%, transparent);
+		color: var(--site-accent-text);
 	}
 
 	.langBtn:focus-visible {
-		outline: 2px solid rgba(249, 115, 22, 0.45);
+		outline: 2px solid color-mix(in srgb, var(--site-primary) 45%, transparent);
 		outline-offset: 2px;
 	}
 
 	.brandTopRow .eyebrow {
 		margin-bottom: 0;
+	}
+
+	.logoWrap {
+		display: flex;
+		justify-content: center;
+		margin: 0 auto 14px;
+	}
+
+	.siteLogo {
+		max-height: 56px;
+		max-width: min(280px, 86vw);
+		width: auto;
+		height: auto;
+		object-fit: contain;
 	}
 
 	.eyebrow {
@@ -301,9 +364,9 @@
 		gap: 8px;
 		padding: 6px 10px;
 		border-radius: 999px;
-		background: rgba(249, 115, 22, 0.1);
-		border: 1px solid rgba(249, 115, 22, 0.16);
-		color: #c2410c;
+		background: color-mix(in srgb, var(--site-primary) 10%, transparent);
+		border: 1px solid color-mix(in srgb, var(--site-primary) 16%, transparent);
+		color: var(--site-accent-text);
 		font-size: 0.82rem;
 		font-weight: 800;
 		margin-bottom: 10px;
@@ -341,8 +404,8 @@
 		padding: 7px 10px;
 		border-radius: 999px;
 		background: rgba(255, 255, 255, 0.8);
-		border: 1px solid rgba(249, 115, 22, 0.12);
-		color: #c2410c;
+		border: 1px solid color-mix(in srgb, var(--site-primary) 12%, transparent);
+		color: var(--site-accent-text);
 		font-size: 0.84rem;
 		font-weight: 800;
 	}
@@ -365,7 +428,7 @@
 		text-align: left;
 		background: rgba(255, 255, 255, 0.78);
 		backdrop-filter: blur(14px);
-		border: 1px solid rgba(249, 115, 22, 0.12);
+		border: 1px solid color-mix(in srgb, var(--site-primary) 12%, transparent);
 		border-radius: 16px;
 		padding: 12px 12px;
 		display: flex;
@@ -382,13 +445,13 @@
 
 	.stepPill:hover {
 		transform: translateY(-1px);
-		border-color: rgba(249, 115, 22, 0.24);
-		box-shadow: 0 12px 24px rgba(249, 115, 22, 0.06);
+		border-color: color-mix(in srgb, var(--site-primary) 24%, transparent);
+		box-shadow: 0 12px 24px color-mix(in srgb, var(--site-primary) 6%, transparent);
 	}
 
 	.stepPill.active {
-		border-color: rgba(251, 146, 60, 0.52);
-		box-shadow: 0 16px 30px rgba(249, 115, 22, 0.08);
+		border-color: color-mix(in srgb, var(--site-gradient-end) 52%, transparent);
+		box-shadow: 0 16px 30px color-mix(in srgb, var(--site-primary) 8%, transparent);
 	}
 
 	.stepNum {
@@ -397,8 +460,8 @@
 		border-radius: 12px;
 		display: grid;
 		place-items: center;
-		background: rgba(249, 115, 22, 0.15);
-		color: #c2410c;
+		background: color-mix(in srgb, var(--site-primary) 15%, transparent);
+		color: var(--site-accent-text);
 		font-weight: 950;
 	}
 
@@ -423,7 +486,7 @@
 
 	.stepBar.active {
 		transform: scaleX(1);
-		background: linear-gradient(90deg, #f97316, #fb923c);
+		background: linear-gradient(90deg, var(--site-primary), var(--site-gradient-end));
 	}
 
 	.layout {
@@ -441,7 +504,7 @@
 	.formCard {
 		background: rgba(255, 255, 255, 0.78);
 		backdrop-filter: blur(14px);
-		border: 1px solid rgba(249, 115, 22, 0.12);
+		border: 1px solid color-mix(in srgb, var(--site-primary) 12%, transparent);
 		border-radius: 20px;
 		padding: 14px;
 		color: #111827;
@@ -460,13 +523,13 @@
 		margin-top: 12px;
 		padding: 12px;
 		border-radius: 18px;
-		border: 1px solid rgba(249, 115, 22, 0.12);
+		border: 1px solid color-mix(in srgb, var(--site-primary) 12%, transparent);
 		background: rgba(255, 255, 255, 0.72);
 		backdrop-filter: blur(14px);
 	}
 
 	.ctaPanel.final-step {
-		box-shadow: 0 18px 40px rgba(249, 115, 22, 0.08);
+		box-shadow: 0 18px 40px color-mix(in srgb, var(--site-primary) 8%, transparent);
 	}
 
 	.ctaCopy {
@@ -478,7 +541,7 @@
 	}
 
 	.ctaLabel {
-		color: #c2410c;
+		color: var(--site-accent-text);
 		font-size: 0.8rem;
 		font-weight: 900;
 		text-transform: uppercase;
@@ -493,9 +556,9 @@
 
 	.navBtn {
 		border-radius: 14px;
-		border: 1px solid rgba(249, 115, 22, 0.18);
-		background: rgba(249, 115, 22, 0.08);
-		color: #c2410c;
+		border: 1px solid color-mix(in srgb, var(--site-primary) 18%, transparent);
+		background: color-mix(in srgb, var(--site-primary) 8%, transparent);
+		color: var(--site-accent-text);
 		padding: 12px 14px;
 		font-weight: 950;
 		cursor: pointer;
@@ -503,9 +566,9 @@
 	}
 
 	.navBtn.primary {
-		background: linear-gradient(135deg, #f97316, #fb923c);
-		border-color: rgba(251, 146, 60, 0.52);
-		box-shadow: 0 18px 38px rgba(249, 115, 22, 0.18);
+		background: linear-gradient(135deg, var(--site-primary), var(--site-gradient-end));
+		border-color: color-mix(in srgb, var(--site-gradient-end) 52%, transparent);
+		box-shadow: 0 18px 38px color-mix(in srgb, var(--site-primary) 18%, transparent);
 		color: #fff;
 	}
 
@@ -530,7 +593,7 @@
 		top: 0;
 		background: rgba(255, 255, 255, 0.78);
 		backdrop-filter: blur(14px);
-		border: 1px solid rgba(249, 115, 22, 0.12);
+		border: 1px solid color-mix(in srgb, var(--site-primary) 12%, transparent);
 		border-radius: 20px;
 		padding: 14px;
 		overflow: visible;
@@ -577,7 +640,7 @@
 			overflow: hidden;
 			max-height: calc(100dvh - 24px);
 			background: rgba(255, 255, 255, 0.96);
-			border: 1px solid rgba(249, 115, 22, 0.18);
+			border: 1px solid color-mix(in srgb, var(--site-primary) 18%, transparent);
 			box-shadow: 0 22px 48px rgba(0, 0, 0, 0.16);
 			will-change: transform, opacity;
 		}
@@ -619,9 +682,9 @@
 			width: 100%;
 			margin-top: 12px;
 			border-radius: 14px;
-			border: 1px solid rgba(249, 115, 22, 0.18);
-			background: rgba(249, 115, 22, 0.08);
-			color: #c2410c;
+			border: 1px solid color-mix(in srgb, var(--site-primary) 18%, transparent);
+			background: color-mix(in srgb, var(--site-primary) 8%, transparent);
+			color: var(--site-accent-text);
 			padding: 12px 14px;
 			font-weight: 950;
 			cursor: pointer;
@@ -635,7 +698,7 @@
 			width: 38px;
 			height: 38px;
 			border-radius: 14px;
-			border: 1px solid rgba(249, 115, 22, 0.18);
+			border: 1px solid color-mix(in srgb, var(--site-primary) 18%, transparent);
 			background: rgba(0, 0, 0, 0.28);
 			color: #f5f0e8;
 			font-weight: 950;
@@ -653,7 +716,7 @@
 	}
 
 	.stepPill:focus-visible {
-		outline: 2px solid rgba(249, 115, 22, 0.45);
+		outline: 2px solid color-mix(in srgb, var(--site-primary) 45%, transparent);
 		outline-offset: 2px;
 	}
 
@@ -667,17 +730,22 @@
 		gap: 6px;
 		color: #6b7280;
 		font-size: 0.9rem;
-		border-top: 1px solid rgba(249, 115, 22, 0.1);
+		border-top: 1px solid color-mix(in srgb, var(--site-primary) 10%, transparent);
 	}
 
 	.footer a {
-		color: #c2410c;
+		color: var(--site-accent-text);
 		text-decoration: none;
 		font-weight: 800;
 	}
 
 	.footer a:hover {
 		text-decoration: underline;
+	}
+
+	.footerSep {
+		margin: 0 6px;
+		color: rgba(107, 114, 128, 0.8);
 	}
 
 	.brandRow h1 {
@@ -695,7 +763,7 @@
 	.titleAccent {
 		font-weight: 950;
 		letter-spacing: -0.08em;
-		color: #c2410c;
+		color: var(--site-accent-text);
 		position: relative;
 	}
 
@@ -706,7 +774,7 @@
 		right: 0;
 		bottom: -0.08em;
 		height: 0.16em;
-		background: linear-gradient(90deg, rgba(249, 115, 22, 0.16), rgba(251, 146, 60, 0.34));
+		background: linear-gradient(90deg, color-mix(in srgb, var(--site-primary) 16%, transparent), color-mix(in srgb, var(--site-gradient-end) 34%, transparent));
 		border-radius: 999px;
 		z-index: -1;
 	}

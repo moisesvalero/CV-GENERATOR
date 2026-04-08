@@ -369,10 +369,6 @@ type IdiomaItem = CVData['idiomas'][number];
 		color: rgba(255, 255, 255, 0.95);
 	}
 
-	.contactEmpty {
-		opacity: 0;
-	}
-
 	.icon {
 		width: 18px;
 		height: 18px;

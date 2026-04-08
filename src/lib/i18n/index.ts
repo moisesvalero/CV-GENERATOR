@@ -1,9 +1,6 @@
 import { writable, derived, get } from 'svelte/store';
-import en from './en.json';
-import es from './es.json';
 import cvEn from './cv-messages.en.json';
 import cvEs from './cv-messages.es.json';
-import { deepMergeMessages } from './merge-messages';
 import {
 	DEFAULT_LOCALE,
 	normalizeUiLocale,
@@ -13,9 +10,13 @@ import {
 
 type Json = Record<string, unknown>;
 
+/**
+ * All UI strings for this app live in `cv-messages.<locale>.json`.
+ * To add a language: create `cv-messages.<code>.json`, extend `SUPPORTED_LOCALES`, and add an entry here.
+ */
 const translations: Record<UiLocale, Json> = {
-	es: deepMergeMessages(es as Json, cvEs as Json),
-	en: deepMergeMessages(en as Json, cvEn as Json)
+	es: cvEs as Json,
+	en: cvEn as Json
 };
 
 function lookupKey(obj: unknown, keys: string[]): unknown {
@@ -32,7 +33,6 @@ function translate(locale: UiLocale, key: string): string {
 	let value = lookupKey(translations[locale], keys);
 	if (typeof value === 'string') return value;
 
-	/** Fallback: idioma por defecto y luego inglés si hiciera falta. */
 	if (locale !== DEFAULT_LOCALE) {
 		value = lookupKey(translations[DEFAULT_LOCALE], keys);
 		if (typeof value === 'string') return value;
@@ -45,7 +45,7 @@ function translate(locale: UiLocale, key: string): string {
 	return key;
 }
 
-/** Sustituye `{{param}}` en cadenas de traducción. */
+/** Replaces `{{name}}`-style placeholders in translation strings. */
 export function translateParams(locale: UiLocale, key: string, params: Record<string, string>): string {
 	let s = translate(locale, key);
 	for (const [k, v] of Object.entries(params)) {
@@ -77,13 +77,13 @@ export const t = derived(locale, ($locale) => {
 	return (key: string) => translate($locale, key);
 });
 
-/** Traducción fuera del markup (p. ej. en funciones). */
+/** Use when you need `t` inside a plain TS function (outside Svelte markup). */
 export function getTranslator(): (key: string) => string {
 	const loc = get(locale);
 	return (key: string) => translate(loc, key);
 }
 
-/** @param lang código BCP-47 o corto (es, en) */
+/** @param lang BCP-47 or short locale code (e.g. `es`, `en`) */
 export function setLocale(lang: string) {
 	const normalized = normalizeUiLocale(lang);
 	locale.set(normalized);

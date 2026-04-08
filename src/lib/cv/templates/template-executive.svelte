@@ -112,7 +112,7 @@ type IdiomaItem = CVData['idiomas'][number];
 				<div class="title">{cvData.titulo}</div>
 			</div>
 
-			<div class="divider" />
+			<div class="divider"></div>
 
 			<div class="section">
 				<div class="sectionTitle">{$t('cv.preview.sectionContact')}</div>

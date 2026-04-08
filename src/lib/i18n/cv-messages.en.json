@@ -32,8 +32,7 @@
 			"readyTitle": "Generate your final PDF in one click."
 		},
 		"footer": {
-			"by": "Built by",
-			"year": "© 2026"
+			"by": "Built by"
 		},
 		"langSwitcher": {
 			"aria": "Interface language"

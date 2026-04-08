@@ -60,24 +60,42 @@
 
 			<div class="grid2">
 				<div class="field">
-					<label class="label">{$t('cv.form.step2.company')}</label>
-					<input class="input" type="text" bind:value={exp.empresa} placeholder={$t('cv.form.step2.companyPh')} />
+					<label class="label" for={`${exp.id}_empresa`}>{$t('cv.form.step2.company')}</label>
+					<input
+						id={`${exp.id}_empresa`}
+						class="input"
+						type="text"
+						bind:value={exp.empresa}
+						placeholder={$t('cv.form.step2.companyPh')}
+					/>
 				</div>
 				<div class="field">
-					<label class="label">{$t('cv.form.step2.role')}</label>
-					<input class="input" type="text" bind:value={exp.puesto} placeholder={$t('cv.form.step2.rolePh')} />
+					<label class="label" for={`${exp.id}_puesto`}>{$t('cv.form.step2.role')}</label>
+					<input
+						id={`${exp.id}_puesto`}
+						class="input"
+						type="text"
+						bind:value={exp.puesto}
+						placeholder={$t('cv.form.step2.rolePh')}
+					/>
 				</div>
 			</div>
 
 			<div class="grid2">
 				<div class="field">
-					<label class="label">{$t('cv.form.step2.startDate')}</label>
-					<input class="input" type="month" bind:value={exp.fechaInicio} />
+					<label class="label" for={`${exp.id}_inicio`}>{$t('cv.form.step2.startDate')}</label>
+					<input id={`${exp.id}_inicio`} class="input" type="month" bind:value={exp.fechaInicio} />
 				</div>
 
 				<div class="field">
-					<label class="label">{$t('cv.form.step2.endDate')}</label>
-					<input class="input" type="month" bind:value={exp.fechaFin} disabled={exp.actual} />
+					<label class="label" for={`${exp.id}_fin`}>{$t('cv.form.step2.endDate')}</label>
+					<input
+						id={`${exp.id}_fin`}
+						class="input"
+						type="month"
+						bind:value={exp.fechaFin}
+						disabled={exp.actual}
+					/>
 				</div>
 			</div>
 
@@ -93,13 +111,14 @@
 			</div>
 
 			<div class="field">
-				<label class="label">{$t('cv.form.step2.description')}</label>
+				<label class="label" for={`${exp.id}_desc`}>{$t('cv.form.step2.description')}</label>
 				<textarea
+					id={`${exp.id}_desc`}
 					class="textarea"
 					bind:value={exp.descripcion}
 					rows={4}
 					placeholder={$t('cv.form.step2.descriptionPh')}
-				/>
+				></textarea>
 			</div>
 		</div>
 	{/each}
@@ -118,7 +137,7 @@
 
 	.itemCard {
 		border-radius: 16px;
-		border: 1px solid rgba(249, 115, 22, 0.14);
+		border: 1px solid color-mix(in srgb, var(--site-primary) 14%, transparent);
 		background: rgba(255, 255, 255, 0.84);
 		padding: 16px;
 		display: flex;
@@ -142,9 +161,9 @@
 		width: 40px;
 		height: 40px;
 		border-radius: 12px;
-		border: 1px solid rgba(249, 115, 22, 0.16);
-		background: rgba(249, 115, 22, 0.06);
-		color: #c2410c;
+		border: 1px solid color-mix(in srgb, var(--site-primary) 16%, transparent);
+		background: color-mix(in srgb, var(--site-primary) 6%, transparent);
+		color: var(--site-accent-text);
 		cursor: pointer;
 		display: grid;
 		place-items: center;
@@ -153,7 +172,7 @@
 
 	.iconBtn:hover {
 		transform: translateY(-1px);
-		background: rgba(249, 115, 22, 0.12);
+		background: color-mix(in srgb, var(--site-primary) 12%, transparent);
 	}
 
 	.trash {
@@ -188,7 +207,7 @@
 	.input {
 		width: 100%;
 		border-radius: 12px;
-		border: 1px solid rgba(249, 115, 22, 0.15);
+		border: 1px solid color-mix(in srgb, var(--site-primary) 15%, transparent);
 		background: rgba(255, 255, 255, 0.92);
 		color: #111827;
 		padding: 12px 12px;
@@ -198,7 +217,7 @@
 	.textarea {
 		width: 100%;
 		border-radius: 12px;
-		border: 1px solid rgba(249, 115, 22, 0.15);
+		border: 1px solid color-mix(in srgb, var(--site-primary) 15%, transparent);
 		background: rgba(255, 255, 255, 0.92);
 		color: #111827;
 		padding: 12px 12px;
@@ -231,9 +250,9 @@
 	.addBtn {
 		width: 100%;
 		border-radius: 14px;
-		border: 1px dashed rgba(249, 115, 22, 0.22);
-		background: rgba(249, 115, 22, 0.06);
-		color: #c2410c;
+		border: 1px dashed color-mix(in srgb, var(--site-primary) 22%, transparent);
+		background: color-mix(in srgb, var(--site-primary) 6%, transparent);
+		color: var(--site-accent-text);
 		padding: 12px 14px;
 		font-weight: 900;
 		cursor: pointer;
@@ -242,7 +261,7 @@
 
 	.addBtn:hover {
 		transform: translateY(-1px);
-		background: rgba(249, 115, 22, 0.1);
+		background: color-mix(in srgb, var(--site-primary) 10%, transparent);
 	}
 </style>
 

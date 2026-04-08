@@ -1,7 +1,6 @@
 /**
- * Registro central de idiomas de la app.
- * Para añadir uno nuevo: inclúyelo en SUPPORTED_LOCALES, crea `cv-messages.<codigo>.json`
- * e impórtalo y fusiónalo en `index.ts` (igual que es/en).
+ * Single source of truth for UI languages.
+ * To add a locale: append its code here, add `cv-messages.<code>.json`, and register it in `index.ts`.
  */
 export const SUPPORTED_LOCALES = ['es', 'en'] as const;
 
@@ -29,7 +28,7 @@ export function normalizeUiLocale(value: string | null | undefined): UiLocale {
 	return DEFAULT_LOCALE;
 }
 
-/** Coincide prefijo BCP-47 (p. ej. fr-CA → fr) con el primer locale soportado. */
+/** Pick the first supported locale that matches the browser language (e.g. `fr-CA` → `fr` once you add `fr`). */
 export function resolveLocaleFromNavigator(navLanguages: string | undefined): UiLocale {
 	if (!navLanguages) return DEFAULT_LOCALE;
 	const lower = navLanguages.toLowerCase();
