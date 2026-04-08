@@ -321,27 +321,32 @@ Si tu proyecto final no debe mencionar NovaKit, tienes dos opciones:
 
 ---
 
-## 8. i18n y textos (traducciones, opcional)
+## 8. i18n y textos (traducciones)
 
-Este apartado es un poco más técnico. Puedes ignorarlo al principio.  
+El proyecto está preparado para **varios idiomas**. Por defecto vienen **español** e **inglés** listos.
 
-El proyecto trae un sistema de traducciones simple **ES/EN**:
+### Archivos clave
 
-- `src/lib/i18n/index.js` – Store de idioma y helper `t` para traducir.
-- `src/lib/i18n/en.json` y `src/lib/i18n/es.json` – Textos en inglés y español.
+- `src/lib/i18n/index.ts` – Store `locale`, función `setLocale`, store derivado `t` y `translateParams` para cadenas con `{{placeholders}}`.
+- `src/lib/i18n/locales.ts` – Lista autoritativa `SUPPORTED_LOCALES`, idioma por defecto y etiquetas del selector.
+- `src/lib/i18n/en.json` y `src/lib/i18n/es.json` – Cadenas del starter NovaKit (landings de ejemplo).
+- `src/lib/i18n/cv-messages.en.json` y `cv-messages.es.json` – Todas las cadenas del **generador de CV** (UI + textos de la vista previa/PDF).
 
-Cómo funciona, a muy alto nivel:
+Los mensajes del CV se **fusionan** con los JSON base en `index.ts`, así puedes vender el producto con la app traducida sin mezclar con el contenido demo.
 
-- En los componentes verás cosas como `{$t('hero.subtitle')}`.
-- Esa clave se busca en los JSON de `en` y `es`.
-- El idioma actual se gestiona con un store y un botón en el layout.
+### Añadir un idioma nuevo (por ejemplo `fr`)
 
-Para empezar, no necesitas tocar esto. Más adelante puedes:
+1. Añade `'fr'` al array `SUPPORTED_LOCALES` en `src/lib/i18n/locales.ts` y la entrada en `LOCALE_LABELS`.
+2. Crea `src/lib/i18n/cv-messages.fr.json` copiando la estructura de `cv-messages.en.json` (mismas claves, textos en francés).
+3. Si usas las landings de ejemplo NovaKit, duplica también `en.json` → `fr.json` o deja `fr` con fallback (las claves faltantes caen al idioma por defecto).
+4. En `src/lib/i18n/index.ts`, importa el nuevo JSON, amplía el tipo `translations` y añade la entrada `fr: deepMergeMessages(frBase, cvFr)` siguiendo el patrón de `es` / `en`.
 
-- Añadir nuevas claves para tus propios textos.
-- Traducir solo lo que quieras mantener en varios idiomas.
+El selector de idioma de la home del CV (`/`) se genera a partir de `SUPPORTED_LOCALES`, así que nuevos idiomas aparecen solos.
 
-Si no quieres complicarte, puedes dejar los textos directamente escritos en los componentes de tu proyecto (como hiciste en la home) y olvidar este sistema hasta más adelante.
+### Uso en componentes
+
+- En Svelte: `import { t, locale, setLocale } from '$lib/i18n'` y en plantilla `{$t('cv.steps.personal')}`.
+- Fuera del markup: `getTranslator()` desde `$lib/i18n`.
 
 ---
 

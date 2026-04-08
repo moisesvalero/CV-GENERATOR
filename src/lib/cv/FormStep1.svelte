@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from '$lib/i18n';
 	import { cvData } from './store.svelte.ts';
 
 	let photoInputId = $state(`photo_${Math.random().toString(36).slice(2)}`);
@@ -29,50 +30,50 @@
 <div class="step">
 	<div class="grid2">
 		<div class="field">
-			<label class="label">Nombre completo</label>
-			<input class="input" type="text" bind:value={cvData.nombre} placeholder="Tu nombre" />
+			<label class="label">{$t('cv.form.step1.fullName')}</label>
+			<input class="input" type="text" bind:value={cvData.nombre} placeholder={$t('cv.form.step1.fullNamePh')} />
 		</div>
 		<div class="field">
-			<label class="label">Título profesional</label>
-			<input class="input" type="text" bind:value={cvData.titulo} placeholder="Ej. Coordinador/a de Operaciones" />
-		</div>
-	</div>
-
-	<div class="grid2">
-		<div class="field">
-			<label class="label">Email</label>
-			<input class="input" type="email" bind:value={cvData.email} placeholder="tu@email.com" />
-		</div>
-		<div class="field">
-			<label class="label">Teléfono</label>
-			<input class="input" type="text" bind:value={cvData.telefono} placeholder="+34 600 123 456" />
+			<label class="label">{$t('cv.form.step1.jobTitle')}</label>
+			<input class="input" type="text" bind:value={cvData.titulo} placeholder={$t('cv.form.step1.jobTitlePh')} />
 		</div>
 	</div>
 
 	<div class="grid2">
 		<div class="field">
-			<label class="label">Ubicación</label>
-			<input class="input" type="text" bind:value={cvData.ubicacion} placeholder="Ciudad, País" />
+			<label class="label">{$t('cv.form.step1.email')}</label>
+			<input class="input" type="email" bind:value={cvData.email} placeholder={$t('cv.form.step1.emailPh')} />
 		</div>
 		<div class="field">
-			<label class="label">LinkedIn</label>
-			<input class="input" type="text" bind:value={cvData.linkedin} placeholder="https://linkedin.com/in/..." />
+			<label class="label">{$t('cv.form.step1.phone')}</label>
+			<input class="input" type="text" bind:value={cvData.telefono} placeholder={$t('cv.form.step1.phonePh')} />
 		</div>
 	</div>
 
 	<div class="grid2">
 		<div class="field">
-			<label class="label">Sitio web</label>
-			<input class="input" type="text" bind:value={cvData.website} placeholder="https://tuweb.com" />
+			<label class="label">{$t('cv.form.step1.location')}</label>
+			<input class="input" type="text" bind:value={cvData.ubicacion} placeholder={$t('cv.form.step1.locationPh')} />
+		</div>
+		<div class="field">
+			<label class="label">{$t('cv.form.step1.linkedin')}</label>
+			<input class="input" type="text" bind:value={cvData.linkedin} placeholder={$t('cv.form.step1.linkedinPh')} />
+		</div>
+	</div>
+
+	<div class="grid2">
+		<div class="field">
+			<label class="label">{$t('cv.form.step1.website')}</label>
+			<input class="input" type="text" bind:value={cvData.website} placeholder={$t('cv.form.step1.websitePh')} />
 		</div>
 
 		<div class="field">
-			<label class="label">Foto</label>
+			<label class="label">{$t('cv.form.step1.photo')}</label>
 			<div class="photoRow">
-				<div class="photoPreview" title={cvData.foto ? 'Foto cargada' : 'Sin foto'}>
+				<div class="photoPreview" title={cvData.foto ? $t('cv.form.step1.photoLoaded') : $t('cv.form.step1.photoEmpty')}>
 					{#if cvData.foto}
-						<img class="photoImg" src={cvData.foto} alt="Foto del CV" />
-						<button class="photoDelete" type="button" onclick={removePhoto} aria-label="Eliminar foto">
+						<img class="photoImg" src={cvData.foto} alt={$t('cv.form.step1.photoAlt')} />
+						<button class="photoDelete" type="button" onclick={removePhoto} aria-label={$t('cv.form.step1.removePhoto')}>
 							×
 						</button>
 					{:else}
@@ -100,7 +101,7 @@
 						onchange={onFileChange}
 					/>
 					<label class="uploadBtn" for={photoInputId}>
-						Seleccionar foto
+						{$t('cv.form.step1.selectPhoto')}
 					</label>
 				</div>
 			</div>
@@ -108,16 +109,16 @@
 	</div>
 
 	<div class="field">
-		<label class="label">Resumen profesional</label>
+		<label class="label">{$t('cv.form.step1.summary')}</label>
 		<div class="textareaWrap">
 			<textarea
 				class="textarea"
 				bind:value={cvData.resumen}
 				maxlength={resumenMax}
 				rows={4}
-				placeholder="Tu resumen profesional... (max 400 caracteres)"
+				placeholder={$t('cv.form.step1.summaryPh')}
 			/>
-			<div class="counter" aria-label="Contador de caracteres">
+			<div class="counter" aria-label={$t('cv.form.step1.counterAria')}>
 				{cvData.resumen.length}/{resumenMax}
 			</div>
 		</div>

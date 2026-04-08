@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { t } from '$lib/i18n';
+
 	type BeforeInstallPromptEvent = Event & {
 		prompt: () => Promise<void>;
 		userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>;
@@ -53,25 +55,25 @@
 </script>
 
 {#if show}
-	<div class="banner" role="region" aria-label="Instalar aplicación">
+	<div class="banner" role="region" aria-label={$t('cv.pwa.regionAria')}>
 		<div class="copy">
-			<div class="title">Instala CV-generator</div>
+			<div class="title">{$t('cv.pwa.title')}</div>
 			<div class="desc">
 				{#if deferred}
-					En tu móvil, instálalo como app para abrirlo más rápido.
+					{$t('cv.pwa.descDeferred')}
 				{:else if isIos}
-					En iOS: pulsa <span class="kbd">Compartir</span> y luego <span class="kbd">Añadir a pantalla de inicio</span>.
+					{@html $t('cv.pwa.descIos')}
 				{:else}
-					En Android: abre el menú del navegador y elige <span class="kbd">Instalar app</span>.
+					{@html $t('cv.pwa.descAndroid')}
 				{/if}
 			</div>
 		</div>
 
 		<div class="actions">
 			{#if deferred}
-				<button type="button" class="btn primary" onclick={install}>Instalar</button>
+				<button type="button" class="btn primary" onclick={install}>{$t('cv.pwa.install')}</button>
 			{/if}
-			<button type="button" class="btn" onclick={() => (dismissed = true)}>Ahora no</button>
+			<button type="button" class="btn" onclick={() => (dismissed = true)}>{$t('cv.pwa.dismiss')}</button>
 		</div>
 	</div>
 {/if}
@@ -113,7 +115,7 @@
 		font-size: 0.92rem;
 	}
 
-	.kbd {
+	.desc :global(.kbd) {
 		display: inline-flex;
 		padding: 2px 8px;
 		border-radius: 999px;

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { t } from '$lib/i18n';
+	import { normalizeIdiomaNivel } from '$lib/i18n/lang-level';
 	import type { CVData } from '../types';
 
 	const { cvData } = $props<{ cvData: CVData }>();
@@ -22,18 +24,12 @@ type IdiomaItem = CVData['idiomas'][number];
 		return Math.max(0.78, Math.min(1, s));
 	});
 
-	const fotoAria = `Foto de ${cvData.nombre || 'tu CV'}`;
-
 	function formatMonthYear(value: string) {
 		const m = value.match(/^(\d{4})-(\d{2})$/);
 		if (!m) return value;
 		const year = m[1];
 		const month = m[2];
 		return `${month}/${year}`;
-	}
-
-	function formatFin(exp: CVData['experiencia'][number]) {
-		return exp.actual ? 'Actual' : formatMonthYear(exp.fechaFin || '');
 	}
 
 	function formatFinEdu(edu: CVData['educacion'][number]) {
@@ -92,9 +88,13 @@ type IdiomaItem = CVData['idiomas'][number];
 
 			<div class="header-photo">
 				{#if cvData.foto}
-					<img class="photo" src={cvData.foto} alt={fotoAria} />
+					<img
+						class="photo"
+						src={cvData.foto}
+						alt={`${$t('cv.preview.photoOf')} ${cvData.nombre?.trim() || $t('cv.preview.defaultCvName')}`}
+					/>
 				{:else}
-					<div class="photo placeholder" aria-label="Sin foto" role="img">
+					<div class="photo placeholder" aria-label={$t('cv.preview.noPhotoAria')} role="img">
 						<svg viewBox="0 0 24 24" class="placeholderIcon" aria-hidden="true">
 							<path
 								d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
@@ -198,14 +198,14 @@ type IdiomaItem = CVData['idiomas'][number];
 	<main class="main">
 		{#if hasText(cvData.resumen)}
 			<section class="block">
-				<div class="blockTitle">Resumen</div>
+				<div class="blockTitle">{$t('cv.preview.sectionSummary')}</div>
 				<div class="summary">{cvData.resumen}</div>
 			</section>
 		{/if}
 
 		{#if experiencias.length > 0}
 			<section class="block">
-				<div class="blockTitle">Experiencia</div>
+				<div class="blockTitle">{$t('cv.preview.sectionExperience')}</div>
 				<div class="list">
 					{#each experiencias as exp}
 					<article class="item">
@@ -217,7 +217,7 @@ type IdiomaItem = CVData['idiomas'][number];
 							<div class="dates">
 								{#if hasText(exp.fechaInicio)}<span>{formatMonthYear(exp.fechaInicio)}</span>{/if}
 								{#if hasText(exp.fechaInicio) && (exp.actual || hasText(exp.fechaFin))}<span class="sep">—</span>{/if}
-								{#if exp.actual || hasText(exp.fechaFin)}<span>{formatFin(exp)}</span>{/if}
+								{#if exp.actual || hasText(exp.fechaFin)}<span>{exp.actual ? $t('cv.preview.present') : formatMonthYear(exp.fechaFin || '')}</span>{/if}
 							</div>
 						{/if}
 						{#if hasText(exp.descripcion)}<div class="desc">{exp.descripcion}</div>{/if}
@@ -229,7 +229,7 @@ type IdiomaItem = CVData['idiomas'][number];
 
 		{#if educaciones.length > 0}
 			<section class="block">
-				<div class="blockTitle">Educación</div>
+				<div class="blockTitle">{$t('cv.preview.sectionEducation')}</div>
 				<div class="list">
 					{#each educaciones as edu}
 					<article class="item">
@@ -254,7 +254,7 @@ type IdiomaItem = CVData['idiomas'][number];
 		{#if habilidades.length > 0 || idiomas.length > 0}
 			<section class="block blockSkills">
 				{#if habilidades.length > 0}
-					<div class="blockTitle">Habilidades</div>
+					<div class="blockTitle">{$t('cv.preview.sectionSkills')}</div>
 					<div class="skillsLine">
 						{#each habilidades as h}
 							<span class="skill">{h}</span>
@@ -263,11 +263,11 @@ type IdiomaItem = CVData['idiomas'][number];
 				{/if}
 				{#if idiomas.length > 0}
 				<div class="langLine">
-					<div class="miniTitle">Idiomas</div>
+					<div class="miniTitle">{$t('cv.preview.sectionLanguages')}</div>
 					<div class="langs">
 						{#each idiomas as l}
 							<span class="lang">
-								{l.idioma || 'Idioma'} {#if hasText(l.nivel)}<span class="langLevel">{l.nivel}</span>{/if}
+								{l.idioma || $t('cv.preview.languageFallback')} {#if hasText(l.nivel)}<span class="langLevel">{$t(`cv.preview.langLevel.${normalizeIdiomaNivel(String(l.nivel))}`)}</span>{/if}
 							</span>
 						{/each}
 					</div>

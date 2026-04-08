@@ -1,7 +1,7 @@
 <script lang="ts">
   import PhoneMockup from '$lib/components/PhoneMockup.svelte';
   import { reveal } from '$lib/reveal';
-  import { t } from '$lib/i18n/index.js';
+  import { t } from '$lib/i18n';
 </script>
 
 <section class="superpowers" id="superpowers">

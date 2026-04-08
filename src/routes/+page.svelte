@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { get } from 'svelte/store';
 	import CVPreview from '$lib/cv/CVPreview.svelte';
 	import DownloadButton from '$lib/cv/DownloadButton.svelte';
 	import FormStep1 from '$lib/cv/FormStep1.svelte';
@@ -7,13 +8,19 @@
 	import FormStep4 from '$lib/cv/FormStep4.svelte';
 	import InstallPrompt from '$lib/pwa/InstallPrompt.svelte';
 	import { cvData, currentStep, setStep } from '$lib/cv/store.svelte';
+	import { locale, setLocale, t } from '$lib/i18n';
+	import { LOCALE_LABELS, SUPPORTED_LOCALES } from '$lib/i18n/locales';
 
-	const steps = [
-		{ n: 1, label: 'Datos personales' },
-		{ n: 2, label: 'Experiencia' },
-		{ n: 3, label: 'Educación' },
-		{ n: 4, label: 'Habilidades & Estilo' }
-	];
+	const steps = $derived.by(() => {
+		get(locale);
+		const tr = get(t);
+		return [
+			{ n: 1, label: tr('cv.steps.personal') },
+			{ n: 2, label: tr('cv.steps.experience') },
+			{ n: 3, label: tr('cv.steps.education') },
+			{ n: 4, label: tr('cv.steps.skills') }
+		];
+	});
 
 	let showPreviewDrawer = $state(false);
 	const currentStepNumber = $derived(currentStep.value);
@@ -76,11 +83,8 @@
 </script>
 
 <svelte:head>
-	<title>CV-generator — Crea tu currículum moderno gratis</title>
-	<meta
-		name="description"
-		content="Genera un CV profesional y moderno en minutos. Elige entre 3 estilos, personaliza colores y fuentes, descarga en PDF gratis."
-	/>
+	<title>{$t('cv.meta.title')}</title>
+	<meta name="description" content={$t('cv.meta.description')} />
 	<link rel="preconnect" href="https://fonts.googleapis.com" />
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
 	<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -90,16 +94,30 @@
 	<div class="chrome">
 		<InstallPrompt />
 		<div class="brandRow">
-			<div class="eyebrow">Builder profesional</div>
+			<div class="brandTopRow">
+				<div class="eyebrow">{$t('cv.brand.eyebrow')}</div>
+				<div class="langSwitcher" role="group" aria-label={$t('cv.langSwitcher.aria')}>
+					{#each SUPPORTED_LOCALES as loc (loc)}
+						<button
+							type="button"
+							class="langBtn"
+							class:active={$locale === loc}
+							onclick={() => setLocale(loc)}
+						>
+							{LOCALE_LABELS[loc]}
+						</button>
+					{/each}
+				</div>
+			</div>
 			<h1>
-				<span class="titleTop">CV</span>
-				<span class="titleAccent">generator</span>
+				<span class="titleTop">{$t('cv.brand.titleTop')}</span>
+				<span class="titleAccent">{$t('cv.brand.titleAccent')}</span>
 			</h1>
-			<p class="heroCopy">Crea tu currículum moderno, personalízalo en tiempo real y descárgalo en PDF.</p>
-			<div class="claimRow" aria-label="Beneficios del producto">
-				<span>Preview instantánea</span>
-				<span>3 templates premium</span>
-				<span>PDF en un clic</span>
+			<p class="heroCopy">{$t('cv.brand.heroCopy')}</p>
+			<div class="claimRow" aria-label={$t('cv.brand.benefitsAria')}>
+				<span>{$t('cv.brand.claim1')}</span>
+				<span>{$t('cv.brand.claim2')}</span>
+				<span>{$t('cv.brand.claim3')}</span>
 			</div>
 		</div>
 
@@ -137,23 +155,23 @@
 					<div class="ctaPanel" class:final-step={currentStepNumber === 4}>
 						{#if currentStepNumber === 4}
 							<div class="ctaCopy">
-								<div class="ctaLabel">Listo para exportar</div>
-								<div class="ctaTitle">Genera tu PDF final en un clic.</div>
+								<div class="ctaLabel">{$t('cv.cta.readyLabel')}</div>
+								<div class="ctaTitle">{$t('cv.cta.readyTitle')}</div>
 							</div>
 						{/if}
 
 						<div class="navRow">
 						<button class="navBtn" type="button" onclick={goPrev} disabled={currentStepNumber === 1}>
-							Anterior
+							{$t('cv.nav.prev')}
 						</button>
 
 						{#if currentStepNumber < 4}
 							<button class="navBtn primary" type="button" onclick={goNext}>
-								Siguiente
+								{$t('cv.nav.next')}
 							</button>
 						{:else}
 							<div class="navRight">
-								<DownloadButton label="Finalizar y generar PDF" />
+								<DownloadButton label={$t('cv.nav.downloadFinal')} />
 							</div>
 						{/if}
 						</div>
@@ -165,9 +183,9 @@
 						type="button"
 						class="drawerToggleMobile"
 						onclick={() => (showPreviewDrawer = true)}
-						aria-label="Ver preview"
+						aria-label={$t('cv.nav.openPreview')}
 					>
-						Ver preview
+						{$t('cv.nav.openPreview')}
 					</button>
 
 					<button
@@ -175,7 +193,7 @@
 						class="drawerBackdrop"
 						class:open={showPreviewDrawer}
 						onclick={() => (showPreviewDrawer = false)}
-						aria-label="Cerrar preview"
+						aria-label={$t('cv.nav.closePreview')}
 					></button>
 
 					<div class="previewSticky" class:drawer-open={showPreviewDrawer}>
@@ -187,7 +205,7 @@
 							type="button"
 							class="drawerClose"
 							onclick={() => (showPreviewDrawer = false)}
-							aria-label="Cerrar preview"
+							aria-label={$t('cv.nav.closePreview')}
 						>
 							×
 						</button>
@@ -197,9 +215,9 @@
 		</div>
 
 		<footer class="footer">
-			<span>Desarrollado por</span>
+			<span>{$t('cv.footer.by')}</span>
 			<a href="https://moisesvalero.es" target="_blank" rel="noopener noreferrer">Moises Valero</a>
-			<span>© 2026</span>
+			<span>{$t('cv.footer.year')}</span>
 		</footer>
 	</div>
 </div>
@@ -232,6 +250,49 @@
 		margin: 0 auto 10px;
 		text-align: center;
 		padding: 2px 0 0;
+	}
+
+	.brandTopRow {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 12px;
+		flex-wrap: wrap;
+		margin-bottom: 10px;
+	}
+
+	.langSwitcher {
+		display: inline-flex;
+		gap: 6px;
+		padding: 4px;
+		border-radius: 999px;
+		background: rgba(255, 255, 255, 0.75);
+		border: 1px solid rgba(249, 115, 22, 0.14);
+	}
+
+	.langBtn {
+		border: 0;
+		background: transparent;
+		color: #6b7280;
+		font-weight: 800;
+		font-size: 0.82rem;
+		padding: 6px 12px;
+		border-radius: 999px;
+		cursor: pointer;
+	}
+
+	.langBtn.active {
+		background: rgba(249, 115, 22, 0.14);
+		color: #c2410c;
+	}
+
+	.langBtn:focus-visible {
+		outline: 2px solid rgba(249, 115, 22, 0.45);
+		outline-offset: 2px;
+	}
+
+	.brandTopRow .eyebrow {
+		margin-bottom: 0;
 	}
 
 	.eyebrow {

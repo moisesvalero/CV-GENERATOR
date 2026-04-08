@@ -1,3 +1,5 @@
+export type IdiomaNivel = 'basic' | 'intermediate' | 'advanced' | 'native';
+
 export type CVData = {
 	// Personal
 	nombre: string;
@@ -33,7 +35,7 @@ export type CVData = {
 
 	// Habilidades
 	habilidades: string[]; // array de strings
-	idiomas: { idioma: string; nivel: string }[];
+	idiomas: { idioma: string; nivel: IdiomaNivel | string }[];
 
 	// Customización visual
 	template: 'executive' | 'editorial' | 'minimal';

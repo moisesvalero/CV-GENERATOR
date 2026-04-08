@@ -1,13 +1,13 @@
 <script lang="ts">
+	import { getTranslator, t } from '$lib/i18n';
 	import { cvData } from './store.svelte.ts';
 
-	// Se ejecuta solo en cliente (SvelteKit). Esto evita errores en SSR.
 	import html2canvas from 'html2canvas';
 	import jsPDF from 'jspdf';
 
 	let generating = $state(false);
 	let errorMessage = $state<string | null>(null);
-	const { label = 'Descargar PDF' } = $props<{ label?: string }>();
+	const { label } = $props<{ label?: string }>();
 
 	const safeFileName = $derived(
 		String(cvData.nombre || 'CV')
@@ -25,7 +25,7 @@
 			if (typeof document === 'undefined') return;
 
 			const el = document.getElementById('cv-preview-render') as HTMLElement | null;
-			if (!el) throw new Error('No se encontró el elemento del CV para exportar.');
+			if (!el) throw new Error(getTranslator()('cv.download.missingElement'));
 			// Render oculto: no tocamos la UI (evita “preview grande” y glitches).
 			const wrap = document.createElement('div');
 			wrap.style.position = 'fixed';
@@ -74,9 +74,9 @@
 	<button class="downloadBtn" type="button" disabled={generating} onclick={downloadPdf}>
 		{#if generating}
 			<span class="spinner" aria-hidden="true" />
-			<span>Generando PDF...</span>
+			<span>{$t('cv.download.generating')}</span>
 		{:else}
-			<span>{label}</span>
+			<span>{label ?? $t('cv.download.defaultLabel')}</span>
 		{/if}
 	</button>
 

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { t } from '$lib/i18n';
+	import { normalizeIdiomaNivel } from '$lib/i18n/lang-level';
 	import type { CVData } from '../types';
 
 	const { cvData } = $props<{ cvData: CVData }>();
@@ -23,8 +25,6 @@ type IdiomaItem = CVData['idiomas'][number];
 		return Math.max(0.78, Math.min(1, s));
 	});
 
-	const fotoAria = `Foto de ${cvData.nombre || 'tu CV'}`;
-
 	function formatMonthYear(value: string) {
 		// HTML input type="month" produce "YYYY-MM". Lo mostramos como "MM/YYYY".
 		const m = value.match(/^(\d{4})-(\d{2})$/);
@@ -32,10 +32,6 @@ type IdiomaItem = CVData['idiomas'][number];
 		const year = m[1];
 		const month = m[2];
 		return `${month}/${year}`;
-	}
-
-	function formatFin(exp: CVData['experiencia'][number]) {
-		return exp.actual ? 'Actual' : formatMonthYear(exp.fechaFin || '');
 	}
 
 	function formatFinEdu(edu: CVData['educacion'][number]) {
@@ -89,9 +85,13 @@ type IdiomaItem = CVData['idiomas'][number];
 		<div class="left-inner">
 			<div class="photoWrap">
 				{#if cvData.foto}
-					<img class="photo" src={cvData.foto} alt={fotoAria} />
+					<img
+						class="photo"
+						src={cvData.foto}
+						alt={`${$t('cv.preview.photoOf')} ${cvData.nombre?.trim() || $t('cv.preview.defaultCvName')}`}
+					/>
 				{:else}
-					<div class="photo placeholder" aria-label="Sin foto" role="img">
+					<div class="photo placeholder" aria-label={$t('cv.preview.noPhotoAria')} role="img">
 						<svg viewBox="0 0 24 24" class="placeholderIcon" aria-hidden="true">
 							<path
 								d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
@@ -115,7 +115,7 @@ type IdiomaItem = CVData['idiomas'][number];
 			<div class="divider" />
 
 			<div class="section">
-				<div class="sectionTitle">Contacto</div>
+				<div class="sectionTitle">{$t('cv.preview.sectionContact')}</div>
 				<div class="contact">
 					{#if hasText(cvData.email)}
 						<div class="contactRow">
@@ -212,12 +212,12 @@ type IdiomaItem = CVData['idiomas'][number];
 
 			{#if idiomas.length > 0}
 				<div class="section">
-					<div class="sectionTitle">Idiomas</div>
+					<div class="sectionTitle">{$t('cv.preview.sectionLanguages')}</div>
 					<div class="langList">
 						{#each idiomas as l}
 						<div class="langItem">
-							<span class="langName">{l.idioma || 'Idioma'}</span>
-							{#if hasText(l.nivel)}<span class="langLevel">{l.nivel}</span>{/if}
+							<span class="langName">{l.idioma || $t('cv.preview.languageFallback')}</span>
+							{#if hasText(l.nivel)}<span class="langLevel">{$t(`cv.preview.langLevel.${normalizeIdiomaNivel(String(l.nivel))}`)}</span>{/if}
 						</div>
 						{/each}
 					</div>
@@ -226,7 +226,7 @@ type IdiomaItem = CVData['idiomas'][number];
 
 			{#if habilidades.length > 0}
 				<div class="section">
-					<div class="sectionTitle">Habilidades</div>
+					<div class="sectionTitle">{$t('cv.preview.sectionSkills')}</div>
 					<div class="pillWrap">
 						{#each habilidades as h}
 						<span class="pill">{h}</span>
@@ -241,14 +241,14 @@ type IdiomaItem = CVData['idiomas'][number];
 		<div class="right-inner">
 			{#if hasText(cvData.resumen)}
 				<div class="summary">
-					<div class="summaryLabel">Resumen</div>
+					<div class="summaryLabel">{$t('cv.preview.sectionSummary')}</div>
 					<div class="summaryText">{cvData.resumen}</div>
 				</div>
 			{/if}
 
 			{#if experiencias.length > 0}
 				<div class="block">
-					<div class="blockTitle">Experiencia</div>
+					<div class="blockTitle">{$t('cv.preview.sectionExperience')}</div>
 					<div class="timeline">
 						{#each experiencias as exp}
 						<div class="timelineItem">
@@ -261,7 +261,7 @@ type IdiomaItem = CVData['idiomas'][number];
 									<div class="timelineDates">
 										{#if hasText(exp.fechaInicio)}<span>{formatMonthYear(exp.fechaInicio)}</span>{/if}
 										{#if (hasText(exp.fechaInicio) && (exp.actual || hasText(exp.fechaFin)))}<span class="sep">—</span>{/if}
-										{#if exp.actual || hasText(exp.fechaFin)}<span>{formatFin(exp)}</span>{/if}
+										{#if exp.actual || hasText(exp.fechaFin)}<span>{exp.actual ? $t('cv.preview.present') : formatMonthYear(exp.fechaFin || '')}</span>{/if}
 									</div>
 								{/if}
 								{#if hasText(exp.descripcion)}<div class="timelineDesc">{exp.descripcion}</div>{/if}
@@ -274,7 +274,7 @@ type IdiomaItem = CVData['idiomas'][number];
 
 			{#if educaciones.length > 0}
 				<div class="block">
-					<div class="blockTitle">Educación</div>
+					<div class="blockTitle">{$t('cv.preview.sectionEducation')}</div>
 					<div class="eduList">
 						{#each educaciones as edu}
 						<div class="eduItem">

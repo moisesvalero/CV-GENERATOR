@@ -1,33 +1,39 @@
 <script lang="ts">
-	import type { CVData } from './types';
+	import type { CVData, IdiomaNivel } from './types';
+	import { locale, translateParams, t } from '$lib/i18n';
+	import { get } from 'svelte/store';
 	import { cvData, addHabilidad, removeHabilidad, addIdioma, removeIdioma } from './store.svelte.ts';
 
 	let habilidadInput = $state('');
 	let idiomaInputId = $state(`idioma_${Math.random().toString(36).slice(2)}`);
 
-	const templateCards = [
-		{ key: 'executive' as const, label: 'Executive' },
-		{ key: 'editorial' as const, label: 'Editorial' },
-		{ key: 'minimal' as const, label: 'Minimal' }
-	];
+	const templateKeys = ['executive', 'editorial', 'minimal'] as const;
+
+	const langLevels: IdiomaNivel[] = ['basic', 'intermediate', 'advanced', 'native'];
 
 	const primaryPresets = [
-		{ name: 'Naranja', value: '#F97316' },
-		{ name: 'Azul', value: '#2563EB' },
-		{ name: 'Verde', value: '#059669' },
-		{ name: 'Gris', value: '#334155' },
-		{ name: 'Granate', value: '#9F1239' },
-		{ name: 'Violeta', value: '#7C3AED' }
-	];
+		{ nameKey: 'cv.form.step4.colorNames.orange' as const, value: '#F97316' },
+		{ nameKey: 'cv.form.step4.colorNames.blue' as const, value: '#2563EB' },
+		{ nameKey: 'cv.form.step4.colorNames.green' as const, value: '#059669' },
+		{ nameKey: 'cv.form.step4.colorNames.gray' as const, value: '#334155' },
+		{ nameKey: 'cv.form.step4.colorNames.burgundy' as const, value: '#9F1239' },
+		{ nameKey: 'cv.form.step4.colorNames.violet' as const, value: '#7C3AED' }
+	] as const;
 
 	const secondaryPresets = [
-		{ name: 'Ámbar', value: '#F59E0B' },
-		{ name: 'Cian', value: '#22D3EE' },
-		{ name: 'Violeta', value: '#7C3AED' },
-		{ name: 'Rosa', value: '#DB2777' },
-		{ name: 'Pizarra', value: '#475569' },
-		{ name: 'Verde', value: '#10B981' }
-	];
+		{ nameKey: 'cv.form.step4.colorNames.amber' as const, value: '#F59E0B' },
+		{ nameKey: 'cv.form.step4.colorNames.cyan' as const, value: '#22D3EE' },
+		{ nameKey: 'cv.form.step4.colorNames.violet' as const, value: '#7C3AED' },
+		{ nameKey: 'cv.form.step4.colorNames.rose' as const, value: '#DB2777' },
+		{ nameKey: 'cv.form.step4.colorNames.slate' as const, value: '#475569' },
+		{ nameKey: 'cv.form.step4.colorNames.greenMint' as const, value: '#10B981' }
+	] as const;
+
+	function presetAria(nameKey: string) {
+		const loc = get(locale);
+		const name = get(t)(nameKey);
+		return translateParams(loc, 'cv.form.step4.presetAria', { name });
+	}
 
 	const titleFonts = ['Playfair Display', 'Cormorant Garamond', 'DM Serif Display', 'Bebas Neue', 'Montserrat', 'Raleway'];
 	const bodyFonts = ['Inter', 'DM Sans', 'Source Serif 4', 'Lato', 'Nunito', 'IBM Plex Sans'];
@@ -43,8 +49,8 @@
 		addSkillFromInput();
 	}
 
-	function setTemplate(t: CVData['template']) {
-		cvData.template = t;
+	function setTemplate(tpl: CVData['template']) {
+		cvData.template = tpl;
 	}
 	function addBlankIdioma() {
 		addIdioma();
@@ -58,26 +64,31 @@
 
 <div class="step">
 	<section class="block">
-		<h3 class="blockTitle">Habilidades</h3>
+		<h3 class="blockTitle">{$t('cv.form.step4.skillsTitle')}</h3>
 
 		<div class="tagInputRow">
 			<input
 				class="input"
 				type="text"
-				placeholder="Escribe y pulsa Enter..."
+				placeholder={$t('cv.form.step4.skillPh')}
 				bind:value={habilidadInput}
 				onkeydown={onSkillKeydown}
 			/>
 			<button class="ghostBtn" type="button" onclick={addSkillFromInput} disabled={!habilidadInput.trim()}>
-				Añadir
+				{$t('cv.form.step4.addSkill')}
 			</button>
 		</div>
 
-		<div class="pillWrap" aria-label="Lista de habilidades">
+		<div class="pillWrap" aria-label={$t('cv.form.step4.skillsListAria')}>
 			{#each cvData.habilidades as h, i}
 				<span class="pill">
 					{h}
-					<button class="pillX" type="button" aria-label={`Eliminar habilidad ${h}`} onclick={() => removeHabilidad(i)}>
+					<button
+						class="pillX"
+						type="button"
+						aria-label={translateParams($locale, 'cv.form.step4.removeSkillAria', { skill: h })}
+						onclick={() => removeHabilidad(i)}
+					>
 						×
 					</button>
 				</span>
@@ -86,33 +97,32 @@
 	</section>
 
 	<section class="block">
-		<h3 class="blockTitle">Idiomas</h3>
+		<h3 class="blockTitle">{$t('cv.form.step4.languagesTitle')}</h3>
 
 		<div class="langList">
 			{#each cvData.idiomas as l, i}
 				<div class="langRow">
 					<div class="langField">
-						<label class="srOnly">Idioma</label>
+						<label class="srOnly">{$t('cv.form.step4.languageLabel')}</label>
 						<input
 							id={i === 0 ? idiomaInputId : undefined}
 							class="input"
 							type="text"
 							bind:value={l.idioma}
-							placeholder="Ej. Inglés"
+							placeholder={$t('cv.form.step4.languagePh')}
 						/>
 					</div>
 
 					<div class="langField">
-						<label class="srOnly">Nivel</label>
+						<label class="srOnly">{$t('cv.form.step4.levelLabel')}</label>
 						<select class="select" bind:value={l.nivel}>
-							<option value="Básico">Básico</option>
-							<option value="Intermedio">Intermedio</option>
-							<option value="Avanzado">Avanzado</option>
-							<option value="Nativo">Nativo</option>
+							{#each langLevels as lvl}
+								<option value={lvl}>{$t(`cv.form.step4.langLevels.${lvl}`)}</option>
+							{/each}
 						</select>
 					</div>
 
-					<button class="iconBtn" type="button" aria-label="Eliminar idioma" onclick={() => removeIdioma(i)}>
+					<button class="iconBtn" type="button" aria-label={$t('cv.form.step4.removeLangAria')} onclick={() => removeIdioma(i)}>
 						×
 					</button>
 				</div>
@@ -120,30 +130,30 @@
 		</div>
 
 		<button class="addBtn" type="button" onclick={addBlankIdioma}>
-			+ Añadir idioma
+			+ {$t('cv.form.step4.addLanguage')}
 		</button>
 	</section>
 
 	<section class="block">
-		<h3 class="blockTitle">Selector de template</h3>
+		<h3 class="blockTitle">{$t('cv.form.step4.templateTitle')}</h3>
 		<div class="templateGrid">
-			{#each templateCards as c}
+			{#each templateKeys as key}
 				<button
 					type="button"
 					class="templateCard"
-					class:active={cvData.template === c.key}
-					onclick={() => setTemplate(c.key)}
+					class:active={cvData.template === key}
+					onclick={() => setTemplate(key)}
 				>
 					<div class="thumb" aria-hidden="true">
 						<svg viewBox="0 0 180 120" class="thumbSvg">
-							{#if c.key === 'executive'}
+							{#if key === 'executive'}
 								<rect x="10" y="10" width="60" height="100" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />
 								<rect x="70" y="10" width="100" height="100" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />
 								<circle cx="40" cy="35" r="16" fill="currentColor" opacity="0.25" />
 								<rect x="24" y="58" width="32" height="8" rx="4" fill="currentColor" opacity="0.25" />
 								<rect x="86" y="30" width="70" height="8" rx="4" fill="currentColor" opacity="0.25" />
 								<rect x="86" y="45" width="90" height="8" rx="4" fill="currentColor" opacity="0.15" />
-							{:else if c.key === 'editorial'}
+							{:else if key === 'editorial'}
 								<rect x="10" y="10" width="160" height="32" rx="8" fill="currentColor" opacity="0.18" />
 								<rect x="10" y="40" width="160" height="70" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />
 								<circle cx="145" cy="28" r="14" fill="currentColor" opacity="0.25" />
@@ -159,19 +169,19 @@
 							{/if}
 						</svg>
 					</div>
-					<div class="templateLabel">{c.label}</div>
+					<div class="templateLabel">{$t(`cv.templates.${key}`)}</div>
 				</button>
 			{/each}
 		</div>
 	</section>
 
 	<section class="block">
-		<h3 class="blockTitle">Personalización de color</h3>
+		<h3 class="blockTitle">{$t('cv.form.step4.colorsTitle')}</h3>
 
 		<div class="colorGrid">
 			<div class="colorBlock">
 				<div class="colorHeader">
-					<span>Color primario</span>
+					<span>{$t('cv.form.step4.primaryColor')}</span>
 					<span class="hex">{cvData.colorPrimario}</span>
 				</div>
 				<div class="colorRow">
@@ -182,7 +192,7 @@
 								type="button"
 								class="presetDot"
 								style={`--dot:${p.value};`}
-								aria-label={`Preset ${p.name}`}
+								aria-label={presetAria(p.nameKey)}
 								onclick={() => (cvData.colorPrimario = p.value)}
 							/>
 						{/each}
@@ -192,7 +202,7 @@
 
 			<div class="colorBlock">
 				<div class="colorHeader">
-					<span>Color secundario</span>
+					<span>{$t('cv.form.step4.secondaryColor')}</span>
 					<span class="hex">{cvData.colorSecundario}</span>
 				</div>
 				<div class="colorRow">
@@ -203,7 +213,7 @@
 								type="button"
 								class="presetDot"
 								style={`--dot:${p.value};`}
-								aria-label={`Preset ${p.name}`}
+								aria-label={presetAria(p.nameKey)}
 								onclick={() => (cvData.colorSecundario = p.value)}
 							/>
 						{/each}
@@ -214,11 +224,11 @@
 	</section>
 
 	<section class="block">
-		<h3 class="blockTitle">Selector de fuentes</h3>
+		<h3 class="blockTitle">{$t('cv.form.step4.fontsTitle')}</h3>
 
 		<div class="fontGrid">
 			<div class="fontField">
-				<label class="label">Fuente títulos</label>
+				<label class="label">{$t('cv.form.step4.fontTitles')}</label>
 				<select class="select" bind:value={cvData.fuenteTitulos}>
 					{#each titleFonts as f}
 						<option value={f}>{f}</option>
@@ -227,7 +237,7 @@
 			</div>
 
 			<div class="fontField">
-				<label class="label">Fuente cuerpo</label>
+				<label class="label">{$t('cv.form.step4.fontBody')}</label>
 				<select class="select" bind:value={cvData.fuenteCuerpo}>
 					{#each bodyFonts as f}
 						<option value={f}>{f}</option>

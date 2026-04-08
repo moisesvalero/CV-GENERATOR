@@ -1,5 +1,5 @@
 <script>
-  import { t } from '$lib/i18n/index.js';
+  import { t } from '$lib/i18n';
   import { onMount } from 'svelte';
 
   onMount(() => {

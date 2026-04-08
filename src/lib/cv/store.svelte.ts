@@ -1,4 +1,4 @@
-import type { CVData } from './types';
+import type { CVData, IdiomaNivel } from './types';
 
 const uid = () => {
 	// En cliente normalmente existe `crypto.randomUUID()`. En caso contrario, fallback.
@@ -45,8 +45,8 @@ export const cvData = $state<CVData>({
 
 	habilidades: ['Coordinación de equipos', 'Mejora de procesos', 'Atención al cliente', 'Excel', 'Gestión de incidencias'],
 	idiomas: [
-		{ idioma: 'Español', nivel: 'Nativo' },
-		{ idioma: 'Inglés', nivel: 'Avanzado' }
+		{ idioma: 'Español', nivel: 'native' },
+		{ idioma: 'Inglés', nivel: 'advanced' }
 	],
 
 	template: 'executive',
@@ -110,7 +110,7 @@ export function removeHabilidad(i: number) {
 	cvData.habilidades = cvData.habilidades.filter((_, idx) => idx !== i);
 }
 
-export function addIdioma(idioma: string = '', nivel: string = 'Intermedio') {
+export function addIdioma(idioma: string = '', nivel: IdiomaNivel = 'intermediate') {
 	const value = idioma.trim();
 	if (!value) return;
 	if (cvData.idiomas.some((l) => l.idioma.toLowerCase() === value.toLowerCase())) return;

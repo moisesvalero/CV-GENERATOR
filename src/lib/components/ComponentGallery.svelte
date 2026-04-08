@@ -1,6 +1,6 @@
 <script>
 import { onMount } from 'svelte';
-import { t } from '$lib/i18n/index.js';
+import { t } from '$lib/i18n';
 
 onMount(() => {
   const cards = document.querySelectorAll('.gallery .card');

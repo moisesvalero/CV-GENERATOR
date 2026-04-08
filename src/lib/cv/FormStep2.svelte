@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from '$lib/i18n';
 	import { cvData, addExperiencia, removeExperiencia } from './store.svelte.ts';
 
 	function setActual(expId: string, next: boolean) {
@@ -13,8 +14,8 @@
 	{#each cvData.experiencia as exp (exp.id)}
 		<div class="itemCard">
 			<div class="itemHeader">
-				<div class="itemTitle">Experiencia</div>
-				<button class="iconBtn" type="button" aria-label="Eliminar experiencia" onclick={() => removeExperiencia(exp.id)}>
+				<div class="itemTitle">{$t('cv.form.step2.blockTitle')}</div>
+				<button class="iconBtn" type="button" aria-label={$t('cv.form.step2.removeExpAria')} onclick={() => removeExperiencia(exp.id)}>
 					<svg viewBox="0 0 24 24" class="trash" aria-hidden="true">
 						<path
 							d="M3 6h18"
@@ -59,23 +60,23 @@
 
 			<div class="grid2">
 				<div class="field">
-					<label class="label">Empresa</label>
-					<input class="input" type="text" bind:value={exp.empresa} placeholder="Nombre de la empresa" />
+					<label class="label">{$t('cv.form.step2.company')}</label>
+					<input class="input" type="text" bind:value={exp.empresa} placeholder={$t('cv.form.step2.companyPh')} />
 				</div>
 				<div class="field">
-					<label class="label">Puesto</label>
-					<input class="input" type="text" bind:value={exp.puesto} placeholder="Tu cargo" />
+					<label class="label">{$t('cv.form.step2.role')}</label>
+					<input class="input" type="text" bind:value={exp.puesto} placeholder={$t('cv.form.step2.rolePh')} />
 				</div>
 			</div>
 
 			<div class="grid2">
 				<div class="field">
-					<label class="label">Fecha inicio</label>
+					<label class="label">{$t('cv.form.step2.startDate')}</label>
 					<input class="input" type="month" bind:value={exp.fechaInicio} />
 				</div>
 
 				<div class="field">
-					<label class="label">Fecha fin</label>
+					<label class="label">{$t('cv.form.step2.endDate')}</label>
 					<input class="input" type="month" bind:value={exp.fechaFin} disabled={exp.actual} />
 				</div>
 			</div>
@@ -87,24 +88,24 @@
 						checked={exp.actual}
 						onchange={(e) => setActual(exp.id, (e.target as HTMLInputElement).checked)}
 					/>
-					<span>Trabajo actual</span>
+					<span>{$t('cv.form.step2.currentJob')}</span>
 				</label>
 			</div>
 
 			<div class="field">
-				<label class="label">Descripción</label>
+				<label class="label">{$t('cv.form.step2.description')}</label>
 				<textarea
 					class="textarea"
 					bind:value={exp.descripcion}
 					rows={4}
-					placeholder="Responsabilidades, mejoras y resultados..."
+					placeholder={$t('cv.form.step2.descriptionPh')}
 				/>
 			</div>
 		</div>
 	{/each}
 
 	<button class="addBtn" type="button" onclick={addExperiencia}>
-		+ Añadir experiencia
+		+ {$t('cv.form.step2.add')}
 	</button>
 </div>
 

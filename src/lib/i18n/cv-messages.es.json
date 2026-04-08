@@ -1,0 +1,180 @@
+{
+	"cv": {
+		"meta": {
+			"title": "CV-generator — Crea tu currículum moderno gratis",
+			"description": "Genera un CV profesional y moderno en minutos. Elige entre 3 estilos, personaliza colores y fuentes, descarga en PDF gratis."
+		},
+		"brand": {
+			"eyebrow": "Builder profesional",
+			"titleTop": "CV",
+			"titleAccent": "generator",
+			"heroCopy": "Crea tu currículum moderno, personalízalo en tiempo real y descárgalo en PDF.",
+			"claim1": "Preview instantánea",
+			"claim2": "3 plantillas premium",
+			"claim3": "PDF en un clic",
+			"benefitsAria": "Beneficios del producto"
+		},
+		"steps": {
+			"personal": "Datos personales",
+			"experience": "Experiencia",
+			"education": "Educación",
+			"skills": "Habilidades y estilo"
+		},
+		"nav": {
+			"prev": "Anterior",
+			"next": "Siguiente",
+			"downloadFinal": "Finalizar y generar PDF",
+			"openPreview": "Ver vista previa",
+			"closePreview": "Cerrar vista previa"
+		},
+		"cta": {
+			"readyLabel": "Listo para exportar",
+			"readyTitle": "Genera tu PDF final en un clic."
+		},
+		"footer": {
+			"by": "Desarrollado por",
+			"year": "© 2026"
+		},
+		"langSwitcher": {
+			"aria": "Idioma de la interfaz"
+		},
+		"templates": {
+			"executive": "Executive",
+			"editorial": "Editorial",
+			"minimal": "Minimal",
+			"badgeAria": "Plantilla activa: {{name}}"
+		},
+		"form": {
+			"step1": {
+				"fullName": "Nombre completo",
+				"fullNamePh": "Tu nombre",
+				"jobTitle": "Título profesional",
+				"jobTitlePh": "Ej. Coordinador/a de Operaciones",
+				"email": "Email",
+				"emailPh": "tu@email.com",
+				"phone": "Teléfono",
+				"phonePh": "+34 600 123 456",
+				"location": "Ubicación",
+				"locationPh": "Ciudad, País",
+				"linkedin": "LinkedIn",
+				"linkedinPh": "https://linkedin.com/in/...",
+				"website": "Sitio web",
+				"websitePh": "https://tuweb.com",
+				"photo": "Foto",
+				"photoLoaded": "Foto cargada",
+				"photoEmpty": "Sin foto",
+				"removePhoto": "Eliminar foto",
+				"selectPhoto": "Seleccionar foto",
+				"summary": "Resumen profesional",
+				"summaryPh": "Tu resumen profesional... (máx. 400 caracteres)",
+				"counterAria": "Contador de caracteres",
+				"photoAlt": "Foto del CV"
+			},
+			"step2": {
+				"blockTitle": "Experiencia",
+				"removeExpAria": "Eliminar experiencia",
+				"company": "Empresa",
+				"companyPh": "Nombre de la empresa",
+				"role": "Puesto",
+				"rolePh": "Tu cargo",
+				"startDate": "Fecha inicio",
+				"endDate": "Fecha fin",
+				"currentJob": "Trabajo actual",
+				"description": "Descripción",
+				"descriptionPh": "Responsabilidades, mejoras y resultados...",
+				"add": "Añadir experiencia"
+			},
+			"step3": {
+				"blockTitle": "Educación",
+				"removeEduAria": "Eliminar educación",
+				"school": "Centro",
+				"schoolPh": "Universidad / Centro",
+				"degree": "Título / Grado",
+				"degreePh": "Ej. Máster en...",
+				"startDate": "Fecha inicio",
+				"endDate": "Fecha fin",
+				"description": "Descripción",
+				"descriptionPh": "Opcional: enfoque, proyecto destacado...",
+				"add": "Añadir educación"
+			},
+			"step4": {
+				"skillsTitle": "Habilidades",
+				"skillPh": "Escribe y pulsa Enter...",
+				"addSkill": "Añadir",
+				"skillsListAria": "Lista de habilidades",
+				"removeSkillAria": "Eliminar habilidad {{skill}}",
+				"languagesTitle": "Idiomas",
+				"languageLabel": "Idioma",
+				"levelLabel": "Nivel",
+				"languagePh": "Ej. Inglés",
+				"removeLangAria": "Eliminar idioma",
+				"addLanguage": "Añadir idioma",
+				"templateTitle": "Selector de plantilla",
+				"colorsTitle": "Personalización de color",
+				"primaryColor": "Color primario",
+				"secondaryColor": "Color secundario",
+				"presetAria": "Preset {{name}}",
+				"fontsTitle": "Selector de fuentes",
+				"fontTitles": "Fuente títulos",
+				"fontBody": "Fuente cuerpo",
+				"colorNames": {
+					"orange": "Naranja",
+					"blue": "Azul",
+					"green": "Verde",
+					"gray": "Gris",
+					"burgundy": "Granate",
+					"violet": "Violeta",
+					"amber": "Ámbar",
+					"cyan": "Cian",
+					"rose": "Rosa",
+					"slate": "Pizarra",
+					"greenMint": "Verde menta"
+				},
+				"langLevels": {
+					"basic": "Básico",
+					"intermediate": "Intermedio",
+					"advanced": "Avanzado",
+					"native": "Nativo"
+				}
+			}
+		},
+		"preview": {
+			"contactEmail": "Email",
+			"contactPhone": "Tel.",
+			"contactLocation": "Ubicación",
+			"contactLinkedin": "LinkedIn",
+			"contactWeb": "Web",
+			"sectionContact": "Contacto",
+			"sectionSummary": "Resumen",
+			"sectionExperience": "Experiencia",
+			"sectionEducation": "Educación",
+			"sectionSkills": "Habilidades",
+			"sectionLanguages": "Idiomas",
+			"present": "Actual",
+			"noPhotoAria": "Sin foto",
+			"photoOf": "Foto de",
+			"defaultCvName": "tu CV",
+			"langLevel": {
+				"basic": "Básico",
+				"intermediate": "Intermedio",
+				"advanced": "Avanzado",
+				"native": "Nativo"
+			},
+			"languageFallback": "Idioma"
+		},
+		"pwa": {
+			"regionAria": "Instalar aplicación",
+			"title": "Instala CV-generator",
+			"descDeferred": "En tu móvil, instálalo como app para abrirlo más rápido.",
+			"descIos": "En iOS: pulsa <span class=\"kbd\">Compartir</span> y luego <span class=\"kbd\">Añadir a pantalla de inicio</span>.",
+			"descAndroid": "En Android: abre el menú del navegador y elige <span class=\"kbd\">Instalar app</span>.",
+			"install": "Instalar",
+			"dismiss": "Ahora no"
+		},
+		"download": {
+			"defaultLabel": "Descargar PDF",
+			"generating": "Generando PDF...",
+			"missingElement": "No se encontró el elemento del CV para exportar."
+		}
+	}
+}

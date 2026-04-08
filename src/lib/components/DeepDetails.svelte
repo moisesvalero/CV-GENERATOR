@@ -1,6 +1,6 @@
 <script lang="ts">
   import { reveal } from '$lib/reveal';
-  import { t } from '$lib/i18n/index.js';
+  import { t } from '$lib/i18n';
 </script>
 
 <section class="deep-details" id="details">

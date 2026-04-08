@@ -1,17 +1,24 @@
 <script lang="ts">
+	import { get } from 'svelte/store';
+	import { locale, t, translateParams } from '$lib/i18n';
 	import { cvData } from './store.svelte.ts';
 	import TemplateExecutive from './templates/template-executive.svelte';
 	import TemplateEditorial from './templates/template-editorial.svelte';
 	import TemplateMinimal from './templates/template-minimal.svelte';
 
 	const activeTemplate = $derived(cvData.template);
-	const templateLabel = $derived(
-		activeTemplate === 'executive' ? 'Executive' : activeTemplate === 'editorial' ? 'Editorial' : 'Minimal'
-	);
- </script>
+	const templateLabel = $derived.by(() => {
+		get(locale);
+		return get(t)(`cv.templates.${activeTemplate}`);
+	});
+	const badgeAria = $derived.by(() => {
+		const loc = get(locale);
+		return translateParams(loc, 'cv.templates.badgeAria', { name: templateLabel });
+	});
+</script>
 
 <div class="previewOuter">
-	<div class="badge" aria-label={`Template activo: ${templateLabel}`}>{templateLabel}</div>
+	<div class="badge" aria-label={badgeAria}>{templateLabel}</div>
 	<div class="previewScale">
 					{#if activeTemplate === 'executive'}
 			<TemplateExecutive cvData={cvData} />

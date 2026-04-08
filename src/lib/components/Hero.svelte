@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { t, locale } from '$lib/i18n/index.js';
+  import { t, locale } from '$lib/i18n';
 
   let heroLoaded = $state(false);
   let splineLoaded = $state(false);

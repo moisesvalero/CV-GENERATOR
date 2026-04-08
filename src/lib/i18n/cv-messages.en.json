@@ -1,0 +1,180 @@
+{
+	"cv": {
+		"meta": {
+			"title": "CV-generator — Create your modern resume for free",
+			"description": "Generate a professional, modern resume in minutes. Pick from 3 styles, customize colors and fonts, and download a free PDF."
+		},
+		"brand": {
+			"eyebrow": "Professional builder",
+			"titleTop": "CV",
+			"titleAccent": "generator",
+			"heroCopy": "Build a modern resume, customize it in real time, and download it as a PDF.",
+			"claim1": "Instant preview",
+			"claim2": "3 premium templates",
+			"claim3": "One-click PDF",
+			"benefitsAria": "Product benefits"
+		},
+		"steps": {
+			"personal": "Personal details",
+			"experience": "Experience",
+			"education": "Education",
+			"skills": "Skills & style"
+		},
+		"nav": {
+			"prev": "Back",
+			"next": "Next",
+			"downloadFinal": "Finish and generate PDF",
+			"openPreview": "View preview",
+			"closePreview": "Close preview"
+		},
+		"cta": {
+			"readyLabel": "Ready to export",
+			"readyTitle": "Generate your final PDF in one click."
+		},
+		"footer": {
+			"by": "Built by",
+			"year": "© 2026"
+		},
+		"langSwitcher": {
+			"aria": "Interface language"
+		},
+		"templates": {
+			"executive": "Executive",
+			"editorial": "Editorial",
+			"minimal": "Minimal",
+			"badgeAria": "Active template: {{name}}"
+		},
+		"form": {
+			"step1": {
+				"fullName": "Full name",
+				"fullNamePh": "Your name",
+				"jobTitle": "Professional title",
+				"jobTitlePh": "e.g. Operations Coordinator",
+				"email": "Email",
+				"emailPh": "you@email.com",
+				"phone": "Phone",
+				"phonePh": "+1 555 010 020",
+				"location": "Location",
+				"locationPh": "City, Country",
+				"linkedin": "LinkedIn",
+				"linkedinPh": "https://linkedin.com/in/...",
+				"website": "Website",
+				"websitePh": "https://yoursite.com",
+				"photo": "Photo",
+				"photoLoaded": "Photo added",
+				"photoEmpty": "No photo",
+				"removePhoto": "Remove photo",
+				"selectPhoto": "Choose photo",
+				"summary": "Professional summary",
+				"summaryPh": "Your professional summary... (max 400 characters)",
+				"counterAria": "Character count",
+				"photoAlt": "Resume photo"
+			},
+			"step2": {
+				"blockTitle": "Experience",
+				"removeExpAria": "Remove experience entry",
+				"company": "Company",
+				"companyPh": "Company name",
+				"role": "Role",
+				"rolePh": "Your job title",
+				"startDate": "Start date",
+				"endDate": "End date",
+				"currentJob": "Current role",
+				"description": "Description",
+				"descriptionPh": "Responsibilities, improvements, and results...",
+				"add": "Add experience"
+			},
+			"step3": {
+				"blockTitle": "Education",
+				"removeEduAria": "Remove education entry",
+				"school": "Institution",
+				"schoolPh": "University / School",
+				"degree": "Degree / Title",
+				"degreePh": "e.g. MSc in ...",
+				"startDate": "Start date",
+				"endDate": "End date",
+				"description": "Description",
+				"descriptionPh": "Optional: focus, capstone project...",
+				"add": "Add education"
+			},
+			"step4": {
+				"skillsTitle": "Skills",
+				"skillPh": "Type and press Enter...",
+				"addSkill": "Add",
+				"skillsListAria": "Skills list",
+				"removeSkillAria": "Remove skill {{skill}}",
+				"languagesTitle": "Languages",
+				"languageLabel": "Language",
+				"levelLabel": "Level",
+				"languagePh": "e.g. English",
+				"removeLangAria": "Remove language",
+				"addLanguage": "Add language",
+				"templateTitle": "Template selector",
+				"colorsTitle": "Color customization",
+				"primaryColor": "Primary color",
+				"secondaryColor": "Secondary color",
+				"presetAria": "{{name}} preset",
+				"fontsTitle": "Font selector",
+				"fontTitles": "Heading font",
+				"fontBody": "Body font",
+				"colorNames": {
+					"orange": "Orange",
+					"blue": "Blue",
+					"green": "Green",
+					"gray": "Gray",
+					"burgundy": "Burgundy",
+					"violet": "Violet",
+					"amber": "Amber",
+					"cyan": "Cyan",
+					"rose": "Rose",
+					"slate": "Slate",
+					"greenMint": "Mint green"
+				},
+				"langLevels": {
+					"basic": "Basic",
+					"intermediate": "Intermediate",
+					"advanced": "Advanced",
+					"native": "Native"
+				}
+			}
+		},
+		"preview": {
+			"contactEmail": "Email",
+			"contactPhone": "Phone",
+			"contactLocation": "Location",
+			"contactLinkedin": "LinkedIn",
+			"contactWeb": "Website",
+			"sectionContact": "Contact",
+			"sectionSummary": "Summary",
+			"sectionExperience": "Experience",
+			"sectionEducation": "Education",
+			"sectionSkills": "Skills",
+			"sectionLanguages": "Languages",
+			"present": "Present",
+			"noPhotoAria": "No photo",
+			"photoOf": "Photo of",
+			"defaultCvName": "your resume",
+			"langLevel": {
+				"basic": "Basic",
+				"intermediate": "Intermediate",
+				"advanced": "Advanced",
+				"native": "Native"
+			},
+			"languageFallback": "Language"
+		},
+		"pwa": {
+			"regionAria": "Install application",
+			"title": "Install CV-generator",
+			"descDeferred": "On your phone, install it as an app for quicker access.",
+			"descIos": "On iOS: tap <span class=\"kbd\">Share</span>, then <span class=\"kbd\">Add to Home Screen</span>.",
+			"descAndroid": "On Android: open the browser menu and choose <span class=\"kbd\">Install app</span>.",
+			"install": "Install",
+			"dismiss": "Not now"
+		},
+		"download": {
+			"defaultLabel": "Download PDF",
+			"generating": "Generating PDF...",
+			"missingElement": "Could not find the resume element to export."
+		}
+	}
+}

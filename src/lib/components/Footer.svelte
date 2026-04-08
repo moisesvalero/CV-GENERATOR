@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
-  import { t } from '$lib/i18n/index.js';
+  import { t } from '$lib/i18n';
   
   let time = $state('');
   let interval: ReturnType<typeof setInterval> | undefined;

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { reveal } from '$lib/reveal';
-  import { t } from '$lib/i18n/index.js';
+  import { t } from '$lib/i18n';
 
   const { faqs, toggleFaq } = $props<{
     faqs?: { question: string; answer: string; open: boolean }[];

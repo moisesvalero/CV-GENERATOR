@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { t } from '$lib/i18n';
 	import { cvData, addEducacion, removeEducacion } from './store.svelte.ts';
 </script>
 
@@ -6,8 +7,8 @@
 	{#each cvData.educacion as edu (edu.id)}
 		<div class="itemCard">
 			<div class="itemHeader">
-				<div class="itemTitle">Educación</div>
-				<button class="iconBtn" type="button" aria-label="Eliminar educación" onclick={() => removeEducacion(edu.id)}>
+				<div class="itemTitle">{$t('cv.form.step3.blockTitle')}</div>
+				<button class="iconBtn" type="button" aria-label={$t('cv.form.step3.removeEduAria')} onclick={() => removeEducacion(edu.id)}>
 					<svg viewBox="0 0 24 24" class="trash" aria-hidden="true">
 						<path
 							d="M3 6h18"
@@ -52,40 +53,40 @@
 
 			<div class="grid2">
 				<div class="field">
-					<label class="label">Centro</label>
-					<input class="input" type="text" bind:value={edu.centro} placeholder="Universidad / Centro" />
+					<label class="label">{$t('cv.form.step3.school')}</label>
+					<input class="input" type="text" bind:value={edu.centro} placeholder={$t('cv.form.step3.schoolPh')} />
 				</div>
 				<div class="field">
-					<label class="label">Título / Grado</label>
-					<input class="input" type="text" bind:value={edu.titulo} placeholder="Ej. Máster en ..." />
+					<label class="label">{$t('cv.form.step3.degree')}</label>
+					<input class="input" type="text" bind:value={edu.titulo} placeholder={$t('cv.form.step3.degreePh')} />
 				</div>
 			</div>
 
 			<div class="grid2">
 				<div class="field">
-					<label class="label">Fecha inicio</label>
+					<label class="label">{$t('cv.form.step3.startDate')}</label>
 					<input class="input" type="month" bind:value={edu.fechaInicio} />
 				</div>
 				<div class="field">
-					<label class="label">Fecha fin</label>
+					<label class="label">{$t('cv.form.step3.endDate')}</label>
 					<input class="input" type="month" bind:value={edu.fechaFin} />
 				</div>
 			</div>
 
 			<div class="field">
-				<label class="label">Descripción</label>
+				<label class="label">{$t('cv.form.step3.description')}</label>
 				<textarea
 					class="textarea"
 					bind:value={edu.descripcion}
 					rows={3}
-					placeholder="Opcional: enfoque, proyecto destacado..."
+					placeholder={$t('cv.form.step3.descriptionPh')}
 				/>
 			</div>
 		</div>
 	{/each}
 
 	<button class="addBtn" type="button" onclick={addEducacion}>
-		+ Añadir educación
+		+ {$t('cv.form.step3.add')}
 	</button>
 </div>
 
