@@ -66,9 +66,10 @@
 				{#if deferred}
 					{$t('cv.pwa.descDeferred')}
 				{:else if isIos}
-					{@html $t('cv.pwa.descIos')}
+					{$t('cv.pwa.descIosPrefix')} <span class="kbd">{$t('cv.pwa.shareAction')}</span>
+					{$t('cv.pwa.descIosMiddle')} <span class="kbd">{$t('cv.pwa.addToHome')}</span>.
 				{:else}
-					{@html $t('cv.pwa.descAndroid')}
+					{$t('cv.pwa.descAndroidPrefix')} <span class="kbd">{$t('cv.pwa.installApp')}</span>.
 				{/if}
 			</div>
 		</div>

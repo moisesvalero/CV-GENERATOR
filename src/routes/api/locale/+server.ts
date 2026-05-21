@@ -10,6 +10,11 @@ import { isUiLocale, SUPPORTED_LOCALES } from '$lib/i18n/locales';
  * The main CV UI still uses the client `locale` store + `localStorage` via `setLocale()`.
  */
 export const POST: RequestHandler = async ({ request, cookies }) => {
+	const origin = request.headers.get('origin');
+	if (origin && origin !== new URL(request.url).origin) {
+		throw error(403, 'Cross-origin locale updates are not allowed');
+	}
+
 	let body: unknown;
 	try {
 		body = await request.json();

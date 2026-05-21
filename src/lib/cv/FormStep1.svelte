@@ -7,12 +7,17 @@
 	const fieldId = (key: string) => `${idBase}_${key}`;
 
 	let resumenMax = 400;
+	const allowedPhotoTypes = new Set(['image/jpeg', 'image/png', 'image/webp']);
+	const maxPhotoBytes = 3 * 1024 * 1024;
 
 	function onFileChange(e: Event) {
 		const input = e.target as HTMLInputElement;
 		const file = input.files?.[0];
 		if (!file) return;
-		if (!file.type.startsWith('image/')) return;
+		if (!allowedPhotoTypes.has(file.type) || file.size > maxPhotoBytes) {
+			input.value = '';
+			return;
+		}
 
 		const reader = new FileReader();
 		reader.onload = () => {
@@ -141,7 +146,7 @@
 						id={photoInputId}
 						class="file"
 						type="file"
-						accept="image/*"
+						accept="image/png,image/jpeg,image/webp"
 						onchange={onFileChange}
 					/>
 					<label class="uploadBtn" for={photoInputId}>

@@ -1,72 +1,83 @@
-# CV Generator (SvelteKit)
+# CV Generator
 
-Generador de CV **100 % en el cliente**: formulario por pasos, vista previa en vivo, plantillas A4 y descarga en **PDF** (html2canvas + jsPDF). Incluye **PWA**, **i18n** (ES / EN) y, **si quieres**, **Sanity** para marca y textos de la landing.
+Generador de curriculum moderno hecho con **SvelteKit 5**. Funciona 100 % en el cliente: rellenas el formulario, ves la preview A4 en tiempo real y descargas el resultado como PDF.
 
-## Requisitos
+![Captura de CV Generator](static/screenshot.png)
 
-- Node.js 18+
-- npm
+## Lo que incluye
 
-## Configuración (`/.env`)
+- Formulario por pasos con datos personales, experiencia, educacion, habilidades e idiomas.
+- Preview en vivo con 3 plantillas: Executive, Editorial y Minimal.
+- Exportacion a PDF con `html2canvas` + `jsPDF`.
+- Interfaz bilingue ES / EN.
+- PWA instalable en movil.
+- Branding opcional desde Sanity: logo, colores, textos y SEO.
+- Headers basicos de seguridad listos para produccion.
 
-Copia `.env.example` a `.env` y ajusta:
+## Stack
 
-| Variable | Descripción |
-|----------|-------------|
-| `PUBLIC_SITE_URL` | URL pública sin barra final (SEO). Ej. `https://tu-dominio.com` |
-| `PUBLIC_APP_CREDIT_URL` | (Opcional) Enlace del pie de página |
-| `PUBLIC_APP_CREDIT_LABEL` | (Opcional) Texto del enlace |
-| `PUBLIC_SANITY_PROJECT_ID` | (Opcional) ID del proyecto Sanity — ver **Sanity** |
-| `PUBLIC_SANITY_DATASET` | (Opcional) Dataset, p. ej. `production` |
-| `PUBLIC_SANITY_API_VERSION` | (Opcional) Por defecto `2024-01-01` en código |
-| `SANITY_READ_TOKEN` | Solo si el dataset **no** es público. No subas valores reales al repo |
+- SvelteKit 5 + Svelte runes
+- TypeScript
+- Vite
+- Sanity opcional
+- html2canvas / jsPDF
 
-**Sanity es opcional:** sin `PUBLIC_SANITY_*`, la app funciona con `cv-messages.*.json` y los colores por defecto en `app.css`. Los datos del CV no se envían a Sanity.
-
-## Scripts
+## Puesta en marcha
 
 ```bash
 npm install
 npm run dev
-npm run build
-npm run preview
-npm run check
-npm run studio   # Studio: instala antes deps en studio/
 ```
 
-## Sanity (opcional)
+Abre `http://localhost:5173`.
 
-En `studio/` tienes el editor para logo, colores y textos (hero, SEO, CTA del paso 4) en **EN / ES**. Pasos:
+## Variables de entorno
 
-1. Proyecto en [sanity.io](https://www.sanity.io/), dataset típico `production` y lectura pública (o token en `.env`).
-2. **API** → **CORS**: `http://localhost:5173` y tu dominio en producción.
-3. `studio/.env` desde `studio/.env.example` → `npm install` y `npm run dev` en `studio/` → **Site settings** → publicar.
-4. Raíz: `.env` con `PUBLIC_SANITY_PROJECT_ID` y `PUBLIC_SANITY_DATASET`.
+Copia `.env.example` a `.env` y ajusta lo que necesites:
 
-Si Sanity no está configurado o falla la petición, no rompe la app: se siguen los JSON y el CSS por defecto. Detalle: `studio/README.md`. Código: `src/lib/sanity/`, `src/routes/+layout.server.ts`.
+| Variable | Uso |
+| --- | --- |
+| `PUBLIC_SITE_URL` | URL publica sin barra final, usada en SEO y sitemap. |
+| `PUBLIC_APP_CREDIT_URL` | Enlace opcional del footer. |
+| `PUBLIC_APP_CREDIT_LABEL` | Texto opcional del enlace del footer. |
+| `PUBLIC_SANITY_PROJECT_ID` | ID de Sanity si quieres CMS. |
+| `PUBLIC_SANITY_DATASET` | Dataset de Sanity, normalmente `production`. |
+| `PUBLIC_SANITY_API_VERSION` | Version de API, por defecto `2024-01-01`. |
+| `SANITY_READ_TOKEN` | Token privado solo si el dataset no es publico. No lo subas al repo. |
 
-## Estructura (SvelteKit)
+Sanity es opcional. Sin esas variables, la app usa los textos locales de `src/lib/i18n/` y los colores por defecto.
 
-- `src/routes/+page.svelte` — App principal del CV
-- `src/routes/cv/` — Redirección a `/`
-- `src/lib/cv/` — Formulario, plantillas, PDF
-- `src/lib/pwa/` — PWA
-- `src/lib/i18n/` — `cv-messages.*.json`, `/api/locale`
-- `src/lib/sanity/` — Cliente CMS (opcional)
-- `static/manifest.webmanifest` — PWA
+## Scripts
 
-## Idiomas
+```bash
+npm run dev       # desarrollo
+npm run check     # tipos + svelte-check
+npm run build     # build de produccion
+npm run preview   # previsualizar build
+npm run studio    # Sanity Studio desde /studio
+```
 
-`src/lib/i18n/cv-messages.es.json` y `cv-messages.en.json`. Con Sanity, el hero / SEO / CTA pueden sobreescribir por idioma (vacío en CMS → se usa el JSON).
+## Estructura
 
-## API (`/api/locale`)
+```txt
+src/routes/+page.svelte          App principal
+src/lib/cv/                      Formularios, preview, plantillas y PDF
+src/lib/i18n/                    Traducciones ES / EN
+src/lib/pwa/                     Prompt de instalacion PWA
+src/lib/sanity/                  Lectura opcional de branding desde Sanity
+src/hooks.server.ts              Headers de seguridad
+static/                          Iconos PWA, manifest y captura
+studio/                          Sanity Studio opcional
+```
 
-`POST /api/locale` con `{ "locale": "es" | "en" }` → cookie `app_locale`.
+## Seguridad
+
+- No se persisten datos del CV en servidor por defecto.
+- El token privado de Sanity solo se lee desde `$env/dynamic/private`.
+- No hay renderizado de HTML de usuario.
+- El endpoint `/api/locale` valida origen en peticiones `POST`.
+- Las respuestas HTML incluyen CSP basica, `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy` y `Permissions-Policy`.
 
 ## Licencia
 
-MIT — ver `LICENSE`.
-
-## Vercel / venta
-
-Checklist breve: `PUBLIC_SITE_URL`, variables Sanity **solo si** usan CMS, CORS en Sanity con la URL del deploy. Sin Sanity, solo `.env` mínimo y deploy.
+MIT. Consulta [LICENSE](LICENSE).

@@ -2,9 +2,6 @@
 	import { getTranslator, t } from '$lib/i18n';
 	import { cvData } from './store.svelte.ts';
 
-	import html2canvas from 'html2canvas';
-	import jsPDF from 'jspdf';
-
 	let generating = $state(false);
 	let errorMessage = $state<string | null>(null);
 	const { label } = $props<{ label?: string }>();
@@ -50,6 +47,11 @@
 
 			wrap.appendChild(clone);
 			document.body.appendChild(wrap);
+
+			const [{ default: html2canvas }, { default: jsPDF }] = await Promise.all([
+				import('html2canvas'),
+				import('jspdf')
+			]);
 
 			const canvas = await html2canvas(clone, {
 				scale: 2,

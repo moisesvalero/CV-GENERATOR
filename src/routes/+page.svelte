@@ -375,7 +375,7 @@
 	.brandRow h1 {
 		font-size: clamp(2rem, 4vw, 3.2rem);
 		line-height: 1;
-		letter-spacing: -0.05em;
+		letter-spacing: 0;
 		color: #111827;
 		margin-bottom: 8px;
 	}
@@ -509,6 +509,7 @@
 		padding: 14px;
 		color: #111827;
 		overflow: visible;
+		box-shadow: 0 18px 42px rgba(88, 62, 34, 0.08);
 	}
 
 	.navRow {
@@ -597,6 +598,7 @@
 		border-radius: 20px;
 		padding: 14px;
 		overflow: visible;
+		box-shadow: 0 18px 42px rgba(88, 62, 34, 0.08);
 	}
 
 	.previewInner {
@@ -756,13 +758,13 @@
 
 	.titleTop {
 		font-weight: 800;
-		letter-spacing: -0.08em;
+		letter-spacing: 0;
 		color: #111827;
 	}
 
 	.titleAccent {
 		font-weight: 950;
-		letter-spacing: -0.08em;
+		letter-spacing: 0;
 		color: var(--site-accent-text);
 		position: relative;
 	}
