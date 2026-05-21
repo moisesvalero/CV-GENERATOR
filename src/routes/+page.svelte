@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { env } from '$env/dynamic/public';
 	import { get } from 'svelte/store';
 	import { pickLocalized } from '$lib/sanity/pick-localized';
 	import CVPreview from '$lib/cv/CVPreview.svelte';
@@ -259,10 +258,10 @@
 		</div>
 
 		<footer class="footer">
-			{#if env.PUBLIC_APP_CREDIT_URL?.trim() && env.PUBLIC_APP_CREDIT_LABEL?.trim()}
+			{#if data.footerCreditUrl && data.footerCreditLabel}
 				<span>{$t('cv.footer.by')}</span>
-				<a href={env.PUBLIC_APP_CREDIT_URL.trim()} target="_blank" rel="noopener noreferrer">
-					{env.PUBLIC_APP_CREDIT_LABEL.trim()}
+				<a href={data.footerCreditUrl} target="_blank" rel="noopener noreferrer">
+					{data.footerCreditLabel}
 				</a>
 				<span class="footerSep" aria-hidden="true">·</span>
 			{/if}

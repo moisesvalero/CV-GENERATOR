@@ -15,8 +15,10 @@ const csp = [
 	"img-src 'self' data: blob: https:",
 	"font-src 'self' data: https://fonts.gstatic.com",
 	"style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-	"script-src 'self' 'unsafe-inline'",
-	"connect-src 'self' https://*.api.sanity.io https://*.apicdn.sanity.io"
+	"script-src 'self' 'unsafe-inline' https://vercel.live",
+	"script-src-elem 'self' 'unsafe-inline' https://vercel.live",
+	"connect-src 'self' https://*.api.sanity.io https://*.apicdn.sanity.io https://vercel.live https://*.vercel.live",
+	"frame-src https://vercel.live"
 ].join('; ');
 
 function isHtml(response: Response) {

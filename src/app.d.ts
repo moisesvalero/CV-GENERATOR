@@ -8,9 +8,11 @@ declare global {
 			message: string;
 		}
 		// interface Locals {}
-		interface LayoutData {
-			siteSettings: PublicSiteSettings | null;
-		}
+	interface LayoutData {
+		siteSettings: PublicSiteSettings | null;
+		footerCreditUrl: string | null;
+		footerCreditLabel: string | null;
+	}
 		// interface PageState {}
 		// interface Platform {}
 	}
