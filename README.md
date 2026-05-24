@@ -1,6 +1,6 @@
 # CV Generator
 
-Generador de curriculum moderno hecho con **SvelteKit 5**. Funciona 100 % en el cliente: rellenas el formulario, ves la preview A4 en tiempo real y descargas el resultado como PDF.
+Generador de curriculum moderno hecho con **SvelteKit **. Funciona 100 % en el cliente: rellenas el formulario, ves la preview A4 en tiempo real y descargas el resultado como PDF.
 
 ![Captura de CV Generator](static/screenshot.png)
 
