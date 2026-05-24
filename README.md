@@ -16,7 +16,7 @@ Generador de curriculum moderno hecho con **SvelteKit **. Funciona 100 % en el c
 
 ## Stack
 
-- SvelteKit 5 + Svelte runes
+- SvelteKit  + Svelte runes
 - TypeScript
 - Vite
 - Sanity opcional
