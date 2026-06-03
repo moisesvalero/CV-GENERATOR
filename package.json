@@ -2,6 +2,7 @@
 	"name": "cv-generator",
 	"private": true,
 	"version": "0.0.1",
+	"license": "PolyForm-Noncommercial-1.0.0",
 	"type": "module",
 	"overrides": {
 		"cookie": "^0.7.2"

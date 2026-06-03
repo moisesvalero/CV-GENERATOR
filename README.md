@@ -80,4 +80,4 @@ studio/                          Sanity Studio opcional
 
 ## Licencia
 
-MIT. Consulta [LICENSE](LICENSE).
+PolyForm Noncommercial 1.0.0. Consulta [LICENSE](LICENSE).
