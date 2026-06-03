@@ -25,8 +25,8 @@ Generador de curriculum moderno hecho con **SvelteKit **. Funciona 100 % en el c
 ## Puesta en marcha
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 Abre `http://localhost:5173`.
@@ -50,11 +50,11 @@ Sanity es opcional. Sin esas variables, la app usa los textos locales de `src/li
 ## Scripts
 
 ```bash
-npm run dev       # desarrollo
-npm run check     # tipos + svelte-check
-npm run build     # build de produccion
-npm run preview   # previsualizar build
-npm run studio    # Sanity Studio desde /studio
+pnpm run dev       # desarrollo
+pnpm run check     # tipos + svelte-check
+pnpm run build     # build de produccion
+pnpm run preview   # previsualizar build
+pnpm run studio    # Sanity Studio desde /studio
 ```
 
 ## Estructura
