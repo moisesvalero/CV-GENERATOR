@@ -45,6 +45,9 @@
 			"bold": "Bold",
 			"creative": "Creative",
 			"compact": "Compact",
+			"timeline": "Timeline",
+			"split": "Split",
+			"academic": "Academic",
 			"badgeAria": "Active template: {{name}}"
 		},
 		"form": {
@@ -163,7 +166,9 @@
 				"advanced": "Advanced",
 				"native": "Native"
 			},
-			"languageFallback": "Language"
+			"languageFallback": "Language",
+			"pagesOne": "1 page",
+			"pagesMany": "{{n}} pages"
 		},
 		"pwa": {
 			"regionAria": "Install application",

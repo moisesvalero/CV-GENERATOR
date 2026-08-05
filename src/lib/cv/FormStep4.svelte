@@ -18,7 +18,10 @@
 		'modern',
 		'bold',
 		'creative',
-		'compact'
+		'compact',
+		'timeline',
+		'split',
+		'academic'
 	] as const;
 
 	const langLevels: IdiomaNivel[] = ['basic', 'intermediate', 'advanced', 'native'];
@@ -216,6 +219,41 @@
 								<rect x="80" y="48" width="5" height="3" rx="1.5" fill="currentColor" opacity="0.35" />
 								<rect x="90" y="48" width="72" height="4" rx="2" fill="currentColor" opacity="0.15" />
 								<rect x="90" y="56" width="60" height="4" rx="2" fill="currentColor" opacity="0.12" />
+							{:else if key === 'timeline'}
+								<rect x="10" y="10" width="160" height="100" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />
+								<rect x="16" y="16" width="90" height="7" rx="3.5" fill="currentColor" opacity="0.85" />
+								<rect x="16" y="27" width="60" height="4" rx="2" fill="currentColor" opacity="0.3" />
+								<rect x="22" y="40" width="3" height="52" rx="1.5" fill="currentColor" opacity="0.25" />
+								<circle cx="23.5" cy="46" r="3" fill="currentColor" opacity="0.5" />
+								<rect x="30" y="44" width="90" height="4" rx="2" fill="currentColor" opacity="0.18" />
+								<circle cx="23.5" cy="60" r="3" fill="currentColor" opacity="0.5" />
+								<rect x="30" y="58" width="80" height="4" rx="2" fill="currentColor" opacity="0.15" />
+								<circle cx="23.5" cy="74" r="3" fill="currentColor" opacity="0.5" />
+								<rect x="30" y="72" width="70" height="4" rx="2" fill="currentColor" opacity="0.15" />
+								<rect x="124" y="52" width="30" height="12" rx="6" fill="currentColor" opacity="0.22" />
+							{:else if key === 'split'}
+								<rect x="10" y="10" width="160" height="30" rx="8" fill="currentColor" opacity="0.22" />
+								<circle cx="140" cy="25" r="10" fill="currentColor" opacity="0.5" />
+								<rect x="10" y="40" width="104" height="70" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />
+								<rect x="114" y="40" width="56" height="70" rx="8" fill="currentColor" opacity="0.07" />
+								<rect x="22" y="20" width="86" height="7" rx="3.5" fill="currentColor" opacity="0.85" />
+								<rect x="18" y="52" width="5" height="3" rx="1.5" fill="currentColor" opacity="0.35" />
+								<rect x="28" y="52" width="76" height="4" rx="2" fill="currentColor" opacity="0.16" />
+								<rect x="28" y="60" width="62" height="4" rx="2" fill="currentColor" opacity="0.12" />
+								<rect x="18" y="74" width="5" height="3" rx="1.5" fill="currentColor" opacity="0.35" />
+								<rect x="28" y="74" width="68" height="4" rx="2" fill="currentColor" opacity="0.14" />
+								<rect x="124" y="52" width="36" height="9" rx="4.5" fill="currentColor" opacity="0.25" />
+								<rect x="124" y="66" width="36" height="9" rx="4.5" fill="currentColor" opacity="0.18" />
+							{:else if key === 'academic'}
+								<rect x="10" y="10" width="160" height="100" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />
+								<rect x="46" y="16" width="88" height="7" rx="3.5" fill="currentColor" opacity="0.85" />
+								<rect x="72" y="27" width="36" height="3" rx="1.5" fill="currentColor" opacity="0.5" />
+								<rect x="20" y="38" width="30" height="5" rx="2.5" fill="currentColor" opacity="0.5" />
+								<rect x="20" y="48" width="140" height="4" rx="2" fill="currentColor" opacity="0.12" />
+								<rect x="20" y="56" width="120" height="4" rx="2" fill="currentColor" opacity="0.12" />
+								<rect x="20" y="70" width="30" height="5" rx="2.5" fill="currentColor" opacity="0.5" />
+								<rect x="20" y="80" width="132" height="4" rx="2" fill="currentColor" opacity="0.12" />
+								<rect x="20" y="88" width="108" height="4" rx="2" fill="currentColor" opacity="0.12" />
 							{:else}
 								<rect x="10" y="10" width="160" height="22" rx="8" fill="currentColor" opacity="0.16" />
 								<rect x="10" y="32" width="104" height="78" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />

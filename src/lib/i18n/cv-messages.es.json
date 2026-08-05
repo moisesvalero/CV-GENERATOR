@@ -45,6 +45,9 @@
 			"bold": "Bold",
 			"creative": "Creativo",
 			"compact": "Compacto",
+			"timeline": "Línea de tiempo",
+			"split": "Split",
+			"academic": "Académico",
 			"badgeAria": "Plantilla activa: {{name}}"
 		},
 		"form": {
@@ -163,7 +166,9 @@
 				"advanced": "Avanzado",
 				"native": "Nativo"
 			},
-			"languageFallback": "Idioma"
+			"languageFallback": "Idioma",
+			"pagesOne": "1 hoja",
+			"pagesMany": "{{n}} hojas"
 		},
 		"pwa": {
 			"regionAria": "Instalar aplicación",

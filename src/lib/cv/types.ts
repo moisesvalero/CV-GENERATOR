@@ -60,7 +60,17 @@ export type CVData = {
 	idiomas: { idioma: string; nivel: IdiomaNivel | string }[];
 
 	// Customización visual
-	template: 'executive' | 'editorial' | 'minimal' | 'modern' | 'bold' | 'creative' | 'compact';
+	template:
+		| 'executive'
+		| 'editorial'
+		| 'minimal'
+		| 'modern'
+		| 'bold'
+		| 'creative'
+		| 'compact'
+		| 'timeline'
+		| 'split'
+		| 'academic';
 	colorPrimario: string; // hex
 	colorSecundario: string; // hex
 	fuenteTitulos: string; // nombre de Google Font

@@ -9,6 +9,9 @@
 	import TemplateBold from './templates/template-bold.svelte';
 	import TemplateCreative from './templates/template-creative.svelte';
 	import TemplateCompact from './templates/template-compact.svelte';
+	import TemplateTimeline from './templates/template-timeline.svelte';
+	import TemplateSplit from './templates/template-split.svelte';
+	import TemplateAcademic from './templates/template-academic.svelte';
 
 	const activeTemplate = $derived(cvData.template);
 	const templateLabel = $derived.by(() => {
@@ -19,10 +22,59 @@
 		const loc = get(locale);
 		return translateParams(loc, 'cv.templates.badgeAria', { name: templateLabel });
 	});
+
+	/** Estimated number of A4 sheets the current content occupies (794px width, 1123px per sheet). */
+	let pageCount = $state(1);
+	$effect(() => {
+		if (typeof document === 'undefined') return;
+		const d = cvData;
+		d.nombre;
+		d.titulo;
+		d.resumen;
+		d.template;
+		for (const e of d.experiencia) {
+			e.empresa;
+			e.puesto;
+			e.descripcion;
+			e.fechaInicio;
+			e.fechaFin;
+			e.actual;
+		}
+		for (const e of d.educacion) {
+			e.centro;
+			e.titulo;
+			e.descripcion;
+			e.fechaInicio;
+			e.fechaFin;
+		}
+		for (const h of d.habilidades) {
+			h;
+		}
+		for (const l of d.idiomas) {
+			l.idioma;
+			l.nivel;
+		}
+		const el = document.getElementById('cv-preview-render');
+		if (!el) return;
+		const update = () => {
+			const h = el.scrollHeight;
+			const full = Math.floor(h / 1123);
+			const rem = h - full * 1123;
+			pageCount = rem > 80 ? full + 1 : Math.max(1, full);
+		};
+		update();
+		const id = window.setTimeout(update, 500);
+		return () => window.clearTimeout(id);
+	});
 </script>
 
 <div class="previewOuter">
 	<div class="badge" aria-label={badgeAria}>{templateLabel}</div>
+	{#if pageCount > 1}
+		<div class="badge pages">
+			{translateParams($locale, 'cv.preview.pagesMany', { n: String(pageCount) })}
+		</div>
+	{/if}
 	<div class="previewScale">
 					{#if activeTemplate === 'executive'}
 			<TemplateExecutive cvData={cvData} />
@@ -36,8 +88,14 @@
 			<TemplateBold cvData={cvData} />
 		{:else if activeTemplate === 'creative'}
 			<TemplateCreative cvData={cvData} />
-		{:else}
+		{:else if activeTemplate === 'compact'}
 			<TemplateCompact cvData={cvData} />
+		{:else if activeTemplate === 'timeline'}
+			<TemplateTimeline cvData={cvData} />
+		{:else if activeTemplate === 'split'}
+			<TemplateSplit cvData={cvData} />
+		{:else}
+			<TemplateAcademic cvData={cvData} />
 		{/if}
 	</div>
 </div>
@@ -76,6 +134,13 @@
 		font-size: 11px;
 		padding: 8px 10px;
 		border-radius: 999px;
+	}
+
+	.badge.pages {
+		left: auto;
+		right: 12px;
+		background: color-mix(in srgb, var(--site-gradient-end) 14%, transparent);
+		border-color: color-mix(in srgb, var(--site-gradient-end) 26%, transparent);
 	}
 
 	@media (max-width: 768px) {
