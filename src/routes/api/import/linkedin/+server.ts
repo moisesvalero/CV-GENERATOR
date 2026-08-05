@@ -260,6 +260,57 @@ function normalizeResult(raw: unknown): ImportedCVData {
 	};
 }
 
+/** Models tried in order: env override first, then fast free-tier fallbacks. */
+function geminiModelList(primary: string): string[] {
+	const fallbacks = ['gemini-2.5-flash-lite', 'gemini-2.5-flash'].filter((m) => m !== primary);
+	return [primary, ...fallbacks];
+}
+
+/**
+ * Calls Gemini with structured output, retrying transient failures (429 / 5xx / network)
+ * across a small model fallback chain so rate-limit blips do not break the import.
+ */
+async function callGemini(apiKey: string, models: string[], body: unknown): Promise<string> {
+	let lastDetail = 'Gemini API error';
+	for (const model of models) {
+		for (let attempt = 0; attempt < 2; attempt++) {
+			const controller = new AbortController();
+			const timer = setTimeout(() => controller.abort(), GEMINI_TIMEOUT_MS);
+			try {
+				const res = await fetch(
+					`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
+					{
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
+						body: JSON.stringify(body),
+						signal: controller.signal
+					}
+				);
+				if (res.ok) {
+					const data = (await res.json()) as {
+						candidates?: { content?: { parts?: { text?: string }[] } }[];
+					};
+					const raw = data.candidates?.[0]?.content?.parts?.[0]?.text;
+					if (raw) return raw;
+					lastDetail = 'The Gemini API returned an empty response';
+				} else {
+					const detail = await res.text().catch(() => '');
+					lastDetail = `Gemini API error (${res.status})${detail ? `: ${detail.slice(0, 150)}` : ''}`;
+					if (res.status !== 429 && res.status >= 400 && res.status < 500) {
+						break;
+					}
+				}
+			} catch {
+				lastDetail = 'Could not reach the Gemini API';
+			} finally {
+				clearTimeout(timer);
+			}
+			await new Promise((r) => setTimeout(r, 500 * (attempt + 1)));
+		}
+	}
+	throw error(502, lastDetail);
+}
+
 export const POST: RequestHandler = async ({ request }) => {
 	const origin = request.headers.get('origin');
 	if (origin && origin !== new URL(request.url).origin) {
@@ -315,40 +366,7 @@ export const POST: RequestHandler = async ({ request }) => {
 		}
 	};
 
-	let geminiResponse: Response;
-	const controller = new AbortController();
-	const geminiTimer = setTimeout(() => controller.abort(), GEMINI_TIMEOUT_MS);
-	try {
-		geminiResponse = await fetch(
-			`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
-			{
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					'x-goog-api-key': apiKey
-				},
-				body: JSON.stringify(geminiBody),
-				signal: controller.signal
-			}
-		);
-	} catch {
-		throw error(502, 'Could not reach the Gemini API');
-	} finally {
-		clearTimeout(geminiTimer);
-	}
-
-	if (!geminiResponse.ok) {
-		const detail = await geminiResponse.text().catch(() => '');
-		throw error(502, `Gemini API error (${geminiResponse.status})${detail ? `: ${detail.slice(0, 200)}` : ''}`);
-	}
-
-	const geminiData = (await geminiResponse.json()) as {
-		candidates?: { content?: { parts?: { text?: string }[] } }[];
-	};
-	const rawAnswer = geminiData.candidates?.[0]?.content?.parts?.[0]?.text;
-	if (!rawAnswer) {
-		throw error(502, 'The Gemini API returned an empty response');
-	}
+	const rawAnswer = await callGemini(apiKey, geminiModelList(model), geminiBody);
 
 	let parsed: unknown;
 	try {

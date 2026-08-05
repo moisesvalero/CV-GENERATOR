@@ -24,8 +24,12 @@
 		const tr = get(t);
 		if (statusCode === 503) return tr('cv.import.errorNotConfigured');
 		if (statusCode === 413) return tr('cv.import.errorTooLarge');
+		const msg = (serverMsg ?? '').toLowerCase();
+		if (msg.includes('429') || msg.includes('resource_exhausted') || msg.includes('quota')) {
+			return tr('cv.import.errorRateLimit');
+		}
 		if (statusCode === 502) return tr('cv.import.errorAi');
-		if (serverMsg && serverMsg.toLowerCase().includes('extractable')) return tr('cv.import.errorEmpty');
+		if (msg.includes('extractable')) return tr('cv.import.errorEmpty');
 		if (statusCode === 400 || statusCode === 415 || statusCode === 422) return tr('cv.import.errorInvalid');
 		return tr('cv.import.errorGeneric');
 	}

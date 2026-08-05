@@ -206,6 +206,7 @@
 			"errorTooLarge": "The PDF exceeds the 5 MB size limit.",
 			"errorEmpty": "No extractable text was found in the PDF.",
 			"errorAi": "The AI service did not respond. Please try again.",
+			"errorRateLimit": "Too many AI requests right now. Wait a few seconds and try again.",
 			"errorTimeout": "The import took too long. Please try again.",
 			"errorNotConfigured": "AI import is not configured on the server.",
 			"errorGeneric": "Could not import the PDF. Please try again."
