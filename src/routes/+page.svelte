@@ -3,6 +3,7 @@
 	import { pickLocalized } from '$lib/sanity/pick-localized';
 	import CVPreview from '$lib/cv/CVPreview.svelte';
 	import DownloadButton from '$lib/cv/DownloadButton.svelte';
+	import StyleBar from '$lib/cv/StyleBar.svelte';
 	import ImportLinkedIn from '$lib/cv/ImportLinkedIn.svelte';
 	import FormStep1 from '$lib/cv/FormStep1.svelte';
 	import FormStep2 from '$lib/cv/FormStep2.svelte';
@@ -177,8 +178,11 @@
 			</div>
 
 			<div class="layout">
-				<div class="formCol">
-					<ImportLinkedIn />
+			<div class="formCol">
+				<div class="styleBarMobile">
+					<StyleBar />
+				</div>
+				<ImportLinkedIn />
 					<div class="formCard">
 						{#if currentStepNumber === 1}
 							<FormStep1 />
@@ -241,10 +245,13 @@
 						aria-label={$t('cv.nav.closePreview')}
 					></button>
 
-					<div class="previewSticky" class:drawer-open={showPreviewDrawer}>
-						<div class="previewInner" aria-hidden={!showPreviewDrawer}>
-							<CVPreview />
-						</div>
+			<div class="previewSticky" class:drawer-open={showPreviewDrawer}>
+				<div class="styleBarDesktop">
+					<StyleBar />
+				</div>
+				<div class="previewInner" aria-hidden={!showPreviewDrawer}>
+					<CVPreview />
+				</div>
 
 						<button
 							type="button"
@@ -543,6 +550,10 @@
 		display: block;
 	}
 
+	.styleBarMobile {
+		display: none;
+	}
+
 	.formCard {
 		background: var(--bg-card);
 		border: 1px solid var(--border-card);
@@ -676,6 +687,40 @@
 	@media (max-width: 768px) {
 		.layout {
 			grid-template-columns: 1fr;
+		}
+
+		.styleBarMobile {
+			display: block;
+			margin-bottom: 4px;
+		}
+
+		.styleBarDesktop {
+			display: none;
+		}
+
+		.progress {
+			grid-template-columns: repeat(4, minmax(112px, 1fr));
+			gap: 6px;
+			overflow-x: auto;
+			padding-bottom: 6px;
+			scroll-snap-type: x proximity;
+			-webkit-overflow-scrolling: touch;
+			-webkit-mask-image: linear-gradient(to right, #000 0%, #000 calc(100% - 22px), transparent 100%);
+			mask-image: linear-gradient(to right, #000 0%, #000 calc(100% - 22px), transparent 100%);
+		}
+
+		.stepPill {
+			scroll-snap-align: start;
+			padding: 10px 10px;
+		}
+
+		.stepNum {
+			width: 26px;
+			height: 26px;
+		}
+
+		.stepLabel {
+			font-size: 0.78rem;
 		}
 
 		.previewCol {

@@ -179,7 +179,9 @@
 			},
 			"zoomAria": "Zoom de la vista previa",
 			"zoomOut": "Reducir vista previa",
-			"zoomIn": "Ampliar vista previa"
+			"zoomIn": "Ampliar vista previa",
+			"styleTemplate": "Plantilla",
+			"styleColors": "Colores"
 		},
 		"pwa": {
 			"regionAria": "Instalar aplicación",

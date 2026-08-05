@@ -179,7 +179,9 @@
 			},
 			"zoomAria": "Preview zoom",
 			"zoomOut": "Zoom out preview",
-			"zoomIn": "Zoom in preview"
+			"zoomIn": "Zoom in preview",
+			"styleTemplate": "Template",
+			"styleColors": "Colors"
 		},
 		"pwa": {
 			"regionAria": "Install application",
