@@ -53,7 +53,12 @@
 	let pageCount = $state(1);
 	let fitScale = $state(1);
 	let contentLevel = $state<ContentLevel>('optimal');
+	let previewZoom = $state(0.53);
 	const pages = $derived(Array.from({ length: pageCount }, (_, i) => i));
+
+	function zoomBy(delta: number) {
+		previewZoom = Math.min(0.85, Math.max(0.4, Math.round((previewZoom + delta) * 100) / 100));
+	}
 	$effect(() => {
 		if (typeof document === 'undefined') return;
 		const d = cvData;
@@ -103,17 +108,28 @@
 </script>
 
 <div class="previewOuter">
-	<div class="badge" aria-label={badgeAria}>{templateLabel}</div>
-	{#if pageCount > 1}
-		<div class="badge pages">
-			{translateParams($locale, 'cv.preview.pagesMany', { n: String(pageCount) })}
+	<div class="previewHeader">
+		<span class="headerBadge" aria-label={badgeAria}>{templateLabel}</span>
+		{#if pageCount > 1}
+			<span class="headerBadge pages">
+				{translateParams($locale, 'cv.preview.pagesMany', { n: String(pageCount) })}
+			</span>
+		{/if}
+		<span class="headerBadge level" class:level-medium={contentLevel === 'medium'} class:level-high={contentLevel === 'high'}>
+			{contentLevelLabel(contentLevel, get(t))}
+		</span>
+		<div class="zoomControls" role="group" aria-label={$t('cv.preview.zoomAria')}>
+			<button type="button" class="zoomBtn" onclick={() => zoomBy(-0.05)} aria-label={$t('cv.preview.zoomOut')}>
+				−
+			</button>
+			<span class="zoomVal">{Math.round(previewZoom * 100)}%</span>
+			<button type="button" class="zoomBtn" onclick={() => zoomBy(0.05)} aria-label={$t('cv.preview.zoomIn')}>
+				+
+			</button>
 		</div>
-	{/if}
-	<div class="badge level" class:level-medium={contentLevel === 'medium'} class:level-high={contentLevel === 'high'}>
-		{contentLevelLabel(contentLevel, get(t))}
 	</div>
 
-	<div class="previewScale">
+	<div class="previewScale" style="--sheet-zoom: {previewZoom};">
 		{#each pages as i (i)}
 			<div class="pageSheet">
 				<div
@@ -171,46 +187,84 @@
 		width: 794px;
 	}
 
-	.badge {
-		position: absolute;
-		top: 12px;
-		left: 12px;
-		z-index: 2;
-		background: color-mix(in srgb, var(--site-primary) 12%, transparent);
-		border: 1px solid color-mix(in srgb, var(--site-primary) 20%, transparent);
-		color: var(--site-accent-text);
-		backdrop-filter: blur(10px);
-		font-weight: 800;
+	.previewHeader {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 8px;
+		padding: 2px 2px 12px;
+	}
+
+	.headerBadge {
+		background: #ffffff;
+		border: 1px solid var(--border-card);
+		color: var(--text-secondary);
+		font-weight: 700;
 		font-size: 11px;
-		padding: 8px 10px;
+		padding: 6px 10px;
 		border-radius: 999px;
 	}
 
-	.badge.pages {
-		left: auto;
-		right: 12px;
-		background: color-mix(in srgb, var(--site-gradient-end) 14%, transparent);
-		border-color: color-mix(in srgb, var(--site-gradient-end) 26%, transparent);
+	.headerBadge.pages {
+		background: color-mix(in srgb, var(--site-primary) 8%, transparent);
+		border-color: color-mix(in srgb, var(--site-primary) 22%, transparent);
+		color: var(--site-accent-text);
 	}
 
-	.badge.level {
-		left: 50%;
-		transform: translateX(-50%);
+	.headerBadge.level {
 		background: color-mix(in srgb, #10b981 12%, transparent);
 		border-color: color-mix(in srgb, #10b981 26%, transparent);
 		color: #047857;
 	}
 
-	.badge.level.level-medium {
+	.headerBadge.level.level-medium {
 		background: color-mix(in srgb, #f59e0b 12%, transparent);
 		border-color: color-mix(in srgb, #f59e0b 26%, transparent);
 		color: #92400e;
 	}
 
-	.badge.level.level-high {
+	.headerBadge.level.level-high {
 		background: color-mix(in srgb, #ef4444 12%, transparent);
 		border-color: color-mix(in srgb, #ef4444 26%, transparent);
 		color: #b91c1c;
+	}
+
+	.zoomControls {
+		margin-left: auto;
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		background: #ffffff;
+		border: 1px solid var(--border-card);
+		border-radius: 999px;
+		padding: 2px;
+	}
+
+	.zoomBtn {
+		width: 24px;
+		height: 24px;
+		border: 0;
+		border-radius: 999px;
+		background: transparent;
+		color: var(--text-secondary);
+		font-weight: 800;
+		font-size: 14px;
+		line-height: 1;
+		cursor: pointer;
+		transition: background 0.15s ease, color 0.15s ease;
+	}
+
+	.zoomBtn:hover {
+		background: var(--accent-soft);
+		color: var(--site-accent-text);
+	}
+
+	.zoomVal {
+		min-width: 42px;
+		text-align: center;
+		font-size: 11px;
+		font-weight: 700;
+		color: var(--text-main);
 	}
 
 	@media (max-width: 768px) {
@@ -219,23 +273,11 @@
 		}
 
 		.previewScale {
-			--sheet-zoom: 0.445;
+			zoom: 0.4 !important;
 		}
 
-		.badge {
-			top: 8px;
-			left: 12px;
-			transform: none;
-		}
-
-		.badge.pages {
-			left: auto;
-			right: 8px;
-		}
-
-		.badge.level {
-			left: 50%;
-			transform: translateX(-50%);
+		.zoomControls {
+			display: none;
 		}
 	}
 </style>

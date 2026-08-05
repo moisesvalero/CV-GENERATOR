@@ -67,6 +67,12 @@
 		addSkillFromInput();
 	}
 
+	let sliderEl = $state<HTMLDivElement | null>(null);
+	function scrollTemplates(dir: number) {
+		if (!sliderEl) return;
+		sliderEl.scrollBy({ left: dir * 176, behavior: 'smooth' });
+	}
+
 	function setTemplate(tpl: CVData['template']) {
 		cvData.template = tpl;
 	}
@@ -154,8 +160,12 @@
 
 	<section class="block">
 		<h3 class="blockTitle">{$t('cv.form.step4.templateTitle')}</h3>
-		<div class="templateGrid">
-			{#each templateKeys as key}
+		<div class="templateSliderWrap">
+			<button class="sliderArrow" type="button" onclick={() => scrollTemplates(-1)} aria-label="Anterior plantilla">
+				‹
+			</button>
+			<div class="templateSlider" bind:this={sliderEl}>
+				{#each templateKeys as key}
 				<button
 					type="button"
 					class="templateCard"
@@ -313,6 +323,10 @@
 					<div class="templateLabel">{$t(`cv.templates.${key}`)}</div>
 				</button>
 			{/each}
+			</div>
+			<button class="sliderArrow" type="button" onclick={() => scrollTemplates(1)} aria-label="Siguiente plantilla">
+				›
+			</button>
 		</div>
 	</section>
 
@@ -558,24 +572,57 @@
 		cursor: pointer;
 	}
 
-	.templateGrid {
-		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 8px;
+	.templateSliderWrap {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+	}
+
+	.templateSlider {
+		flex: 1;
+		min-width: 0;
+		display: flex;
+		overflow-x: auto;
+		gap: 10px;
+		padding: 4px 2px 10px;
+		scroll-snap-type: x proximity;
+		scrollbar-width: thin;
+	}
+
+	.sliderArrow {
+		flex: 0 0 auto;
+		width: 32px;
+		height: 32px;
+		border-radius: 999px;
+		border: 1px solid var(--border-card);
+		background: #ffffff;
+		color: var(--text-secondary);
+		font-size: 18px;
+		line-height: 1;
+		cursor: pointer;
+		transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+	}
+
+	.sliderArrow:hover {
+		background: var(--accent-soft);
+		color: var(--site-accent-text);
+		border-color: color-mix(in srgb, var(--site-primary) 30%, transparent);
 	}
 
 	.templateCard {
-		width: 100%;
+		width: 156px;
+		flex: 0 0 auto;
 		padding: 8px;
-		border-radius: 16px;
-		border: 1px solid color-mix(in srgb, var(--site-primary) 14%, transparent);
-		background: rgba(255, 255, 255, 0.92);
-		color: #111827;
+		border-radius: 14px;
+		border: 1px solid var(--border-card);
+		background: #ffffff;
+		color: var(--text-main);
 		cursor: pointer;
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
 		align-items: center;
+		scroll-snap-align: start;
 		transition:
 			border-color 0.15s ease,
 			transform 0.15s ease,
@@ -583,11 +630,16 @@
 			box-shadow 0.15s ease;
 	}
 
+	.templateCard:hover {
+		border-color: color-mix(in srgb, var(--site-primary) 40%, transparent);
+		transform: translateY(-1px);
+	}
+
 	.templateCard.active {
-		border-color: color-mix(in srgb, var(--site-gradient-end) 72%, transparent);
-		background: linear-gradient(180deg, color-mix(in srgb, var(--site-primary) 12%, transparent), rgba(255, 255, 255, 0.92));
+		border-color: color-mix(in srgb, var(--site-primary) 70%, transparent);
+		background: linear-gradient(180deg, color-mix(in srgb, var(--site-primary) 10%, transparent), #ffffff);
 		transform: translateY(-2px);
-		box-shadow: 0 16px 30px color-mix(in srgb, var(--site-primary) 10%, transparent);
+		box-shadow: var(--shadow-md);
 	}
 
 	.thumbSvg {
@@ -622,9 +674,6 @@
 			grid-column: auto;
 		}
 
-		.templateGrid {
-			grid-template-columns: 1fr;
-		}
 		.langRow {
 			grid-template-columns: 1fr 160px 44px;
 		}

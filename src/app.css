@@ -93,6 +93,14 @@ select:focus-visible {
 	box-shadow: 0 0 0 3px color-mix(in srgb, var(--site-primary) 22%, transparent);
 }
 
+/* Long values (e.g. LinkedIn URLs) truncate cleanly when the field is not focused. */
+input[type='text'],
+input[type='email'],
+input[type='url'],
+input[type='tel'] {
+	text-overflow: ellipsis;
+}
+
 ::selection {
 	background: color-mix(in srgb, var(--site-primary) 26%, transparent);
 	color: #ffffff;

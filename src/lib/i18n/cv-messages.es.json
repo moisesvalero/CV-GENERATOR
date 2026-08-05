@@ -176,7 +176,10 @@
 				"optimal": "Óptimo",
 				"medium": "Medio",
 				"high": "Alto"
-			}
+			},
+			"zoomAria": "Zoom de la vista previa",
+			"zoomOut": "Reducir vista previa",
+			"zoomIn": "Ampliar vista previa"
 		},
 		"pwa": {
 			"regionAria": "Instalar aplicación",

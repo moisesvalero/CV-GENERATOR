@@ -176,7 +176,10 @@
 				"optimal": "Optimal",
 				"medium": "Medium",
 				"high": "High"
-			}
+			},
+			"zoomAria": "Preview zoom",
+			"zoomOut": "Zoom out preview",
+			"zoomIn": "Zoom in preview"
 		},
 		"pwa": {
 			"regionAria": "Install application",
