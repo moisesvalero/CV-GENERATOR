@@ -5,6 +5,10 @@
 	import TemplateExecutive from './templates/template-executive.svelte';
 	import TemplateEditorial from './templates/template-editorial.svelte';
 	import TemplateMinimal from './templates/template-minimal.svelte';
+	import TemplateModern from './templates/template-modern.svelte';
+	import TemplateBold from './templates/template-bold.svelte';
+	import TemplateCreative from './templates/template-creative.svelte';
+	import TemplateCompact from './templates/template-compact.svelte';
 
 	const activeTemplate = $derived(cvData.template);
 	const templateLabel = $derived.by(() => {
@@ -24,8 +28,16 @@
 			<TemplateExecutive cvData={cvData} />
 					{:else if activeTemplate === 'editorial'}
 			<TemplateEditorial cvData={cvData} />
-		{:else}
+		{:else if activeTemplate === 'minimal'}
 			<TemplateMinimal cvData={cvData} />
+		{:else if activeTemplate === 'modern'}
+			<TemplateModern cvData={cvData} />
+		{:else if activeTemplate === 'bold'}
+			<TemplateBold cvData={cvData} />
+		{:else if activeTemplate === 'creative'}
+			<TemplateCreative cvData={cvData} />
+		{:else}
+			<TemplateCompact cvData={cvData} />
 		{/if}
 	</div>
 </div>

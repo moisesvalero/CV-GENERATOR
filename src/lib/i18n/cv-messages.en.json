@@ -41,6 +41,10 @@
 			"executive": "Executive",
 			"editorial": "Editorial",
 			"minimal": "Minimal",
+			"modern": "Modern",
+			"bold": "Bold",
+			"creative": "Creative",
+			"compact": "Compact",
 			"badgeAria": "Active template: {{name}}"
 		},
 		"form": {

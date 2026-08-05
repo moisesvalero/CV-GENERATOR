@@ -11,7 +11,15 @@
 	const langInputId = (i: number) => `lang_in_${i}`;
 	const langLevelId = (i: number) => `lang_lv_${i}`;
 
-	const templateKeys = ['executive', 'editorial', 'minimal'] as const;
+	const templateKeys = [
+		'executive',
+		'editorial',
+		'minimal',
+		'modern',
+		'bold',
+		'creative',
+		'compact'
+	] as const;
 
 	const langLevels: IdiomaNivel[] = ['basic', 'intermediate', 'advanced', 'native'];
 
@@ -164,12 +172,63 @@
 								<rect x="22" y="58" width="46" height="8" rx="4" fill="currentColor" opacity="0.25" />
 								<rect x="74" y="58" width="34" height="8" rx="4" fill="currentColor" opacity="0.15" />
 								<rect x="112" y="58" width="44" height="8" rx="4" fill="currentColor" opacity="0.12" />
-							{:else}
+							{:else if key === 'minimal'}
 								<rect x="10" y="10" width="160" height="100" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />
 								<rect x="16" y="18" width="6" height="40" rx="3" fill="currentColor" opacity="0.35" />
 								<circle cx="150" cy="30" r="14" fill="currentColor" opacity="0.25" />
 								<rect x="26" y="22" width="90" height="8" rx="4" fill="currentColor" opacity="0.25" />
 								<rect x="26" y="38" width="120" height="6" rx="3" fill="currentColor" opacity="0.12" />
+							{:else if key === 'modern'}
+								<rect x="10" y="10" width="160" height="100" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />
+								<rect x="16" y="18" width="148" height="3" rx="1.5" fill="currentColor" opacity="0.35" />
+								<rect x="16" y="26" width="80" height="6" rx="3" fill="currentColor" opacity="0.22" />
+								<rect x="16" y="38" width="70" height="4" rx="2" fill="currentColor" opacity="0.12" />
+								<rect x="16" y="48" width="6" height="3" rx="1.5" fill="currentColor" opacity="0.35" />
+								<rect x="26" y="48" width="120" height="4" rx="2" fill="currentColor" opacity="0.12" />
+								<rect x="26" y="56" width="110" height="4" rx="2" fill="currentColor" opacity="0.12" />
+								<rect x="16" y="66" width="70" height="4" rx="2" fill="currentColor" opacity="0.12" />
+								<rect x="16" y="76" width="6" height="3" rx="1.5" fill="currentColor" opacity="0.35" />
+								<rect x="26" y="76" width="100" height="4" rx="2" fill="currentColor" opacity="0.12" />
+							{:else if key === 'bold'}
+								<rect x="10" y="10" width="160" height="30" rx="8" fill="currentColor" opacity="0.22" />
+								<rect x="10" y="40" width="100" height="70" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />
+								<rect x="110" y="40" width="60" height="70" rx="8" fill="currentColor" opacity="0.07" />
+								<rect x="22" y="20" width="90" height="8" rx="4" fill="currentColor" opacity="0.85" />
+								<rect x="20" y="56" width="5" height="3" rx="1.5" fill="currentColor" opacity="0.35" />
+								<rect x="30" y="56" width="70" height="4" rx="2" fill="currentColor" opacity="0.15" />
+								<rect x="30" y="64" width="60" height="4" rx="2" fill="currentColor" opacity="0.12" />
+								<rect x="20" y="78" width="5" height="3" rx="1.5" fill="currentColor" opacity="0.35" />
+								<rect x="30" y="78" width="66" height="4" rx="2" fill="currentColor" opacity="0.12" />
+								<rect x="122" y="56" width="36" height="10" rx="5" fill="currentColor" opacity="0.25" />
+								<rect x="122" y="72" width="36" height="10" rx="5" fill="currentColor" opacity="0.18" />
+								<rect x="122" y="88" width="36" height="10" rx="5" fill="currentColor" opacity="0.12" />
+							{:else if key === 'creative'}
+								<rect x="10" y="10" width="56" height="100" rx="8" fill="currentColor" opacity="0.22" />
+								<rect x="66" y="10" width="104" height="100" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />
+								<circle cx="38" cy="34" r="14" fill="currentColor" opacity="0.45" />
+								<circle cx="46" cy="46" r="8" fill="currentColor" opacity="0.35" />
+								<rect x="22" y="58" width="30" height="6" rx="3" fill="currentColor" opacity="0.85" />
+								<rect x="22" y="70" width="26" height="4" rx="2" fill="currentColor" opacity="0.5" />
+								<rect x="22" y="80" width="30" height="4" rx="2" fill="currentColor" opacity="0.4" />
+								<rect x="80" y="24" width="5" height="3" rx="1.5" fill="currentColor" opacity="0.35" />
+								<rect x="90" y="24" width="70" height="4" rx="2" fill="currentColor" opacity="0.15" />
+								<rect x="90" y="32" width="58" height="4" rx="2" fill="currentColor" opacity="0.12" />
+								<rect x="80" y="48" width="5" height="3" rx="1.5" fill="currentColor" opacity="0.35" />
+								<rect x="90" y="48" width="72" height="4" rx="2" fill="currentColor" opacity="0.15" />
+								<rect x="90" y="56" width="60" height="4" rx="2" fill="currentColor" opacity="0.12" />
+							{:else}
+								<rect x="10" y="10" width="160" height="22" rx="8" fill="currentColor" opacity="0.16" />
+								<rect x="10" y="32" width="104" height="78" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />
+								<rect x="114" y="32" width="56" height="78" rx="8" fill="currentColor" opacity="0.07" />
+								<rect x="20" y="18" width="80" height="7" rx="3.5" fill="currentColor" opacity="0.85" />
+								<rect x="18" y="46" width="5" height="3" rx="1.5" fill="currentColor" opacity="0.35" />
+								<rect x="28" y="46" width="76" height="4" rx="2" fill="currentColor" opacity="0.15" />
+								<rect x="28" y="54" width="64" height="4" rx="2" fill="currentColor" opacity="0.12" />
+								<rect x="18" y="68" width="5" height="3" rx="1.5" fill="currentColor" opacity="0.35" />
+								<rect x="28" y="68" width="80" height="4" rx="2" fill="currentColor" opacity="0.15" />
+								<rect x="124" y="46" width="36" height="9" rx="4.5" fill="currentColor" opacity="0.25" />
+								<rect x="124" y="60" width="36" height="9" rx="4.5" fill="currentColor" opacity="0.18" />
+								<rect x="124" y="74" width="36" height="9" rx="4.5" fill="currentColor" opacity="0.12" />
 							{/if}
 						</svg>
 					</div>

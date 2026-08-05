@@ -9,20 +9,12 @@ type EduItem = CVData['educacion'][number];
 type IdiomaItem = CVData['idiomas'][number];
 
 	const textScale = $derived(() => {
-		const resumeLen = cvData.resumen.trim().length;
 		const expCount = cvData.experiencia.length;
 		const eduCount = cvData.educacion.length;
 		const skillsCount = cvData.habilidades.length;
 		const langsCount = cvData.idiomas.length;
-
-		let s = 1;
-
-		if (resumeLen > 420) s *= Math.max(0.82, 420 / resumeLen);
-
 		const density = expCount * 1.1 + eduCount * 1.0 + skillsCount * 0.25 + langsCount * 0.4;
-		if (density > 10) s *= Math.max(0.78, 10 / density);
-
-		return Math.max(0.78, Math.min(1, s));
+		return density > 12 ? Math.max(0.9, 12 / density) : 1;
 	});
 
 	function formatMonthYear(value: string) {
@@ -302,9 +294,10 @@ type IdiomaItem = CVData['idiomas'][number];
 <style>
 	.cv-executive {
 		width: 794px;
-		height: 1123px;
+		min-height: 1123px;
+		height: auto;
 		display: flex;
-		overflow: hidden;
+		overflow: visible;
 		background: #ffffff;
 		font-family: var(--font-body);
 		font-size: calc(14px * var(--text-scale));
@@ -474,7 +467,6 @@ type IdiomaItem = CVData['idiomas'][number];
 		display: flex;
 		flex-direction: column;
 		gap: 18px;
-		overflow: hidden;
 	}
 
 	.summaryLabel {
@@ -488,10 +480,6 @@ type IdiomaItem = CVData['idiomas'][number];
 		border-left: 4px solid var(--color-primary);
 		padding-left: 14px;
 		line-height: 1.4;
-		overflow: hidden;
-		display: -webkit-box;
-		-webkit-line-clamp: 6;
-		-webkit-box-orient: vertical;
 	}
 
 	.blockTitle {
@@ -550,10 +538,6 @@ type IdiomaItem = CVData['idiomas'][number];
 		margin-top: 8px;
 		line-height: 1.35;
 		opacity: 0.92;
-		overflow: hidden;
-		display: -webkit-box;
-		-webkit-line-clamp: 3;
-		-webkit-box-orient: vertical;
 	}
 
 	.eduList {
@@ -600,10 +584,6 @@ type IdiomaItem = CVData['idiomas'][number];
 		margin-top: 8px;
 		line-height: 1.35;
 		opacity: 0.9;
-		overflow: hidden;
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		-webkit-box-orient: vertical;
 	}
 </style>
 

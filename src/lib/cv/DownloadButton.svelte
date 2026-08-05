@@ -13,9 +13,18 @@
 			.replace(/[^\w-]+/g, '')
 	);
 
+	/** A4 at 96dpi: 210mm ≈ 794px, 297mm ≈ 1123px. */
+	const PAGE_W = 794;
+	const PAGE_H = 1123;
+	/** Minimum content height (px) to justify creating a trailing page. */
+	const SLICE_MIN = 80;
+	const A4_W_MM = 210;
+	const A4_H_MM = 297;
+
 	/**
-	 * Exports `#cv-preview-render` to a one-page A4 PDF entirely in the browser.
-	 * Clones the node off-screen so html2canvas does not distort the on-screen preview layout.
+	 * Exports `#cv-preview-render` to an A4 PDF entirely in the browser.
+	 * Renders the full content at its natural height and slices it into as many
+	 * A4 pages as needed, so long CVs flow into multiple sheets instead of being cut off.
 	 */
 	async function downloadPdf() {
 		if (generating) return;
@@ -32,9 +41,8 @@
 			wrap.style.position = 'fixed';
 			wrap.style.left = '-10000px';
 			wrap.style.top = '0';
-			wrap.style.width = '794px';
-			wrap.style.height = '1123px';
-			wrap.style.overflow = 'hidden';
+			wrap.style.width = `${PAGE_W}px`;
+			wrap.style.height = 'auto';
 			wrap.style.background = '#ffffff';
 			wrap.style.pointerEvents = 'none';
 			wrap.style.opacity = '0';
@@ -42,8 +50,10 @@
 			const clone = el.cloneNode(true) as HTMLElement;
 			clone.style.transform = 'none';
 			clone.style.transformOrigin = 'top left';
-			clone.style.width = '794px';
-			clone.style.height = '1123px';
+			clone.style.width = `${PAGE_W}px`;
+			clone.style.height = 'auto';
+			clone.style.minHeight = `${PAGE_H}px`;
+			clone.style.overflow = 'visible';
 
 			wrap.appendChild(clone);
 			document.body.appendChild(wrap);
@@ -53,18 +63,41 @@
 				import('jspdf')
 			]);
 
+			const scale = 2;
 			const canvas = await html2canvas(clone, {
-				scale: 2,
+				scale,
 				useCORS: true,
 				allowTaint: true,
 				logging: false,
 				backgroundColor: '#ffffff'
 			} as any);
 
-			const imgData = canvas.toDataURL('image/png');
+			const contentPx = canvas.height / scale;
+			const fullPages = Math.floor(contentPx / PAGE_H);
+			const remainder = contentPx - fullPages * PAGE_H;
+			const pageCount = remainder > SLICE_MIN ? fullPages + 1 : Math.max(1, fullPages);
 
 			const pdf = new jsPDF('p', 'mm', 'a4');
-			pdf.addImage(imgData, 'PNG', 0, 0, 210, 297);
+			const sliceH = PAGE_H * scale;
+			const sliceW = canvas.width;
+
+			for (let i = 0; i < pageCount; i++) {
+				const srcY = i * sliceH;
+				const srcH = Math.min(sliceH, canvas.height - srcY);
+
+				const slice = document.createElement('canvas');
+				slice.width = sliceW;
+				slice.height = sliceH;
+				const ctx = slice.getContext('2d');
+				if (ctx) {
+					ctx.fillStyle = '#ffffff';
+					ctx.fillRect(0, 0, sliceW, sliceH);
+					ctx.drawImage(canvas, 0, srcY, sliceW, srcH, 0, 0, sliceW, srcH);
+				}
+
+				if (i > 0) pdf.addPage();
+				pdf.addImage(slice.toDataURL('image/jpeg', 0.92), 'JPEG', 0, 0, A4_W_MM, A4_H_MM);
+			}
 
 			pdf.save(`CV_${safeFileName || 'CV'}.pdf`);
 			wrap.remove();

@@ -41,6 +41,10 @@
 			"executive": "Executive",
 			"editorial": "Editorial",
 			"minimal": "Minimal",
+			"modern": "Moderno",
+			"bold": "Bold",
+			"creative": "Creativo",
+			"compact": "Compacto",
 			"badgeAria": "Plantilla activa: {{name}}"
 		},
 		"form": {

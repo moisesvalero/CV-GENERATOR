@@ -9,19 +9,12 @@ type EduItem = CVData['educacion'][number];
 type IdiomaItem = CVData['idiomas'][number];
 
 	const textScale = $derived(() => {
-		const resumeLen = cvData.resumen.trim().length;
 		const expCount = cvData.experiencia.length;
 		const eduCount = cvData.educacion.length;
 		const skillsCount = cvData.habilidades.length;
 		const langsCount = cvData.idiomas.length;
-
-		let s = 1;
-		if (resumeLen > 420) s *= Math.max(0.82, 420 / resumeLen);
-
 		const density = expCount * 1.1 + eduCount * 1.0 + skillsCount * 0.25 + langsCount * 0.35;
-		if (density > 10) s *= Math.max(0.78, 10 / density);
-
-		return Math.max(0.78, Math.min(1, s));
+		return density > 12 ? Math.max(0.9, 12 / density) : 1;
 	});
 
 	function formatMonthYear(value: string) {
@@ -281,8 +274,9 @@ type IdiomaItem = CVData['idiomas'][number];
 <style>
 	.cv-editorial {
 		width: 794px;
-		height: 1123px;
-		overflow: hidden;
+		min-height: 1123px;
+		height: auto;
+		overflow: visible;
 		background: #ffffff;
 		font-family: var(--font-body);
 		font-size: calc(14px * var(--text-scale));
@@ -378,8 +372,8 @@ type IdiomaItem = CVData['idiomas'][number];
 
 	.main {
 		padding: 30px 38px;
-		height: calc(1123px - 260px);
-		overflow: hidden;
+		height: auto;
+		overflow: visible;
 		display: flex;
 		flex-direction: column;
 		gap: 18px;
@@ -392,19 +386,11 @@ type IdiomaItem = CVData['idiomas'][number];
 		margin-bottom: 10px;
 	}
 
-	.block {
-		overflow: hidden;
-	}
-
 	.summary {
 		font-style: italic;
 		line-height: 1.45;
 		padding-left: 16px;
 		border-left: 4px solid var(--color-primary);
-		overflow: hidden;
-		display: -webkit-box;
-		-webkit-line-clamp: 5;
-		-webkit-box-orient: vertical;
 	}
 
 	.list {
@@ -449,10 +435,6 @@ type IdiomaItem = CVData['idiomas'][number];
 		margin-top: 8px;
 		line-height: 1.4;
 		opacity: 0.92;
-		overflow: hidden;
-		display: -webkit-box;
-		-webkit-line-clamp: 3;
-		-webkit-box-orient: vertical;
 	}
 
 	.blockSkills {
