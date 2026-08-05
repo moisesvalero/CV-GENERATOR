@@ -14,7 +14,8 @@
 		bareUrl
 	} from './helpers';
 
-	const { cvData } = $props<{ cvData: CVData }>();
+	const { cvData, mode = 'normal' } = $props<{ cvData: CVData; mode?: 'normal' | 'full' }>();
+	const isFull = $derived(mode === 'full');
 
 	const textScale = $derived(
 		computeTextScale(
@@ -54,8 +55,10 @@
 <div
 	id="cv-preview-render"
 	class="cv cv-creative"
+	class:is-full={isFull}
 	style={`--color-primary:${cvData.colorPrimario}; --color-primary-rgb:${primaryRgb}; --color-secondary:${cvData.colorSecundario}; --font-titles:'${cvData.fuenteTitulos}'; --font-body:'${cvData.fuenteCuerpo}'; --text-scale:${textScale};`}
 >
+	{#if !isFull}
 	<aside class="side">
 		<div class="deco" aria-hidden="true">
 			<span class="dot d1"></span>
@@ -125,8 +128,9 @@
 			</div>
 		{/if}
 	</aside>
+	{/if}
 
-	<main class="main">
+	<main class="main" class:full-width={isFull}>
 		{#if hasText(cvData.resumen)}
 			<section class="block">
 				<div class="blockTitle">{$t('cv.preview.sectionSummary')}</div>
@@ -442,5 +446,15 @@
 		display: flex;
 		flex-direction: column;
 		gap: 13px;
+	}
+
+	.cv-creative.is-full {
+		flex-direction: column;
+	}
+
+	.cv-creative .full-width,
+	.cv-creative.is-full .main {
+		width: 100%;
+		padding: 36px;
 	}
 </style>

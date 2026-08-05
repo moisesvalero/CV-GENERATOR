@@ -15,7 +15,7 @@
 	const themeColor = $derived(
 		data.siteSettings?.themeColor ??
 			data.siteSettings?.primaryColor ??
-			'#f97316'
+			'#173B63'
 	);
 
 	/**

@@ -1,16 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
-  --site-primary: #f97316;
-  --site-gradient-end: #fb923c;
-  --site-accent-text: #c2410c;
+  --site-primary: #173B63;
+  --site-gradient-end: #3C6596;
+  --site-accent-text: #0E2948;
   --accent: var(--site-primary);
-  --accent-hover: #ea580c;
-  --accent-soft: color-mix(in srgb, var(--site-primary) 14%, transparent);
-  --text-main: #111827;
-  --text-secondary: #6b7280;
-  --bg-main: #ffffff;
-  --bg-soft: #f9fafb;
+  --accent-hover: #0E2948;
+  --accent-soft: color-mix(in srgb, var(--site-primary) 10%, transparent);
+  --text-main: #17202A;
+  --text-secondary: #5E6A78;
+  --bg-main: #F4F6F8;
+  --bg-soft: #FAFBFC;
+  --border-light: #D7DFE6;
+  --border-card: #DDE3E8;
 }
 
 * {
@@ -27,10 +29,7 @@ html {
 body {
   min-width: 320px;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background:
-    radial-gradient(circle at 12% 8%, color-mix(in srgb, var(--site-primary) 10%, transparent), transparent 28%),
-    radial-gradient(circle at 88% 0%, color-mix(in srgb, var(--site-gradient-end) 9%, transparent), transparent 26%),
-    linear-gradient(180deg, #fffdf9 0%, #f8f3ec 54%, #f2ede7 100%);
+  background: var(--bg-main);
   color: var(--text-main);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -54,7 +53,7 @@ a {
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--site-primary) 28%, transparent);
+  background: color-mix(in srgb, var(--site-primary) 20%, transparent);
   color: #ffffff;
 }
 

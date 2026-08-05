@@ -75,3 +75,44 @@ export function computeTextScale(
 	const density = expCount * wExp + eduCount * wEdu + skillsCount * wSkill + langsCount * wLang;
 	return density > 12 ? Math.max(0.9, 12 / density) : 1;
 }
+
+/** A4 dimensions at 96dpi. */
+export const A4_W = 794;
+export const A4_H = 1123;
+/** Minimum readable scale floor. */
+const MIN_SCALE = 0.78;
+/** Height budget: one full A4 page. */
+const PAGE_BUDGET = A4_H;
+
+export type ContentLevel = 'optimal' | 'medium' | 'high';
+
+/**
+ * Measures the actual rendered height of the CV element and returns the scale
+ * factor to apply (as `zoom`) so the content fits on a single A4 page.
+ *
+ * The returned `scale` is a multiplier to apply on top of the template's own
+ * internal `--text-scale`, so the TOTAL visual scale = templateScale × scale.
+ * When the content already fits, it returns 1.
+ *
+ * @param measuredHeight – `el.scrollHeight` of the template (at its internal scale)
+ * @returns `{ scale, level }`
+ */
+export function computeAdaptiveScale(measuredHeight: number): { scale: number; level: ContentLevel } {
+	if (measuredHeight <= 0) return { scale: 1, level: 'optimal' };
+
+	const ratio = measuredHeight / PAGE_BUDGET;
+
+	if (ratio <= 1.0) {
+		return { scale: 1, level: 'optimal' };
+	}
+
+	const scale = Math.max(MIN_SCALE, 1 / ratio);
+	const level: ContentLevel = ratio <= 1.15 ? 'medium' : 'high';
+
+	return { scale, level };
+}
+
+/** Human-readable label for the content level (for the preview badge). */
+export function contentLevelLabel(level: ContentLevel, t: (key: string) => string): string {
+	return t(`cv.preview.contentLevel.${level}`);
+}

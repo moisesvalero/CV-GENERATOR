@@ -47,6 +47,25 @@
 		{ nameKey: 'cv.form.step4.colorNames.greenMint' as const, value: '#10B981' }
 	] as const;
 
+	const palettePresets = [
+		{ nameKey: 'cv.form.step4.palettes.classicBlue' as const, primary: '#173B63', secondary: '#3C6596' },
+		{ nameKey: 'cv.form.step4.palettes.forestGreen' as const, primary: '#1E4D3B', secondary: '#2F7A5C' },
+		{ nameKey: 'cv.form.step4.palettes.wine' as const, primary: '#5A1E2E', secondary: '#8A2F43' },
+		{ nameKey: 'cv.form.step4.palettes.plum' as const, primary: '#3B2A5A', secondary: '#6A4A9C' },
+		{ nameKey: 'cv.form.step4.palettes.charcoal' as const, primary: '#2A2D34', secondary: '#4A4F58' }
+	] as const;
+
+	function applyPalette(palette: typeof palettePresets[number]) {
+		cvData.colorPrimario = palette.primary;
+		cvData.colorSecundario = palette.secondary;
+	}
+
+	function paletteAria(nameKey: string) {
+		const loc = get(locale);
+		const name = get(t)(nameKey);
+		return translateParams(loc, 'cv.form.step4.presetAria', { name });
+	}
+
 	function presetAria(nameKey: string) {
 		const loc = get(locale);
 		const name = get(t)(nameKey);
@@ -319,6 +338,24 @@
 	<section class="block">
 		<h3 class="blockTitle">{$t('cv.form.step4.colorsTitle')}</h3>
 
+		<div class="paletteRow">
+			{#each palettePresets as pal}
+				<button
+					type="button"
+					class="paletteBtn"
+					class:active={cvData.colorPrimario === pal.primary && cvData.colorSecundario === pal.secondary}
+					aria-label={paletteAria(pal.nameKey)}
+					onclick={() => applyPalette(pal)}
+				>
+					<div class="paletteDots">
+						<span class="paletteDot" style={`background:${pal.primary};`}></span>
+						<span class="paletteDot" style={`background:${pal.secondary};`}></span>
+					</div>
+					<span class="paletteName">{$t(pal.nameKey)}</span>
+				</button>
+			{/each}
+		</div>
+
 		<div class="colorGrid">
 			<div class="colorBlock">
 				<div class="colorHeader">
@@ -393,15 +430,16 @@
 	.step {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 10px;
+		gap: 1rem;
 		align-items: start;
+		font-family: 'Inter', sans-serif;
 	}
 
 	.block {
-		padding: 12px;
-		border-radius: 16px;
-		border: 1px solid color-mix(in srgb, var(--site-primary) 14%, transparent);
-		background: rgba(255, 255, 255, 0.84);
+		background: #FAFBFC;
+		border: 1px solid #DDE3E8;
+		border-radius: 12px;
+		padding: 1rem;
 	}
 
 	.block:nth-of-type(1) {
@@ -425,8 +463,9 @@
 	}
 
 	.blockTitle {
-		color: #111827;
-		font-weight: 950;
+		color: #17202A;
+		font-weight: 700;
+		font-size: 0.95rem;
 		margin-bottom: 12px;
 	}
 
@@ -438,33 +477,55 @@
 
 	.input {
 		width: 100%;
-		border-radius: 12px;
-		border: 1px solid color-mix(in srgb, var(--site-primary) 15%, transparent);
-		background: rgba(255, 255, 255, 0.92);
-		color: #111827;
-		padding: 12px 12px;
+		border: 1px solid #D7DFE6;
+		border-radius: 10px;
+		padding: 10px 12px;
+		background: #ffffff;
+		color: #17202A;
 		outline: none;
+		transition: border-color 0.15s ease;
+	}
+
+	.input::placeholder {
+		color: #5E6A78;
+	}
+
+	.input:focus {
+		border-color: #173B63;
+		box-shadow: 0 0 0 3px rgba(23, 59, 99, 0.08);
 	}
 
 	.select {
 		width: 100%;
-		border-radius: 12px;
-		border: 1px solid color-mix(in srgb, var(--site-primary) 15%, transparent);
-		background: rgba(255, 255, 255, 0.92);
-		color: #111827;
-		padding: 12px 12px;
+		border: 1px solid #D7DFE6;
+		border-radius: 10px;
+		padding: 10px 12px;
+		background: #ffffff;
+		color: #17202A;
 		outline: none;
+		transition: border-color 0.15s ease;
+	}
+
+	.select:focus {
+		border-color: #173B63;
+		box-shadow: 0 0 0 3px rgba(23, 59, 99, 0.08);
 	}
 
 	.ghostBtn {
-		border-radius: 12px;
-		border: 1px solid color-mix(in srgb, var(--site-primary) 18%, transparent);
-		background: color-mix(in srgb, var(--site-primary) 6%, transparent);
-		color: var(--site-accent-text);
-		padding: 12px 14px;
-		font-weight: 900;
+		border: 1px solid #D7DFE6;
+		border-radius: 10px;
+		background: #ffffff;
+		color: #173B63;
+		padding: 10px 14px;
+		font-weight: 600;
 		cursor: pointer;
 		white-space: nowrap;
+		transition: background 0.15s ease, border-color 0.15s ease;
+	}
+
+	.ghostBtn:hover {
+		background: #F4F6F8;
+		border-color: #173B63;
 	}
 
 	.ghostBtn:disabled {
@@ -485,24 +546,30 @@
 		gap: 10px;
 		padding: 8px 10px;
 		border-radius: 999px;
-		border: 1px solid color-mix(in srgb, var(--site-primary) 16%, transparent);
-		background: color-mix(in srgb, var(--site-primary) 6%, transparent);
-		color: var(--site-accent-text);
-		font-weight: 900;
+		border: 1px solid #D7DFE6;
+		background: #F4F6F8;
+		color: #17202A;
+		font-weight: 600;
 	}
 
 	.pillX {
 		width: 22px;
 		height: 22px;
 		border-radius: 999px;
-		border: 1px solid color-mix(in srgb, var(--site-primary) 18%, transparent);
-		background: rgba(255, 255, 255, 0.95);
-		color: var(--site-accent-text);
+		border: 1px solid #D7DFE6;
+		background: #ffffff;
+		color: #5E6A78;
 		cursor: pointer;
-		font-weight: 950;
+		font-weight: 700;
 		line-height: 1;
 		display: grid;
 		place-items: center;
+		transition: background 0.15s ease, border-color 0.15s ease;
+	}
+
+	.pillX:hover {
+		background: #F4F6F8;
+		border-color: #173B63;
 	}
 
 	.langList {
@@ -535,27 +602,39 @@
 	.iconBtn {
 		width: 44px;
 		height: 44px;
-		border-radius: 14px;
-		border: 1px solid color-mix(in srgb, var(--site-primary) 18%, transparent);
-		background: color-mix(in srgb, var(--site-primary) 6%, transparent);
-		color: var(--site-accent-text);
+		border: 1px solid #D7DFE6;
+		border-radius: 10px;
+		background: #ffffff;
+		color: #5E6A78;
 		cursor: pointer;
-		font-weight: 950;
+		font-weight: 700;
 		font-size: 18px;
 		display: grid;
 		place-items: center;
+		transition: background 0.15s ease, border-color 0.15s ease;
+	}
+
+	.iconBtn:hover {
+		background: #F4F6F8;
+		border-color: #173B63;
 	}
 
 	.addBtn {
 		margin-top: 12px;
 		width: 100%;
-		border-radius: 14px;
-		border: 1px dashed color-mix(in srgb, var(--site-primary) 22%, transparent);
-		background: color-mix(in srgb, var(--site-primary) 6%, transparent);
-		color: var(--site-accent-text);
+		border: 1px dashed #D7DFE6;
+		background: transparent;
+		color: #173B63;
+		border-radius: 10px;
 		padding: 12px 14px;
-		font-weight: 950;
+		font-weight: 600;
 		cursor: pointer;
+		transition: background 0.15s ease, border-color 0.15s ease;
+	}
+
+	.addBtn:hover {
+		background: #F4F6F8;
+		border-color: #173B63;
 	}
 
 	.templateGrid {
@@ -567,10 +646,10 @@
 	.templateCard {
 		width: 100%;
 		padding: 8px;
-		border-radius: 16px;
-		border: 1px solid color-mix(in srgb, var(--site-primary) 14%, transparent);
-		background: rgba(255, 255, 255, 0.92);
-		color: #111827;
+		border-radius: 12px;
+		border: 1px solid #DDE3E8;
+		background: #ffffff;
+		color: #17202A;
 		cursor: pointer;
 		display: flex;
 		flex-direction: column;
@@ -583,11 +662,15 @@
 			box-shadow 0.15s ease;
 	}
 
+	.templateCard:hover {
+		border-color: #173B63;
+	}
+
 	.templateCard.active {
-		border-color: color-mix(in srgb, var(--site-gradient-end) 72%, transparent);
-		background: linear-gradient(180deg, color-mix(in srgb, var(--site-primary) 12%, transparent), rgba(255, 255, 255, 0.92));
+		border-color: #173B63;
+		background: #FAFBFC;
 		transform: translateY(-2px);
-		box-shadow: 0 16px 30px color-mix(in srgb, var(--site-primary) 10%, transparent);
+		box-shadow: 0 4px 12px rgba(23, 59, 99, 0.1);
 	}
 
 	.thumbSvg {
@@ -596,15 +679,16 @@
 	}
 
 	.thumb {
-		color: rgba(245, 240, 232, 0.9);
+		color: #5E6A78;
 	}
 
 	.templateLabel {
-		font-weight: 950;
+		font-weight: 700;
+		font-size: 0.85rem;
 	}
 
-	.templateCard.active .thumb {
-		color: var(--site-accent-text);
+	.templateCard.active .templateLabel {
+		color: #173B63;
 	}
 
 	.colorGrid {
@@ -641,16 +725,17 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: baseline;
-		color: #111827;
-		font-weight: 900;
+		color: #17202A;
+		font-weight: 600;
 		margin-bottom: 10px;
 	}
 
 	.hex {
 		opacity: 0.75;
 		font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-		font-weight: 850;
+		font-weight: 600;
 		font-size: 0.9em;
+		color: #5E6A78;
 	}
 
 	.colorRow {
@@ -662,8 +747,8 @@
 	.colorPicker {
 		width: 46px;
 		height: 46px;
-		border: 1px solid color-mix(in srgb, var(--site-primary) 18%, transparent);
-		border-radius: 12px;
+		border: 1px solid #D7DFE6;
+		border-radius: 10px;
 		background: transparent;
 		padding: 0;
 	}
@@ -678,9 +763,15 @@
 		width: 22px;
 		height: 22px;
 		border-radius: 999px;
-		border: 1px solid color-mix(in srgb, var(--site-primary) 20%, transparent);
+		border: 1px solid #D7DFE6;
 		background: var(--dot);
 		cursor: pointer;
+		transition: transform 0.15s ease, box-shadow 0.15s ease;
+	}
+
+	.presetDot:hover {
+		transform: scale(1.15);
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 	}
 
 	.fontGrid {
@@ -696,26 +787,55 @@
 	}
 
 	.label {
-		font-weight: 900;
-		color: #111827;
+		font-weight: 600;
+		color: #17202A;
 		font-size: 0.92em;
 	}
 
-	.select::placeholder,
-	.input::placeholder {
-		color: rgba(17, 24, 39, 0.38);
+	.paletteRow {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		margin-bottom: 16px;
 	}
 
-	.blockTitle,
-	.templateLabel,
-	.fontField .label,
-	.colorHeader,
-	.hex {
-		color: #111827;
+	.paletteBtn {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		padding: 8px 12px;
+		border: 1px solid #D7DFE6;
+		border-radius: 10px;
+		background: #ffffff;
+		cursor: pointer;
+		transition: border-color 0.15s ease, box-shadow 0.15s ease;
 	}
 
-	.templateCard.active .templateLabel {
-		color: var(--site-accent-text);
+	.paletteBtn:hover {
+		border-color: #173B63;
+	}
+
+	.paletteBtn.active {
+		border-color: #173B63;
+		box-shadow: 0 0 0 3px rgba(23, 59, 99, 0.1);
+	}
+
+	.paletteDots {
+		display: flex;
+		gap: 4px;
+	}
+
+	.paletteDot {
+		width: 16px;
+		height: 16px;
+		border-radius: 50%;
+		border: 1px solid rgba(0, 0, 0, 0.1);
+	}
+
+	.paletteName {
+		font-size: 0.82rem;
+		font-weight: 600;
+		color: #17202A;
 	}
 </style>
 

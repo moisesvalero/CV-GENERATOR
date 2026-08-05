@@ -219,13 +219,11 @@
 
 <style>
 	.importCard {
-		border-radius: 20px;
-		border: 1px solid color-mix(in srgb, var(--site-primary) 14%, transparent);
-		background: linear-gradient(180deg, color-mix(in srgb, var(--site-primary) 6%, rgba(255, 255, 255, 0.9)), rgba(255, 255, 255, 0.84));
-		backdrop-filter: blur(14px);
-		padding: 14px;
+		border-radius: 14px;
+		border: 1px solid var(--border-card);
+		background: #ffffff;
+		padding: 1rem;
 		margin-bottom: 14px;
-		box-shadow: 0 14px 34px color-mix(in srgb, var(--site-primary) 7%, transparent);
 	}
 
 	.importHeader {
@@ -243,27 +241,27 @@
 	}
 
 	.importTitle {
-		font-weight: 950;
-		color: #111827;
-		font-size: 1.02rem;
+		font-weight: 700;
+		color: var(--text-main);
+		font-size: 0.95rem;
 	}
 
 	.importSub {
-		color: #6b7280;
-		font-size: 0.86rem;
+		color: var(--text-secondary);
+		font-size: 0.82rem;
 		line-height: 1.4;
 	}
 
 	.importBadge {
 		flex: 0 0 auto;
-		padding: 5px 9px;
-		border-radius: 999px;
-		background: color-mix(in srgb, var(--site-primary) 12%, transparent);
-		border: 1px solid color-mix(in srgb, var(--site-primary) 18%, transparent);
-		color: var(--site-accent-text);
-		font-size: 0.74rem;
-		font-weight: 900;
-		letter-spacing: 0.04em;
+		padding: 4px 10px;
+		border-radius: 8px;
+		background: var(--bg-main);
+		border: 1px solid var(--border-light);
+		color: var(--text-secondary);
+		font-size: 0.72rem;
+		font-weight: 600;
+		letter-spacing: 0.02em;
 	}
 
 	.dropzone {
@@ -272,26 +270,22 @@
 		align-items: center;
 		gap: 6px;
 		padding: 22px 16px;
-		border-radius: 16px;
-		border: 2px dashed color-mix(in srgb, var(--site-primary) 26%, transparent);
-		background: rgba(255, 255, 255, 0.72);
+		border-radius: 12px;
+		border: 1.5px dashed var(--border-card);
+		background: var(--bg-main);
 		cursor: pointer;
 		text-align: center;
-		transition:
-			border-color 0.15s ease,
-			background-color 0.15s ease,
-			transform 0.15s ease;
+		transition: border-color 0.15s ease, background-color 0.15s ease;
 	}
 
 	.dropzone:hover,
 	.dropzone.drag {
-		border-color: color-mix(in srgb, var(--site-gradient-end) 60%, transparent);
-		background: color-mix(in srgb, var(--site-primary) 8%, rgba(255, 255, 255, 0.9));
-		transform: translateY(-1px);
+		border-color: var(--site-primary);
+		background: #ffffff;
 	}
 
 	.dropzone:focus-visible {
-		outline: 2px solid color-mix(in srgb, var(--site-primary) 45%, transparent);
+		outline: 2px solid var(--site-primary);
 		outline-offset: 2px;
 	}
 
@@ -304,22 +298,22 @@
 	}
 
 	.dzIcon {
-		width: 34px;
-		height: 34px;
-		color: var(--site-accent-text);
+		width: 30px;
+		height: 30px;
+		color: var(--text-secondary);
 		margin-bottom: 2px;
 	}
 
 	.dzText {
-		font-weight: 900;
-		color: #111827;
-		font-size: 0.92rem;
+		font-weight: 600;
+		color: var(--text-main);
+		font-size: 0.88rem;
 	}
 
 	.dzMeta {
-		color: #6b7280;
-		font-size: 0.8rem;
-		font-weight: 800;
+		color: var(--text-secondary);
+		font-size: 0.78rem;
+		font-weight: 500;
 	}
 
 	.errorBanner {
@@ -328,12 +322,12 @@
 		align-items: center;
 		gap: 8px;
 		padding: 10px 12px;
-		border-radius: 12px;
-		border: 1px solid color-mix(in srgb, #dc2626 35%, transparent);
-		background: color-mix(in srgb, #dc2626 8%, transparent);
+		border-radius: 10px;
+		border: 1px solid #fecaca;
+		background: #fef2f2;
 		color: #991b1b;
-		font-weight: 800;
-		font-size: 0.86rem;
+		font-weight: 600;
+		font-size: 0.84rem;
 		line-height: 1.4;
 	}
 
@@ -341,13 +335,13 @@
 		flex: 0 0 auto;
 		width: 20px;
 		height: 20px;
-		border-radius: 999px;
+		border-radius: 50%;
 		display: grid;
 		place-items: center;
 		background: #dc2626;
 		color: #fff;
-		font-weight: 950;
-		font-size: 0.8rem;
+		font-weight: 700;
+		font-size: 0.78rem;
 	}
 
 	.processing {
@@ -355,33 +349,33 @@
 		align-items: center;
 		gap: 12px;
 		padding: 20px 16px;
-		border-radius: 16px;
-		border: 1px solid color-mix(in srgb, var(--site-primary) 16%, transparent);
-		background: rgba(255, 255, 255, 0.8);
+		border-radius: 12px;
+		border: 1px solid var(--border-card);
+		background: var(--bg-main);
 	}
 
 	.processingCopy {
 		display: flex;
 		flex-direction: column;
 		gap: 2px;
-		font-weight: 900;
-		color: #111827;
+		font-weight: 600;
+		color: var(--text-main);
 	}
 
 	.fileName {
-		color: #6b7280;
-		font-weight: 800;
+		color: var(--text-secondary);
+		font-weight: 500;
 		font-size: 0.8rem;
 		word-break: break-all;
 	}
 
 	.spinner {
 		flex: 0 0 auto;
-		width: 22px;
-		height: 22px;
-		border-radius: 999px;
-		border: 3px solid color-mix(in srgb, var(--site-primary) 18%, transparent);
-		border-top-color: var(--site-accent-text);
+		width: 20px;
+		height: 20px;
+		border-radius: 50%;
+		border: 2.5px solid var(--border-card);
+		border-top-color: var(--site-primary);
 		animation: spin 0.8s linear infinite;
 	}
 
@@ -398,9 +392,9 @@
 	}
 
 	.previewTitle {
-		font-weight: 950;
-		color: #111827;
-		font-size: 1rem;
+		font-weight: 700;
+		color: var(--text-main);
+		font-size: 0.92rem;
 	}
 
 	.pvGrid {
@@ -417,34 +411,34 @@
 	}
 
 	.pvLabel {
-		font-size: 0.72rem;
-		font-weight: 900;
+		font-size: 0.7rem;
+		font-weight: 600;
 		text-transform: uppercase;
 		letter-spacing: 0.05em;
-		color: #6b7280;
+		color: var(--text-secondary);
 	}
 
 	.pvValue {
-		font-weight: 900;
-		color: #111827;
-		font-size: 0.9rem;
+		font-weight: 600;
+		color: var(--text-main);
+		font-size: 0.88rem;
 		word-break: break-word;
 	}
 
 	.pvChips {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 8px;
+		gap: 6px;
 	}
 
 	.chip {
-		padding: 6px 10px;
-		border-radius: 999px;
-		border: 1px solid color-mix(in srgb, var(--site-primary) 16%, transparent);
-		background: color-mix(in srgb, var(--site-primary) 7%, transparent);
-		color: var(--site-accent-text);
-		font-weight: 900;
-		font-size: 0.82rem;
+		padding: 5px 10px;
+		border-radius: 8px;
+		border: 1px solid var(--border-light);
+		background: var(--bg-main);
+		color: var(--text-secondary);
+		font-weight: 600;
+		font-size: 0.78rem;
 	}
 
 	.pvSummary {
@@ -452,15 +446,15 @@
 		flex-direction: column;
 		gap: 4px;
 		padding: 10px 12px;
-		border-radius: 12px;
-		border: 1px solid color-mix(in srgb, var(--site-primary) 12%, transparent);
-		background: rgba(255, 255, 255, 0.7);
+		border-radius: 10px;
+		border: 1px solid var(--border-card);
+		background: var(--bg-soft);
 	}
 
 	.pvSummary .pvValue {
-		font-weight: 700;
-		font-size: 0.86rem;
-		color: #374151;
+		font-weight: 500;
+		font-size: 0.84rem;
+		color: var(--text-secondary);
 		line-height: 1.45;
 	}
 
@@ -474,38 +468,47 @@
 	.applyBtn {
 		flex: 1;
 		border-radius: 12px;
-		border: 1px solid color-mix(in srgb, var(--site-gradient-end) 52%, transparent);
-		background: linear-gradient(135deg, var(--site-primary), var(--site-gradient-end));
-		box-shadow: 0 14px 30px color-mix(in srgb, var(--site-primary) 18%, transparent);
-		color: #fff;
-		padding: 11px 14px;
-		font-weight: 950;
+		border: 1px solid var(--site-primary);
+		background: var(--site-primary);
+		color: #ffffff;
+		padding: 10px 14px;
+		font-weight: 700;
 		cursor: pointer;
+		transition: background 0.15s ease;
+	}
+
+	.applyBtn:hover {
+		background: var(--site-accent-text);
 	}
 
 	.ghostBtn {
 		border-radius: 12px;
-		border: 1px solid color-mix(in srgb, var(--site-primary) 18%, transparent);
-		background: color-mix(in srgb, var(--site-primary) 7%, transparent);
-		color: var(--site-accent-text);
-		padding: 11px 14px;
-		font-weight: 900;
+		border: 1px solid var(--border-card);
+		background: #ffffff;
+		color: var(--text-main);
+		padding: 10px 14px;
+		font-weight: 600;
 		cursor: pointer;
+		transition: border-color 0.15s ease;
+	}
+
+	.ghostBtn:hover {
+		border-color: var(--site-primary);
 	}
 
 	.textBtn {
 		border: 0;
 		background: transparent;
-		color: #6b7280;
-		font-weight: 900;
-		font-size: 0.84rem;
+		color: var(--text-secondary);
+		font-weight: 600;
+		font-size: 0.82rem;
 		text-decoration: underline;
 		cursor: pointer;
 		padding: 6px;
 	}
 
 	.textBtn:hover {
-		color: #111827;
+		color: var(--text-main);
 	}
 
 	@media (max-width: 900px) {
