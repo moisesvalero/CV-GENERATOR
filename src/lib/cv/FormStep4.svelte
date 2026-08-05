@@ -536,6 +536,12 @@
 		display: flex;
 		flex-direction: column;
 		gap: 8px;
+		min-width: 0;
+	}
+
+	.langField .input,
+	.langField .select {
+		min-width: 0;
 	}
 
 	.srOnly {
@@ -674,19 +680,22 @@
 			grid-column: auto;
 		}
 
-		.langRow {
-			grid-template-columns: 1fr auto;
-		}
-
-		.langRow .langField:first-child {
-			grid-column: 1 / -1;
-		}
 		.colorGrid {
 			grid-template-columns: 1fr;
 		}
 
 		.fontGrid {
 			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.langRow {
+			grid-template-columns: 1fr auto;
+		}
+
+		.langRow .langField:first-child {
+			grid-column: 1 / -1;
 		}
 	}
 
