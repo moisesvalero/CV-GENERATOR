@@ -294,11 +294,11 @@
 		height: auto;
 		overflow: visible;
 		background:
-			radial-gradient(circle at 15% 12%, color-mix(in srgb, var(--site-primary) 14%, transparent), transparent 22%),
-			radial-gradient(circle at 85% 8%, color-mix(in srgb, var(--site-gradient-end) 10%, transparent), transparent 24%),
-			linear-gradient(180deg, #fffdf9 0%, #f7f3ee 55%, #f2ede7 100%);
-		color: #1f2937;
-		font-family: 'DM Sans', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+			radial-gradient(circle at 15% 10%, color-mix(in srgb, var(--site-primary) 10%, transparent), transparent 24%),
+			radial-gradient(circle at 85% 6%, color-mix(in srgb, var(--site-gradient-end) 8%, transparent), transparent 26%),
+			linear-gradient(180deg, #fffdf8 0%, #faf4ec 55%, #f3ede5 100%);
+		color: var(--text-main);
+		font-family: var(--font-ui);
 		padding: 16px 0 12px;
 		display: flex;
 		flex-direction: column;
@@ -329,31 +329,39 @@
 
 	.langSwitcher {
 		display: inline-flex;
-		gap: 6px;
-		padding: 4px;
+		gap: 2px;
+		padding: 3px;
 		border-radius: 999px;
-		background: rgba(255, 255, 255, 0.75);
-		border: 1px solid color-mix(in srgb, var(--site-primary) 14%, transparent);
+		background: rgba(255, 255, 255, 0.8);
+		border: 1px solid var(--border-card);
+		box-shadow: var(--shadow-sm);
 	}
 
 	.langBtn {
 		border: 0;
 		background: transparent;
-		color: #6b7280;
-		font-weight: 800;
+		color: var(--text-secondary);
+		font-weight: 700;
 		font-size: 0.82rem;
-		padding: 6px 12px;
+		padding: 6px 14px;
 		border-radius: 999px;
 		cursor: pointer;
+		transition: background 0.15s ease, color 0.15s ease;
 	}
 
 	.langBtn.active {
-		background: color-mix(in srgb, var(--site-primary) 14%, transparent);
+		background: var(--btn-bg);
+		color: #ffffff;
+		box-shadow: 0 1px 3px rgba(28, 25, 23, 0.2);
+	}
+
+	.langBtn:hover:not(.active) {
+		background: var(--accent-soft);
 		color: var(--site-accent-text);
 	}
 
 	.langBtn:focus-visible {
-		outline: 2px solid color-mix(in srgb, var(--site-primary) 45%, transparent);
+		outline: 2px solid color-mix(in srgb, var(--site-primary) 55%, transparent);
 		outline-offset: 2px;
 	}
 
@@ -379,27 +387,29 @@
 		display: inline-flex;
 		align-items: center;
 		gap: 8px;
-		padding: 6px 10px;
+		padding: 6px 12px;
 		border-radius: 999px;
 		background: color-mix(in srgb, var(--site-primary) 10%, transparent);
 		border: 1px solid color-mix(in srgb, var(--site-primary) 16%, transparent);
 		color: var(--site-accent-text);
 		font-size: 0.82rem;
-		font-weight: 800;
-		margin-bottom: 10px;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		margin-bottom: 12px;
 	}
 
 	.brandRow h1 {
-		font-size: clamp(2rem, 4vw, 3.2rem);
-		line-height: 1;
-		letter-spacing: 0;
-		color: #111827;
-		margin-bottom: 8px;
+		font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+		line-height: 1.04;
+		letter-spacing: -0.02em;
+		color: var(--text-main);
+		margin-bottom: 12px;
 	}
 
 	.brandRow p {
-		color: #6b7280;
-		font-size: 0.98rem;
+		color: var(--text-secondary);
+		font-size: 1rem;
 		max-width: 720px;
 		margin: 0 auto;
 	}
@@ -418,13 +428,13 @@
 	}
 
 	.claimRow span {
-		padding: 7px 10px;
+		padding: 7px 12px;
 		border-radius: 999px;
-		background: rgba(255, 255, 255, 0.8);
-		border: 1px solid color-mix(in srgb, var(--site-primary) 12%, transparent);
+		background: rgba(255, 255, 255, 0.85);
+		border: 1px solid var(--border-card);
 		color: var(--site-accent-text);
 		font-size: 0.84rem;
-		font-weight: 800;
+		font-weight: 700;
 	}
 
 	.container {
@@ -443,50 +453,65 @@
 	.stepPill {
 		width: 100%;
 		text-align: left;
-		background: rgba(255, 255, 255, 0.78);
+		background: rgba(255, 255, 255, 0.85);
 		backdrop-filter: blur(14px);
-		border: 1px solid color-mix(in srgb, var(--site-primary) 12%, transparent);
-		border-radius: 16px;
-		padding: 12px 12px;
+		border: 1px solid var(--border-card);
+		border-radius: 14px;
+		padding: 12px 14px;
 		display: flex;
-		flex-direction: column;
-		gap: 8px;
+		align-items: center;
+		gap: 12px;
 		position: relative;
 		overflow: hidden;
 		cursor: pointer;
 		transition:
 			transform 0.15s ease,
 			border-color 0.15s ease,
-			box-shadow 0.15s ease;
+			box-shadow 0.15s ease,
+			background 0.15s ease;
 	}
 
 	.stepPill:hover {
 		transform: translateY(-1px);
-		border-color: color-mix(in srgb, var(--site-primary) 24%, transparent);
-		box-shadow: 0 12px 24px color-mix(in srgb, var(--site-primary) 6%, transparent);
+		border-color: color-mix(in srgb, var(--site-primary) 32%, transparent);
+		box-shadow: var(--shadow-md);
 	}
 
 	.stepPill.active {
-		border-color: color-mix(in srgb, var(--site-gradient-end) 52%, transparent);
-		box-shadow: 0 16px 30px color-mix(in srgb, var(--site-primary) 8%, transparent);
+		border-color: color-mix(in srgb, var(--site-primary) 55%, transparent);
+		background: linear-gradient(180deg, #fffaf4, #fff3e6);
+		box-shadow: var(--shadow-md);
 	}
 
 	.stepNum {
 		width: 30px;
 		height: 30px;
-		border-radius: 12px;
+		border-radius: 9px;
 		display: grid;
 		place-items: center;
-		background: color-mix(in srgb, var(--site-primary) 15%, transparent);
-		color: var(--site-accent-text);
-		font-weight: 950;
+		background: var(--bg-soft);
+		color: var(--text-secondary);
+		font-weight: 800;
+		font-size: 0.9rem;
+		flex-shrink: 0;
+		transition: background 0.15s ease, color 0.15s ease;
+	}
+
+	.stepPill.active .stepNum {
+		background: var(--btn-bg);
+		color: #ffffff;
 	}
 
 	.stepLabel {
-		font-weight: 900;
-		font-size: 0.95em;
-		opacity: 0.92;
-		color: #111827;
+		font-weight: 700;
+		font-size: 0.9rem;
+		color: var(--text-secondary);
+		transition: color 0.15s ease;
+	}
+
+	.stepPill.active .stepLabel {
+		color: var(--text-main);
+		font-weight: 800;
 	}
 
 	.stepBar {
@@ -495,10 +520,10 @@
 		right: 0;
 		bottom: 0;
 		height: 3px;
-		background: rgba(245, 240, 232, 0.14);
+		background: rgba(245, 240, 232, 0.2);
 		transform: scaleX(0);
 		transform-origin: left;
-		transition: transform 0.25s ease;
+		transition: transform 0.3s ease;
 	}
 
 	.stepBar.active {
@@ -519,14 +544,13 @@
 	}
 
 	.formCard {
-		background: rgba(255, 255, 255, 0.78);
-		backdrop-filter: blur(14px);
-		border: 1px solid color-mix(in srgb, var(--site-primary) 12%, transparent);
-		border-radius: 20px;
-		padding: 14px;
-		color: #111827;
+		background: var(--bg-card);
+		border: 1px solid var(--border-card);
+		border-radius: 16px;
+		padding: 18px;
+		color: var(--text-main);
 		overflow: visible;
-		box-shadow: 0 18px 42px rgba(88, 62, 34, 0.08);
+		box-shadow: var(--shadow-md);
 	}
 
 	.navRow {
@@ -534,20 +558,20 @@
 		justify-content: space-between;
 		align-items: center;
 		gap: 12px;
-		margin-top: 12px;
+		margin-top: 14px;
 	}
 
 	.ctaPanel {
-		margin-top: 12px;
-		padding: 12px;
-		border-radius: 18px;
-		border: 1px solid color-mix(in srgb, var(--site-primary) 12%, transparent);
-		background: rgba(255, 255, 255, 0.72);
-		backdrop-filter: blur(14px);
+		margin-top: 14px;
+		padding: 14px;
+		border-radius: 14px;
+		border: 1px solid var(--border-card);
+		background: var(--bg-card);
+		box-shadow: var(--shadow-sm);
 	}
 
 	.ctaPanel.final-step {
-		box-shadow: 0 18px 40px color-mix(in srgb, var(--site-primary) 8%, transparent);
+		box-shadow: var(--shadow-md);
 	}
 
 	.ctaCopy {
@@ -555,43 +579,56 @@
 		align-items: baseline;
 		justify-content: space-between;
 		gap: 10px;
-		margin-bottom: 10px;
+		margin-bottom: 12px;
 	}
 
 	.ctaLabel {
 		color: var(--site-accent-text);
-		font-size: 0.8rem;
-		font-weight: 900;
+		font-size: 0.78rem;
+		font-weight: 800;
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
 	}
 
 	.ctaTitle {
-		color: #111827;
+		color: var(--text-main);
 		font-size: 0.95rem;
-		font-weight: 800;
+		font-weight: 700;
 	}
 
 	.navBtn {
-		border-radius: 14px;
-		border: 1px solid color-mix(in srgb, var(--site-primary) 18%, transparent);
-		background: color-mix(in srgb, var(--site-primary) 8%, transparent);
-		color: var(--site-accent-text);
-		padding: 12px 14px;
-		font-weight: 950;
+		border-radius: 12px;
+		border: 1px solid var(--border-input);
+		background: var(--bg-card);
+		color: var(--text-main);
+		padding: 12px 20px;
+		font-weight: 700;
 		cursor: pointer;
 		flex: 1;
+		transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+	}
+
+	.navBtn:hover:not(:disabled) {
+		border-color: color-mix(in srgb, var(--site-primary) 40%, transparent);
+		background: var(--bg-soft);
 	}
 
 	.navBtn.primary {
-		background: linear-gradient(135deg, var(--site-primary), var(--site-gradient-end));
-		border-color: color-mix(in srgb, var(--site-gradient-end) 52%, transparent);
-		box-shadow: 0 18px 38px color-mix(in srgb, var(--site-primary) 18%, transparent);
-		color: #fff;
+		background: var(--btn-bg);
+		border-color: var(--btn-bg);
+		box-shadow: var(--shadow-md);
+		color: #ffffff;
+	}
+
+	.navBtn.primary:hover:not(:disabled) {
+		background: var(--btn-bg-hover);
+		border-color: var(--btn-bg-hover);
+		transform: translateY(-1px);
+		box-shadow: var(--shadow-md);
 	}
 
 	.navBtn:disabled {
-		opacity: 0.55;
+		opacity: 0.45;
 		cursor: not-allowed;
 	}
 
@@ -609,14 +646,14 @@
 	.previewSticky {
 		position: sticky;
 		top: 0;
-		background: rgba(255, 255, 255, 0.78);
+		background: rgba(255, 255, 255, 0.85);
 		backdrop-filter: blur(14px);
-		border: 1px solid color-mix(in srgb, var(--site-primary) 12%, transparent);
-		border-radius: 20px;
-		padding: 14px;
+		border: 1px solid var(--border-card);
+		border-radius: 16px;
+		padding: 16px;
 		overflow-y: auto;
 		max-height: calc(100dvh - 24px);
-		box-shadow: 0 18px 42px rgba(88, 62, 34, 0.08);
+		box-shadow: var(--shadow-md);
 	}
 
 	.previewInner {
@@ -742,21 +779,21 @@
 
 	.footer {
 		width: min(1200px, 96%);
-		margin: 14px auto 0;
-		padding: 12px 0 0;
+		margin: 20px auto 0;
+		padding: 14px 0 4px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		gap: 6px;
-		color: #6b7280;
-		font-size: 0.9rem;
-		border-top: 1px solid color-mix(in srgb, var(--site-primary) 10%, transparent);
+		color: var(--text-muted);
+		font-size: 0.88rem;
+		border-top: 1px solid var(--border-light);
 	}
 
 	.footer a {
 		color: var(--site-accent-text);
 		text-decoration: none;
-		font-weight: 800;
+		font-weight: 700;
 	}
 
 	.footer a:hover {

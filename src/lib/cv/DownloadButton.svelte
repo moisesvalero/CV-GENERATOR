@@ -140,25 +140,26 @@
 
 	.downloadBtn {
 		width: 100%;
-		border: 1px solid color-mix(in srgb, var(--site-primary) 18%, transparent);
-		background: linear-gradient(135deg, color-mix(in srgb, var(--site-primary) 12%, transparent), color-mix(in srgb, var(--site-gradient-end) 8%, transparent));
-		color: var(--site-accent-text);
-		border-radius: 14px;
+		border: 1px solid var(--btn-bg);
+		background: var(--btn-bg);
+		color: #ffffff;
+		border-radius: 12px;
 		min-height: 46px;
 		padding: 12px 14px;
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
 		gap: 10px;
-		font-weight: 850;
+		font-weight: 700;
 		cursor: pointer;
+		box-shadow: var(--shadow-md);
 		transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
 	}
 
 	.downloadBtn:hover:not(:disabled) {
 		transform: translateY(-1px);
-		background: linear-gradient(135deg, color-mix(in srgb, var(--site-primary) 18%, transparent), color-mix(in srgb, var(--site-gradient-end) 12%, transparent));
-		border-color: color-mix(in srgb, var(--site-gradient-end) 30%, transparent);
+		background: var(--btn-bg-hover);
+		border-color: var(--btn-bg-hover);
 	}
 
 	.downloadBtn:disabled {
@@ -185,8 +186,8 @@
 	}
 
 	.error {
-		color: #ffb4b4;
-		font-weight: 750;
-		font-size: 0.92em;
+		color: #b91c1c;
+		font-weight: 600;
+		font-size: 0.88em;
 	}
 </style>
