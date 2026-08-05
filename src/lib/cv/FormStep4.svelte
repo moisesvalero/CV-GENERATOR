@@ -527,7 +527,7 @@
 
 	.langRow {
 		display: grid;
-		grid-template-columns: 1fr 160px 44px;
+		grid-template-columns: minmax(0, 1fr) 140px 40px;
 		gap: 12px;
 		align-items: center;
 	}
@@ -675,7 +675,11 @@
 		}
 
 		.langRow {
-			grid-template-columns: 1fr 160px 44px;
+			grid-template-columns: 1fr auto;
+		}
+
+		.langRow .langField:first-child {
+			grid-column: 1 / -1;
 		}
 		.colorGrid {
 			grid-template-columns: 1fr;
