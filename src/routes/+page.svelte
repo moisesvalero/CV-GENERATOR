@@ -614,7 +614,8 @@
 		border: 1px solid color-mix(in srgb, var(--site-primary) 12%, transparent);
 		border-radius: 20px;
 		padding: 14px;
-		overflow: visible;
+		overflow-y: auto;
+		max-height: calc(100dvh - 24px);
 		box-shadow: 0 18px 42px rgba(88, 62, 34, 0.08);
 	}
 

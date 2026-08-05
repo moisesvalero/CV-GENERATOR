@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { get } from 'svelte/store';
+	import type { Component } from 'svelte';
 	import { locale, t, translateParams } from '$lib/i18n';
 	import { cvData } from './store.svelte.ts';
+	import type { CVData } from './types';
 	import TemplateExecutive from './templates/template-executive.svelte';
 	import TemplateEditorial from './templates/template-editorial.svelte';
 	import TemplateMinimal from './templates/template-minimal.svelte';
@@ -16,7 +18,27 @@
 	import TemplateMono from './templates/template-mono.svelte';
 	import TemplateBento from './templates/template-bento.svelte';
 
+	const TEMPLATES: Record<CVData['template'], Component<{ cvData: CVData }>> = {
+		executive: TemplateExecutive,
+		editorial: TemplateEditorial,
+		minimal: TemplateMinimal,
+		modern: TemplateModern,
+		bold: TemplateBold,
+		creative: TemplateCreative,
+		compact: TemplateCompact,
+		timeline: TemplateTimeline,
+		split: TemplateSplit,
+		academic: TemplateAcademic,
+		side: TemplateSide,
+		mono: TemplateMono,
+		bento: TemplateBento
+	};
+
+	const SHEET_W = 794;
+	const SHEET_H = 1123;
+
 	const activeTemplate = $derived(cvData.template);
+	const ActiveComponent = $derived(TEMPLATES[activeTemplate] ?? TemplateBento);
 	const templateLabel = $derived.by(() => {
 		get(locale);
 		return get(t)(`cv.templates.${activeTemplate}`);
@@ -26,8 +48,9 @@
 		return translateParams(loc, 'cv.templates.badgeAria', { name: templateLabel });
 	});
 
-	/** Estimated number of A4 sheets the current content occupies (794px width, 1123px per sheet). */
+	/** Estimated number of A4 sheets the current content occupies. */
 	let pageCount = $state(1);
+	const pages = $derived(Array.from({ length: pageCount }, (_, i) => i));
 	$effect(() => {
 		if (typeof document === 'undefined') return;
 		const d = cvData;
@@ -61,8 +84,8 @@
 		if (!el) return;
 		const update = () => {
 			const h = el.scrollHeight;
-			const full = Math.floor(h / 1123);
-			const rem = h - full * 1123;
+			const full = Math.floor(h / SHEET_H);
+			const rem = h - full * SHEET_H;
 			pageCount = rem > 80 ? full + 1 : Math.max(1, full);
 		};
 		update();
@@ -78,42 +101,24 @@
 			{translateParams($locale, 'cv.preview.pagesMany', { n: String(pageCount) })}
 		</div>
 	{/if}
+
 	<div class="previewScale">
-					{#if activeTemplate === 'executive'}
-			<TemplateExecutive cvData={cvData} />
-					{:else if activeTemplate === 'editorial'}
-			<TemplateEditorial cvData={cvData} />
-		{:else if activeTemplate === 'minimal'}
-			<TemplateMinimal cvData={cvData} />
-		{:else if activeTemplate === 'modern'}
-			<TemplateModern cvData={cvData} />
-		{:else if activeTemplate === 'bold'}
-			<TemplateBold cvData={cvData} />
-		{:else if activeTemplate === 'creative'}
-			<TemplateCreative cvData={cvData} />
-		{:else if activeTemplate === 'compact'}
-			<TemplateCompact cvData={cvData} />
-		{:else if activeTemplate === 'timeline'}
-			<TemplateTimeline cvData={cvData} />
-		{:else if activeTemplate === 'split'}
-			<TemplateSplit cvData={cvData} />
-		{:else if activeTemplate === 'academic'}
-			<TemplateAcademic cvData={cvData} />
-		{:else if activeTemplate === 'side'}
-			<TemplateSide cvData={cvData} />
-		{:else if activeTemplate === 'mono'}
-			<TemplateMono cvData={cvData} />
-		{:else}
-			<TemplateBento cvData={cvData} />
-		{/if}
+		{#each pages as i (i)}
+			<div class="pageSheet">
+				<div
+					class="pageSheetInner"
+					style="transform: translateY(-{i * SHEET_H}px);"
+				>
+					<ActiveComponent cvData={cvData} />
+				</div>
+			</div>
+		{/each}
 	</div>
 </div>
 
 <style>
 	.previewOuter {
 		position: relative;
-		overflow: hidden;
-		height: 592px;
 		width: 100%;
 		max-width: 900px;
 		margin: 0 auto;
@@ -123,11 +128,30 @@
 	}
 
 	.previewScale {
-		transform: scale(0.53);
-		transform-origin: top center;
+		--sheet-zoom: 0.53;
+		zoom: var(--sheet-zoom);
 		width: 794px;
 		flex: 0 0 auto;
-		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+
+	.pageSheet {
+		width: 794px;
+		height: 1123px;
+		overflow: hidden;
+		position: relative;
+		background: #ffffff;
+		box-shadow: 0 2px 14px rgba(0, 0, 0, 0.12);
+	}
+
+	.pageSheetInner {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 794px;
+		will-change: transform;
 	}
 
 	.badge {
@@ -154,13 +178,11 @@
 
 	@media (max-width: 768px) {
 		.previewOuter {
-			height: 500px;
 			max-width: 100%;
 		}
 
 		.previewScale {
-			transform: scale(0.445);
-			transform-origin: top center;
+			--sheet-zoom: 0.445;
 		}
 
 		.badge {
@@ -170,4 +192,3 @@
 		}
 	}
 </style>
-
