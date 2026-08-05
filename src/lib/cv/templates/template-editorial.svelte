@@ -361,6 +361,13 @@ type IdiomaItem = CVData['idiomas'][number];
 		min-height: 26px;
 		font-size: 0.95em;
 		color: rgba(255, 255, 255, 0.95);
+		min-width: 0;
+	}
+
+	.contactCell span {
+		word-break: break-word;
+		overflow-wrap: anywhere;
+		min-width: 0;
 	}
 
 	.icon {

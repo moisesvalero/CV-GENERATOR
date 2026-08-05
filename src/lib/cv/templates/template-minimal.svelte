@@ -316,9 +316,8 @@ type IdiomaItem = CVData['idiomas'][number];
 		display: block;
 		margin-top: 4px;
 		font-weight: 720;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
+		word-break: break-word;
+		overflow-wrap: anywhere;
 	}
 
 	.content {
