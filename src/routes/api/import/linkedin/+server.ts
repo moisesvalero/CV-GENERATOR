@@ -1,7 +1,8 @@
 import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { env } from '$env/dynamic/private';
-import { PDFParse } from 'pdf-parse';
+import PDFParser from 'pdf2json';
+import type { Output } from 'pdf2json';
 import type { CVData, IdiomaNivel, ImportedCVData, ImportedEducacion, ImportedExperiencia } from '$lib/cv/types';
 
 const MAX_PDF_BYTES = 5 * 1024 * 1024;
@@ -81,6 +82,52 @@ const RESPONSE_SCHEMA = {
 		}
 	}
 };
+
+/** Reconstructs plain text in visual reading order (top-to-bottom, left-to-right) from pdf2json output. */
+function extractPlainText(data: Output): string {
+	type LineItem = { y: number; x: number; text: string };
+	const items: LineItem[] = [];
+	for (const page of data.Pages ?? []) {
+		for (const textItem of page.Texts ?? []) {
+			let text = '';
+			for (const run of textItem.R ?? []) {
+				try {
+					text += decodeURIComponent(run.T);
+				} catch {
+					text += run.T;
+				}
+			}
+			if (!text.trim()) continue;
+			items.push({ y: textItem.y, x: textItem.x, text });
+		}
+	}
+	items.sort((a, b) => a.y - b.y || a.x - b.x);
+	const lines: { y: number; parts: string[] }[] = [];
+	for (const item of items) {
+		const last = lines[lines.length - 1];
+		if (last && Math.abs(last.y - item.y) <= 2) last.parts.push(item.text);
+		else lines.push({ y: item.y, parts: [item.text] });
+	}
+	return lines.map((l) => l.parts.join(' ')).join('\n');
+}
+
+function parsePdfText(buffer: Buffer): Promise<string> {
+	return new Promise((resolve, reject) => {
+		const parser = new PDFParser(null, true);
+		parser.on('pdfParser_dataError', (errData) => {
+			parser.destroy();
+			reject(errData instanceof Error ? errData : new Error('PDF parse failed'));
+		});
+		parser.on('pdfParser_dataReady', (data) => {
+			try {
+				resolve(extractPlainText(data));
+			} finally {
+				parser.destroy();
+			}
+		});
+		parser.parseBuffer(buffer, 0);
+	});
+}
 
 const str = (value: unknown): string => (typeof value === 'string' ? value.trim() : '');
 
@@ -226,14 +273,10 @@ export const POST: RequestHandler = async ({ request }) => {
 	const buffer = Buffer.from(await file.arrayBuffer());
 
 	let text: string;
-	const parser = new PDFParse({ data: buffer });
 	try {
-		const result = await parser.getText();
-		text = result.text ?? '';
+		text = await parsePdfText(buffer);
 	} catch {
 		throw error(422, 'Could not read text from the PDF');
-	} finally {
-		await parser.destroy();
 	}
 
 	const cleaned = text.replace(/\s+/g, ' ').trim();
