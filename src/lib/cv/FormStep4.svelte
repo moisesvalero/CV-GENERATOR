@@ -186,28 +186,27 @@
 								<rect x="26" y="38" width="120" height="6" rx="3" fill="currentColor" opacity="0.12" />
 							{:else if key === 'modern'}
 								<rect x="10" y="10" width="160" height="100" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />
-								<rect x="16" y="18" width="148" height="3" rx="1.5" fill="currentColor" opacity="0.35" />
-								<rect x="16" y="26" width="80" height="6" rx="3" fill="currentColor" opacity="0.22" />
-								<rect x="16" y="38" width="70" height="4" rx="2" fill="currentColor" opacity="0.12" />
-								<rect x="16" y="48" width="6" height="3" rx="1.5" fill="currentColor" opacity="0.35" />
-								<rect x="26" y="48" width="120" height="4" rx="2" fill="currentColor" opacity="0.12" />
-								<rect x="26" y="56" width="110" height="4" rx="2" fill="currentColor" opacity="0.12" />
-								<rect x="16" y="66" width="70" height="4" rx="2" fill="currentColor" opacity="0.12" />
-								<rect x="16" y="76" width="6" height="3" rx="1.5" fill="currentColor" opacity="0.35" />
-								<rect x="26" y="76" width="100" height="4" rx="2" fill="currentColor" opacity="0.12" />
+								<rect x="16" y="16" width="30" height="4" rx="2" fill="currentColor" opacity="0.5" />
+								<rect x="16" y="26" width="80" height="8" rx="4" fill="currentColor" opacity="0.85" />
+								<rect x="16" y="38" width="60" height="4" rx="2" fill="currentColor" opacity="0.3" />
+								<circle cx="130" cy="24" r="12" fill="currentColor" opacity="0.35" />
+								<rect x="16" y="52" width="30" height="4" rx="2" fill="currentColor" opacity="0.4" />
+								<rect x="16" y="62" width="128" height="4" rx="2" fill="currentColor" opacity="0.13" />
+								<rect x="16" y="72" width="120" height="4" rx="2" fill="currentColor" opacity="0.13" />
+								<rect x="16" y="82" width="116" height="4" rx="2" fill="currentColor" opacity="0.13" />
 							{:else if key === 'bold'}
-								<rect x="10" y="10" width="160" height="30" rx="8" fill="currentColor" opacity="0.22" />
-								<rect x="10" y="40" width="100" height="70" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />
-								<rect x="110" y="40" width="60" height="70" rx="8" fill="currentColor" opacity="0.07" />
-								<rect x="22" y="20" width="90" height="8" rx="4" fill="currentColor" opacity="0.85" />
-								<rect x="20" y="56" width="5" height="3" rx="1.5" fill="currentColor" opacity="0.35" />
-								<rect x="30" y="56" width="70" height="4" rx="2" fill="currentColor" opacity="0.15" />
-								<rect x="30" y="64" width="60" height="4" rx="2" fill="currentColor" opacity="0.12" />
-								<rect x="20" y="78" width="5" height="3" rx="1.5" fill="currentColor" opacity="0.35" />
-								<rect x="30" y="78" width="66" height="4" rx="2" fill="currentColor" opacity="0.12" />
-								<rect x="122" y="56" width="36" height="10" rx="5" fill="currentColor" opacity="0.25" />
-								<rect x="122" y="72" width="36" height="10" rx="5" fill="currentColor" opacity="0.18" />
-								<rect x="122" y="88" width="36" height="10" rx="5" fill="currentColor" opacity="0.12" />
+								<rect x="10" y="10" width="160" height="100" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />
+								<rect x="10" y="10" width="58" height="100" rx="8" fill="currentColor" opacity="0.28" />
+								<circle cx="39" cy="32" r="14" fill="currentColor" opacity="0.5" />
+								<rect x="24" y="54" width="30" height="6" rx="3" fill="currentColor" opacity="0.85" />
+								<rect x="24" y="66" width="28" height="4" rx="2" fill="currentColor" opacity="0.5" />
+								<rect x="24" y="76" width="26" height="4" rx="2" fill="currentColor" opacity="0.4" />
+								<rect x="80" y="22" width="78" height="7" rx="3.5" fill="currentColor" opacity="0.85" />
+								<rect x="80" y="40" width="24" height="4" rx="2" fill="currentColor" opacity="0.4" />
+								<rect x="80" y="50" width="88" height="4" rx="2" fill="currentColor" opacity="0.14" />
+								<rect x="80" y="60" width="80" height="4" rx="2" fill="currentColor" opacity="0.14" />
+								<rect x="80" y="74" width="24" height="4" rx="2" fill="currentColor" opacity="0.4" />
+								<rect x="80" y="84" width="84" height="4" rx="2" fill="currentColor" opacity="0.14" />
 							{:else if key === 'creative'}
 								<rect x="10" y="10" width="56" height="100" rx="8" fill="currentColor" opacity="0.22" />
 								<rect x="66" y="10" width="104" height="100" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />
@@ -224,16 +223,14 @@
 								<rect x="90" y="56" width="60" height="4" rx="2" fill="currentColor" opacity="0.12" />
 							{:else if key === 'timeline'}
 								<rect x="10" y="10" width="160" height="100" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />
-								<rect x="16" y="16" width="90" height="7" rx="3.5" fill="currentColor" opacity="0.85" />
-								<rect x="16" y="27" width="60" height="4" rx="2" fill="currentColor" opacity="0.3" />
-								<rect x="22" y="40" width="3" height="52" rx="1.5" fill="currentColor" opacity="0.25" />
-								<circle cx="23.5" cy="46" r="3" fill="currentColor" opacity="0.5" />
-								<rect x="30" y="44" width="90" height="4" rx="2" fill="currentColor" opacity="0.18" />
-								<circle cx="23.5" cy="60" r="3" fill="currentColor" opacity="0.5" />
-								<rect x="30" y="58" width="80" height="4" rx="2" fill="currentColor" opacity="0.15" />
-								<circle cx="23.5" cy="74" r="3" fill="currentColor" opacity="0.5" />
-								<rect x="30" y="72" width="70" height="4" rx="2" fill="currentColor" opacity="0.15" />
-								<rect x="124" y="52" width="30" height="12" rx="6" fill="currentColor" opacity="0.22" />
+								<rect x="16" y="18" width="96" height="8" rx="4" fill="currentColor" opacity="0.85" />
+								<circle cx="132" cy="22" r="10" fill="currentColor" opacity="0.35" />
+								<rect x="22" y="42" width="58" height="4" rx="2" fill="currentColor" opacity="0.35" />
+								<rect x="88" y="42" width="72" height="5" rx="2.5" fill="currentColor" opacity="0.8" />
+								<rect x="88" y="52" width="56" height="4" rx="2" fill="currentColor" opacity="0.14" />
+								<rect x="22" y="64" width="58" height="4" rx="2" fill="currentColor" opacity="0.35" />
+								<rect x="88" y="64" width="66" height="5" rx="2.5" fill="currentColor" opacity="0.7" />
+								<rect x="88" y="74" width="50" height="4" rx="2" fill="currentColor" opacity="0.14" />
 							{:else if key === 'split'}
 								<rect x="10" y="10" width="160" height="30" rx="8" fill="currentColor" opacity="0.22" />
 								<circle cx="140" cy="25" r="10" fill="currentColor" opacity="0.5" />
@@ -249,14 +246,13 @@
 								<rect x="124" y="66" width="36" height="9" rx="4.5" fill="currentColor" opacity="0.18" />
 							{:else if key === 'academic'}
 								<rect x="10" y="10" width="160" height="100" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />
-								<rect x="46" y="16" width="88" height="7" rx="3.5" fill="currentColor" opacity="0.85" />
-								<rect x="72" y="27" width="36" height="3" rx="1.5" fill="currentColor" opacity="0.5" />
-								<rect x="20" y="38" width="30" height="5" rx="2.5" fill="currentColor" opacity="0.5" />
-								<rect x="20" y="48" width="140" height="4" rx="2" fill="currentColor" opacity="0.12" />
-								<rect x="20" y="56" width="120" height="4" rx="2" fill="currentColor" opacity="0.12" />
-								<rect x="20" y="70" width="30" height="5" rx="2.5" fill="currentColor" opacity="0.5" />
-								<rect x="20" y="80" width="132" height="4" rx="2" fill="currentColor" opacity="0.12" />
-								<rect x="20" y="88" width="108" height="4" rx="2" fill="currentColor" opacity="0.12" />
+								<circle cx="90" cy="22" r="10" fill="currentColor" opacity="0.35" />
+								<rect x="40" y="40" width="100" height="7" rx="3.5" fill="currentColor" opacity="0.85" />
+								<rect x="74" y="52" width="32" height="3" rx="1.5" fill="currentColor" opacity="0.5" />
+								<rect x="18" y="64" width="72" height="4" rx="2" fill="currentColor" opacity="0.4" />
+								<rect x="18" y="74" width="104" height="4" rx="2" fill="currentColor" opacity="0.13" />
+								<rect x="18" y="82" width="92" height="4" rx="2" fill="currentColor" opacity="0.13" />
+								<rect x="98" y="64" width="64" height="4" rx="2" fill="currentColor" opacity="0.13" />
 							{:else if key === 'side'}
 								<rect x="10" y="10" width="160" height="100" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />
 								<rect x="10" y="10" width="160" height="4" rx="2" fill="currentColor" opacity="0.5" />
@@ -274,42 +270,43 @@
 								<rect x="82" y="64" width="62" height="4" rx="2" fill="currentColor" opacity="0.11" />
 							{:else if key === 'mono'}
 								<rect x="10" y="10" width="160" height="100" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />
-								<rect x="56" y="18" width="68" height="7" rx="3.5" fill="currentColor" opacity="0.9" />
-								<rect x="20" y="30" width="140" height="4" rx="2" fill="currentColor" opacity="0.55" />
-								<rect x="20" y="42" width="40" height="5" rx="2.5" fill="currentColor" opacity="0.7" />
-								<rect x="20" y="52" width="140" height="4" rx="2" fill="currentColor" opacity="0.14" />
-								<rect x="20" y="60" width="120" height="4" rx="2" fill="currentColor" opacity="0.14" />
-								<rect x="20" y="72" width="40" height="5" rx="2.5" fill="currentColor" opacity="0.7" />
-								<rect x="20" y="82" width="130" height="4" rx="2" fill="currentColor" opacity="0.14" />
-								<rect x="20" y="90" width="110" height="4" rx="2" fill="currentColor" opacity="0.14" />
+								<rect x="10" y="10" width="58" height="100" rx="8" fill="currentColor" opacity="0.35" />
+								<circle cx="39" cy="32" r="13" fill="currentColor" opacity="0.6" />
+								<rect x="24" y="54" width="30" height="6" rx="3" fill="currentColor" opacity="0.9" />
+								<rect x="24" y="66" width="28" height="4" rx="2" fill="currentColor" opacity="0.55" />
+								<rect x="24" y="76" width="26" height="4" rx="2" fill="currentColor" opacity="0.45" />
+								<rect x="80" y="22" width="78" height="7" rx="3.5" fill="currentColor" opacity="0.9" />
+								<rect x="80" y="40" width="24" height="4" rx="2" fill="currentColor" opacity="0.45" />
+								<rect x="80" y="50" width="88" height="4" rx="2" fill="currentColor" opacity="0.15" />
+								<rect x="80" y="60" width="80" height="4" rx="2" fill="currentColor" opacity="0.15" />
+								<rect x="80" y="74" width="24" height="4" rx="2" fill="currentColor" opacity="0.45" />
+								<rect x="80" y="84" width="84" height="4" rx="2" fill="currentColor" opacity="0.15" />
 							{:else if key === 'bento'}
-								<rect x="10" y="10" width="160" height="100" rx="8" fill="currentColor" opacity="0.07" />
-								<rect x="16" y="16" width="120" height="7" rx="3.5" fill="currentColor" opacity="0.85" />
-								<rect x="16" y="28" width="148" height="18" rx="6" fill="#ffffff" stroke="currentColor" stroke-width="1.5" opacity="0.9" />
-								<rect x="22" y="33" width="70" height="4" rx="2" fill="currentColor" opacity="0.18" />
-								<rect x="22" y="39" width="120" height="3" rx="1.5" fill="currentColor" opacity="0.1" />
-								<rect x="16" y="52" width="92" height="44" rx="6" fill="#ffffff" stroke="currentColor" stroke-width="1.5" opacity="0.9" />
-								<rect x="22" y="58" width="6" height="6" rx="2" fill="currentColor" opacity="0.5" />
-								<rect x="32" y="59" width="60" height="4" rx="2" fill="currentColor" opacity="0.16" />
-								<rect x="22" y="68" width="80" height="3" rx="1.5" fill="currentColor" opacity="0.12" />
-								<rect x="22" y="76" width="72" height="3" rx="1.5" fill="currentColor" opacity="0.12" />
-								<rect x="114" y="52" width="52" height="44" rx="6" fill="#ffffff" stroke="currentColor" stroke-width="1.5" opacity="0.9" />
-								<rect x="120" y="58" width="40" height="10" rx="5" fill="currentColor" opacity="0.2" />
-								<rect x="120" y="72" width="40" height="10" rx="5" fill="currentColor" opacity="0.14" />
-								<rect x="120" y="86" width="40" height="6" rx="3" fill="currentColor" opacity="0.1" />
+								<rect x="10" y="10" width="160" height="100" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />
+								<rect x="16" y="16" width="104" height="8" rx="4" fill="currentColor" opacity="0.85" />
+								<circle cx="132" cy="20" r="10" fill="currentColor" opacity="0.35" />
+								<rect x="16" y="30" width="148" height="3" rx="1.5" fill="currentColor" opacity="0.5" />
+								<rect x="16" y="42" width="86" height="4" rx="2" fill="currentColor" opacity="0.4" />
+								<rect x="16" y="52" width="90" height="4" rx="2" fill="currentColor" opacity="0.14" />
+								<rect x="16" y="62" width="82" height="4" rx="2" fill="currentColor" opacity="0.14" />
+								<rect x="16" y="76" width="86" height="4" rx="2" fill="currentColor" opacity="0.4" />
+								<rect x="16" y="86" width="84" height="4" rx="2" fill="currentColor" opacity="0.14" />
+								<rect x="112" y="42" width="48" height="4" rx="2" fill="currentColor" opacity="0.3" />
+								<rect x="112" y="52" width="48" height="4" rx="2" fill="currentColor" opacity="0.14" />
+								<rect x="112" y="62" width="48" height="4" rx="2" fill="currentColor" opacity="0.14" />
 							{:else}
-								<rect x="10" y="10" width="160" height="22" rx="8" fill="currentColor" opacity="0.16" />
-								<rect x="10" y="32" width="104" height="78" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />
-								<rect x="114" y="32" width="56" height="78" rx="8" fill="currentColor" opacity="0.07" />
-								<rect x="20" y="18" width="80" height="7" rx="3.5" fill="currentColor" opacity="0.85" />
-								<rect x="18" y="46" width="5" height="3" rx="1.5" fill="currentColor" opacity="0.35" />
-								<rect x="28" y="46" width="76" height="4" rx="2" fill="currentColor" opacity="0.15" />
-								<rect x="28" y="54" width="64" height="4" rx="2" fill="currentColor" opacity="0.12" />
-								<rect x="18" y="68" width="5" height="3" rx="1.5" fill="currentColor" opacity="0.35" />
-								<rect x="28" y="68" width="80" height="4" rx="2" fill="currentColor" opacity="0.15" />
-								<rect x="124" y="46" width="36" height="9" rx="4.5" fill="currentColor" opacity="0.25" />
-								<rect x="124" y="60" width="36" height="9" rx="4.5" fill="currentColor" opacity="0.18" />
-								<rect x="124" y="74" width="36" height="9" rx="4.5" fill="currentColor" opacity="0.12" />
+								<rect x="10" y="10" width="160" height="100" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />
+								<rect x="10" y="10" width="160" height="4" rx="2" fill="currentColor" opacity="0.5" />
+								<rect x="16" y="20" width="104" height="7" rx="3.5" fill="currentColor" opacity="0.85" />
+								<circle cx="134" cy="24" r="10" fill="currentColor" opacity="0.35" />
+								<rect x="16" y="40" width="86" height="4" rx="2" fill="currentColor" opacity="0.4" />
+								<rect x="16" y="50" width="90" height="4" rx="2" fill="currentColor" opacity="0.14" />
+								<rect x="16" y="60" width="80" height="4" rx="2" fill="currentColor" opacity="0.14" />
+								<rect x="16" y="74" width="86" height="4" rx="2" fill="currentColor" opacity="0.4" />
+								<rect x="16" y="84" width="82" height="4" rx="2" fill="currentColor" opacity="0.14" />
+								<rect x="112" y="40" width="48" height="4" rx="2" fill="currentColor" opacity="0.3" />
+								<rect x="112" y="50" width="48" height="4" rx="2" fill="currentColor" opacity="0.14" />
+								<rect x="112" y="60" width="48" height="4" rx="2" fill="currentColor" opacity="0.14" />
 							{/if}
 						</svg>
 					</div>

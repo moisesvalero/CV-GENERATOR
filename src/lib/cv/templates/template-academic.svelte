@@ -24,7 +24,7 @@
 			cvData.idiomas.length,
 			1.0,
 			1.0,
-			0.2,
+			0.22,
 			0.3
 		)
 	);
@@ -57,91 +57,105 @@
 	style={`--color-primary:${cvData.colorPrimario}; --color-primary-rgb:${primaryRgb}; --color-secondary:${cvData.colorSecundario}; --font-titles:'${cvData.fuenteTitulos}'; --font-body:'${cvData.fuenteCuerpo}'; --text-scale:${textScale};`}
 >
 	<header class="head">
-		<div class="headName">{cvData.nombre}</div>
-		{#if hasText(cvData.titulo)}<div class="headTitle">{cvData.titulo}</div>{/if}
-		<div class="headMeta">
+		<div class="photoWrap">
+			{#if cvData.foto}
+				<img class="photo" src={cvData.foto} alt={`${$t('cv.preview.photoOf')} ${cvData.nombre?.trim() || $t('cv.preview.defaultCvName')}`} />
+			{:else}
+				<div class="photo placeholder" aria-label={$t('cv.preview.noPhotoAria')} role="img">
+					<svg viewBox="0 0 24 24" class="placeholderIcon" aria-hidden="true">
+						<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+						<circle cx="12" cy="7" r="4" fill="none" stroke="currentColor" stroke-width="2" />
+					</svg>
+				</div>
+			{/if}
+		</div>
+		<div class="name">{cvData.nombre}</div>
+		{#if hasText(cvData.titulo)}<div class="title">{cvData.titulo}</div>{/if}
+		<div class="meta">
 			{#if hasText(cvData.email)}<span>{cvData.email}</span>{/if}
 			{#if hasText(cvData.telefono)}<span>{cvData.telefono}</span>{/if}
 			{#if hasText(cvData.ubicacion)}<span>{cvData.ubicacion}</span>{/if}
 			{#if hasText(cvData.linkedin)}<span>{bareUrl(cvData.linkedin)}</span>{/if}
 			{#if hasText(cvData.website)}<span>{bareUrl(cvData.website)}</span>{/if}
 		</div>
-		<div class="headRule" aria-hidden="true"></div>
+		<div class="rule" aria-hidden="true"></div>
 	</header>
 
-	<main class="body">
-		{#if hasText(cvData.resumen)}
-			<section class="block">
-				<h3 class="blockTitle"><span class="num">I.</span>{$t('cv.preview.sectionSummary')}</h3>
-				<p class="summary">{cvData.resumen}</p>
-			</section>
-		{/if}
+	<div class="body">
+		<main class="mainCol">
+			{#if hasText(cvData.resumen)}
+				<section class="block">
+					<h2 class="bTitle">{$t('cv.preview.sectionSummary')}</h2>
+					<p class="summary">{cvData.resumen}</p>
+				</section>
+			{/if}
 
-		{#if experiencias.length > 0}
-			<section class="block">
-				<h3 class="blockTitle"><span class="num">II.</span>{$t('cv.preview.sectionExperience')}</h3>
-				<div class="list">
-					{#each experiencias as exp}
-						<article class="item">
-							<div class="itemHead">
-								<div class="itemRole">
-									{#if hasText(exp.puesto)}<span class="role">{exp.puesto}</span>{/if}
-									{#if hasText(exp.empresa)}<span class="company">, {exp.empresa}</span>{/if}
+			{#if experiencias.length > 0}
+				<section class="block">
+					<h2 class="bTitle">{$t('cv.preview.sectionExperience')}</h2>
+					<div class="list">
+						{#each experiencias as exp}
+							<article class="item">
+								<div class="iHead">
+									{#if fechaRango(exp)}<div class="dates">{fechaRango(exp)}</div>{/if}
 								</div>
-								{#if fechaRango(exp)}<div class="dates">{fechaRango(exp)}</div>{/if}
+								<div class="iBody">
+									{#if hasText(exp.puesto)}<div class="role">{exp.puesto}</div>{/if}
+									{#if hasText(exp.empresa)}<div class="company">{exp.empresa}</div>{/if}
+									{#if hasText(exp.descripcion)}<p class="desc">{exp.descripcion}</p>{/if}
+								</div>
+							</article>
+						{/each}
+					</div>
+				</section>
+			{/if}
+
+			{#if educaciones.length > 0}
+				<section class="block">
+					<h2 class="bTitle">{$t('cv.preview.sectionEducation')}</h2>
+					<div class="list">
+						{#each educaciones as edu}
+							<article class="item">
+								<div class="iHead">
+									{#if fechaRangoEdu(edu)}<div class="dates">{fechaRangoEdu(edu)}</div>{/if}
+								</div>
+								<div class="iBody">
+									{#if hasText(edu.titulo)}<div class="role">{edu.titulo}</div>{/if}
+									{#if hasText(edu.centro)}<div class="company">{edu.centro}</div>{/if}
+									{#if hasText(edu.descripcion)}<p class="desc">{edu.descripcion}</p>{/if}
+								</div>
+							</article>
+						{/each}
+					</div>
+				</section>
+			{/if}
+		</main>
+
+		<aside class="asideCol">
+			{#if habilidades.length > 0}
+				<section class="block">
+					<h2 class="bTitle">{$t('cv.preview.sectionSkills')}</h2>
+					<div class="skillsList">
+						{#each habilidades as h}<span class="skill">{h}</span>{/each}
+					</div>
+				</section>
+			{/if}
+
+			{#if idiomas.length > 0}
+				<section class="block">
+					<h2 class="bTitle">{$t('cv.preview.sectionLanguages')}</h2>
+					<div class="langs">
+						{#each idiomas as l}
+							<div class="langRow">
+								<span class="lName">{l.idioma || $t('cv.preview.languageFallback')}</span>
+								{#if hasText(l.nivel)}<span class="lLevel">{$t(`cv.preview.langLevel.${normalizeIdiomaNivel(String(l.nivel))}`)}</span>{/if}
 							</div>
-							{#if hasText(exp.descripcion)}<p class="desc">{exp.descripcion}</p>{/if}
-						</article>
-					{/each}
-				</div>
-			</section>
-		{/if}
-
-		{#if educaciones.length > 0}
-			<section class="block">
-				<h3 class="blockTitle"><span class="num">III.</span>{$t('cv.preview.sectionEducation')}</h3>
-				<div class="list">
-					{#each educaciones as edu}
-						<article class="item">
-							<div class="itemHead">
-								<div class="itemRole">
-									{#if hasText(edu.titulo)}<span class="role">{edu.titulo}</span>{/if}
-									{#if hasText(edu.centro)}<span class="company">, {edu.centro}</span>{/if}
-								</div>
-								{#if fechaRangoEdu(edu)}<div class="dates">{fechaRangoEdu(edu)}</div>{/if}
-							</div>
-							{#if hasText(edu.descripcion)}<p class="desc">{edu.descripcion}</p>{/if}
-						</article>
-					{/each}
-				</div>
-			</section>
-		{/if}
-
-		{#if habilidades.length > 0 || idiomas.length > 0}
-			<section class="block">
-				<h3 class="blockTitle"><span class="num">IV.</span>{$t('cv.preview.sectionSkills')} &amp; {$t('cv.preview.sectionLanguages')}</h3>
-				<div class="cols2">
-					{#if habilidades.length > 0}
-						<div class="tags">
-							{#each habilidades as h}<span class="tag">{h}</span>{/each}
-						</div>
-					{/if}
-					{#if idiomas.length > 0}
-						<div class="langs">
-							{#each idiomas as l}
-								<div class="langRow">
-									<span class="langName">{l.idioma || $t('cv.preview.languageFallback')}</span>
-									{#if hasText(l.nivel)}
-										<span class="langLevel">{$t(`cv.preview.langLevel.${normalizeIdiomaNivel(String(l.nivel))}`)}</span>
-									{/if}
-								</div>
-							{/each}
-						</div>
-					{/if}
-				</div>
-			</section>
-		{/if}
-	</main>
+						{/each}
+					</div>
+				</section>
+			{/if}
+		</aside>
+	</div>
 </div>
 
 <style>
@@ -161,103 +175,140 @@
 	}
 
 	.head {
-		padding: 44px 52px 26px;
+		padding: 48px 56px 20px;
 		text-align: center;
 	}
 
-	.headName {
+	.photoWrap {
+		display: flex;
+		justify-content: center;
+		margin-bottom: 20px;
+	}
+
+	.photo {
+		width: 100px;
+		height: 100px;
+		border-radius: 999px;
+		object-fit: cover;
+		border: 1px solid rgba(var(--color-primary-rgb), 0.35);
+		background: #ffffff;
+	}
+
+	.placeholder {
+		display: grid;
+		place-items: center;
+		color: var(--color-primary);
+		opacity: 0.7;
+	}
+
+	.placeholderIcon {
+		width: 40px;
+		height: 40px;
+	}
+
+	.name {
 		font-family: var(--font-titles);
-		font-size: 3.4em;
+		font-size: 3.2em;
 		font-weight: 800;
 		letter-spacing: 0.01em;
 		color: #1f1b17;
 	}
 
-	.headTitle {
-		margin-top: 12px;
-		font-size: 1.2em;
+	.title {
+		margin-top: 10px;
+		font-size: 1.18em;
 		font-style: italic;
 		color: var(--color-primary);
 	}
 
-	.headMeta {
+	.meta {
 		margin-top: 18px;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
 		gap: 6px 22px;
-		font-size: 0.94em;
+		font-size: 0.92em;
 		color: rgba(42, 38, 34, 0.72);
 	}
 
-	.headMeta span {
-		font-weight: 600;
+	.meta span {
+		font-weight: 500;
+		word-break: break-word;
 	}
 
-	.headRule {
+	.rule {
 		margin: 22px auto 0;
-		width: 72px;
-		height: 3px;
-		background: var(--color-primary);
+		width: 80px;
+		height: 1px;
+		background: rgba(var(--color-primary-rgb), 0.5);
 	}
 
 	.body {
-		padding: 24px 52px 44px;
+		padding: 22px 56px 44px;
+		display: grid;
+		grid-template-columns: 1.4fr 1fr;
+		gap: 36px;
+	}
+
+	.mainCol,
+	.asideCol {
 		display: flex;
 		flex-direction: column;
 		gap: 26px;
 	}
 
-	.blockTitle {
+	.bTitle {
 		font-family: var(--font-titles);
-		font-size: 1.24em;
+		font-size: 0.76em;
 		font-weight: 800;
-		letter-spacing: 0.04em;
+		letter-spacing: 0.18em;
 		text-transform: uppercase;
-		color: #1f1b17;
-		margin: 0 0 12px;
-		display: flex;
-		align-items: baseline;
-		gap: 10px;
-	}
-
-	.num {
 		color: var(--color-primary);
-		font-size: 0.9em;
+		margin: 0 0 12px;
 	}
 
 	.summary {
 		margin: 0;
-		line-height: 1.6;
-		color: rgba(42, 38, 34, 0.9);
+		line-height: 1.65;
+		color: rgba(42, 38, 34, 0.88);
 	}
 
 	.list {
 		display: flex;
 		flex-direction: column;
-		gap: 15px;
+		gap: 16px;
 	}
 
 	.item {
-		padding-left: 14px;
-		border-left: 1px solid rgba(var(--color-primary-rgb), 0.28);
+		padding-bottom: 14px;
+		border-bottom: 1px solid rgba(var(--color-primary-rgb), 0.18);
 	}
 
-	.itemHead {
-		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
-		gap: 12px;
+	.item:last-child {
+		border-bottom: none;
+		padding-bottom: 0;
 	}
 
-	.itemRole {
+	.iHead {
+		margin-bottom: 4px;
+	}
+
+	.dates {
+		font-size: 0.82em;
+		font-style: italic;
+		color: rgba(42, 38, 34, 0.6);
+		letter-spacing: 0.02em;
+	}
+
+	.iBody {
 		min-width: 0;
 	}
 
 	.role {
 		font-family: var(--font-titles);
 		font-weight: 700;
-		font-size: 1.12em;
+		font-size: 1.08em;
+		color: #1f1b17;
 	}
 
 	.company {
@@ -265,39 +316,32 @@
 		color: rgba(42, 38, 34, 0.66);
 	}
 
-	.dates {
-		flex: 0 0 auto;
-		font-size: 0.9em;
-		font-weight: 700;
-		color: rgba(42, 38, 34, 0.5);
-	}
-
 	.desc {
 		margin: 6px 0 0;
-		line-height: 1.5;
-		color: rgba(42, 38, 34, 0.85);
+		line-height: 1.55;
+		color: rgba(42, 38, 34, 0.82);
 	}
 
-	.cols2 {
-		display: grid;
-		grid-template-columns: 1.3fr 1fr;
-		gap: 24px;
-	}
-
-	.tags {
+	.skillsList {
 		display: flex;
-		flex-wrap: wrap;
-		gap: 8px;
+		flex-direction: column;
+		gap: 6px;
 	}
 
-	.tag {
-		padding: 5px 12px;
-		border: 1px solid rgba(var(--color-primary-rgb), 0.3);
-		border-radius: 2px;
-		font-size: 0.9em;
-		font-weight: 700;
+	.skill {
+		font-size: 0.96em;
+		color: #2a2622;
+		padding-left: 14px;
+		position: relative;
+	}
+
+	.skill::before {
+		content: '·';
+		position: absolute;
+		left: 2px;
+		top: -2px;
 		color: var(--color-primary);
-		background: #ffffff;
+		font-weight: 800;
 	}
 
 	.langs {
@@ -310,16 +354,16 @@
 		display: flex;
 		justify-content: space-between;
 		gap: 8px;
-		border-bottom: 1px solid rgba(var(--color-primary-rgb), 0.2);
-		padding-bottom: 5px;
+		align-items: baseline;
 	}
 
-	.langName {
+	.lName {
 		font-weight: 700;
 	}
 
-	.langLevel {
+	.lLevel {
 		font-style: italic;
+		font-size: 0.9em;
 		color: rgba(42, 38, 34, 0.6);
 	}
 </style>
