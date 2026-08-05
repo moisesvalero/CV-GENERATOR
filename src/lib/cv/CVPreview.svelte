@@ -152,8 +152,8 @@
 		max-width: 900px;
 		margin: 0 auto;
 		display: flex;
-		justify-content: center;
-		align-items: flex-start;
+		flex-direction: column;
+		align-items: center;
 	}
 
 	.previewScale {
