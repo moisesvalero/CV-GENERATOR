@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { t } from '$lib/i18n';
-	import { cvData, addEducacion, removeEducacion } from './store.svelte.ts';
+	import { cvData, addEducacion, removeEducacion, sortEducacion } from './store.svelte.ts';
 </script>
 
 <div class="step">
@@ -77,11 +77,11 @@
 			<div class="grid2">
 				<div class="field">
 					<label class="label" for={`${edu.id}_inicio`}>{$t('cv.form.step3.startDate')}</label>
-					<input id={`${edu.id}_inicio`} class="input" type="month" bind:value={edu.fechaInicio} />
+					<input id={`${edu.id}_inicio`} class="input" type="month" bind:value={edu.fechaInicio} onchange={sortEducacion} />
 				</div>
 				<div class="field">
 					<label class="label" for={`${edu.id}_fin`}>{$t('cv.form.step3.endDate')}</label>
-					<input id={`${edu.id}_fin`} class="input" type="month" bind:value={edu.fechaFin} />
+					<input id={`${edu.id}_fin`} class="input" type="month" bind:value={edu.fechaFin} onchange={sortEducacion} />
 				</div>
 			</div>
 

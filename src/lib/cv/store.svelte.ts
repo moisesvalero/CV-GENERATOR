@@ -1,4 +1,4 @@
-import type { CVData, IdiomaNivel } from './types';
+import type { CVData, IdiomaNivel, ImportedCVData } from './types';
 
 /** Creates stable row IDs for experience/education blocks (client-only; falls back if `crypto.randomUUID` is missing). */
 const uid = () => {
@@ -128,4 +128,52 @@ export function addEmptyIdiomaRow(nivel: IdiomaNivel = 'intermediate') {
 
 export function removeIdioma(i: number) {
 	cvData.idiomas = cvData.idiomas.filter((_, idx) => idx !== i);
+}
+
+/** Compares two `YYYY-MM` dates for descending order; invalid/empty dates go last. */
+function compareDateDesc(a: string, b: string): number {
+	const okA = /^\d{4}-\d{2}$/.test(a);
+	const okB = /^\d{4}-\d{2}$/.test(b);
+	if (okA && okB) return a < b ? 1 : a > b ? -1 : 0;
+	if (!okA && !okB) return 0;
+	return okA ? -1 : 1;
+}
+
+/** Re-sorts experience by date (most recent first). Empty dates keep insertion order at the bottom. */
+export function sortExperiencia() {
+	cvData.experiencia = [...cvData.experiencia].sort((x, y) => {
+		const byStart = compareDateDesc(x.fechaInicio, y.fechaInicio);
+		if (byStart !== 0) return byStart;
+		const byEnd = compareDateDesc(x.fechaFin, y.fechaFin);
+		if (byEnd !== 0) return byEnd;
+		if (x.actual !== y.actual) return x.actual ? -1 : 1;
+		return 0;
+	});
+}
+
+/** Re-sorts education by date (most recent first). Empty dates keep insertion order at the bottom. */
+export function sortEducacion() {
+	cvData.educacion = [...cvData.educacion].sort((x, y) => {
+		const byStart = compareDateDesc(x.fechaInicio, y.fechaInicio);
+		if (byStart !== 0) return byStart;
+		return compareDateDesc(x.fechaFin, y.fechaFin);
+	});
+}
+
+/** Fills the CV content from a LinkedIn import. Visual config (template, colors, fonts) and photo are preserved. */
+export function applyImportedData(data: ImportedCVData) {
+	cvData.nombre = data.nombre;
+	cvData.titulo = data.titulo;
+	cvData.email = data.email;
+	cvData.telefono = data.telefono;
+	cvData.ubicacion = data.ubicacion;
+	cvData.linkedin = data.linkedin;
+	cvData.website = data.website;
+	cvData.resumen = data.resumen;
+	cvData.experiencia = data.experiencia.map((e) => ({ ...e, id: uid() }));
+	cvData.educacion = data.educacion.map((e) => ({ ...e, id: uid() }));
+	cvData.habilidades = [...data.habilidades];
+	cvData.idiomas = data.idiomas.map((l) => ({ ...l }));
+	sortExperiencia();
+	sortEducacion();
 }

@@ -3,6 +3,7 @@
 	import { pickLocalized } from '$lib/sanity/pick-localized';
 	import CVPreview from '$lib/cv/CVPreview.svelte';
 	import DownloadButton from '$lib/cv/DownloadButton.svelte';
+	import ImportLinkedIn from '$lib/cv/ImportLinkedIn.svelte';
 	import FormStep1 from '$lib/cv/FormStep1.svelte';
 	import FormStep2 from '$lib/cv/FormStep2.svelte';
 	import FormStep3 from '$lib/cv/FormStep3.svelte';
@@ -177,6 +178,7 @@
 
 			<div class="layout">
 				<div class="formCol">
+					<ImportLinkedIn />
 					<div class="formCard">
 						{#if currentStepNumber === 1}
 							<FormStep1 />

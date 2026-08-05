@@ -1,5 +1,27 @@
 export type IdiomaNivel = 'basic' | 'intermediate' | 'advanced' | 'native';
 
+/** Experience/education rows as returned by the LinkedIn importer (ids are generated on apply). */
+export type ImportedExperiencia = Omit<CVData['experiencia'][number], 'id'>;
+export type ImportedEducacion = Omit<CVData['educacion'][number], 'id'>;
+
+/** Content fields filled by the LinkedIn PDF importer (visual config is preserved). */
+export type ImportedCVData = Pick<
+	CVData,
+	| 'nombre'
+	| 'titulo'
+	| 'email'
+	| 'telefono'
+	| 'ubicacion'
+	| 'linkedin'
+	| 'website'
+	| 'resumen'
+	| 'habilidades'
+	| 'idiomas'
+> & {
+	experiencia: ImportedExperiencia[];
+	educacion: ImportedEducacion[];
+};
+
 export type CVData = {
 	// Personal
 	nombre: string;

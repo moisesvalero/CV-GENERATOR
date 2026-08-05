@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { t } from '$lib/i18n';
-	import { cvData, addExperiencia, removeExperiencia } from './store.svelte.ts';
+	import { cvData, addExperiencia, removeExperiencia, sortExperiencia } from './store.svelte.ts';
 
 	function setActual(expId: string, next: boolean) {
 		const exp = cvData.experiencia.find((e) => e.id === expId);
 		if (!exp) return;
 		exp.actual = next;
 		if (next) exp.fechaFin = '';
+		sortExperiencia();
 	}
 </script>
 
@@ -84,7 +85,7 @@
 			<div class="grid2">
 				<div class="field">
 					<label class="label" for={`${exp.id}_inicio`}>{$t('cv.form.step2.startDate')}</label>
-					<input id={`${exp.id}_inicio`} class="input" type="month" bind:value={exp.fechaInicio} />
+					<input id={`${exp.id}_inicio`} class="input" type="month" bind:value={exp.fechaInicio} onchange={sortExperiencia} />
 				</div>
 
 				<div class="field">
@@ -95,6 +96,7 @@
 						type="month"
 						bind:value={exp.fechaFin}
 						disabled={exp.actual}
+						onchange={sortExperiencia}
 					/>
 				</div>
 			</div>
