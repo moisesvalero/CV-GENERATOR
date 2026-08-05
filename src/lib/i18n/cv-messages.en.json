@@ -139,13 +139,6 @@
 					"slate": "Slate",
 					"greenMint": "Mint green"
 				},
-				"palettes": {
-					"classicBlue": "Classic blue",
-					"forestGreen": "Forest green",
-					"wine": "Wine",
-					"plum": "Plum",
-					"charcoal": "Charcoal"
-				},
 				"langLevels": {
 					"basic": "Basic",
 					"intermediate": "Intermediate",

@@ -179,8 +179,7 @@
 	.step {
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
-		font-family: 'Inter', sans-serif;
+		gap: 16px;
 	}
 
 	.grid2 {
@@ -202,29 +201,23 @@
 	}
 
 	.label {
-		font-weight: 600;
-		color: #17202A;
+		font-weight: 900;
+		color: #111827;
 		font-size: 0.92em;
 	}
 
 	.input {
 		width: 100%;
-		border: 1px solid #D7DFE6;
-		border-radius: 10px;
-		padding: 10px 12px;
-		background: #ffffff;
-		color: #17202A;
+		border-radius: 12px;
+		border: 1px solid color-mix(in srgb, var(--site-primary) 15%, transparent);
+		background: rgba(255, 255, 255, 0.92);
+		color: #111827;
+		padding: 12px 12px;
 		outline: none;
-		transition: border-color 0.15s ease;
 	}
 
 	.input::placeholder {
-		color: #5E6A78;
-	}
-
-	.input:focus {
-		border-color: #173B63;
-		box-shadow: 0 0 0 3px rgba(23, 59, 99, 0.08);
+		color: rgba(17, 24, 39, 0.38);
 	}
 
 	.textareaWrap {
@@ -233,28 +226,22 @@
 
 	.textarea {
 		width: 100%;
-		border: 1px solid #D7DFE6;
-		border-radius: 10px;
-		padding: 10px 12px;
-		background: #ffffff;
-		color: #17202A;
+		border-radius: 12px;
+		border: 1px solid color-mix(in srgb, var(--site-primary) 15%, transparent);
+		background: rgba(255, 255, 255, 0.92);
+		color: #111827;
+		padding: 12px 12px;
 		outline: none;
 		resize: vertical;
 		min-height: 120px;
-		transition: border-color 0.15s ease;
-	}
-
-	.textarea:focus {
-		border-color: #173B63;
-		box-shadow: 0 0 0 3px rgba(23, 59, 99, 0.08);
 	}
 
 	.counter {
 		position: absolute;
 		right: 12px;
 		bottom: 10px;
-		color: #5E6A78;
-		font-weight: 600;
+		color: rgba(17, 24, 39, 0.5);
+		font-weight: 800;
 		font-size: 0.85em;
 	}
 
@@ -269,8 +256,8 @@
 		width: 96px;
 		height: 96px;
 		border-radius: 999px;
-		border: 1px solid #D7DFE6;
-		background: #FAFBFC;
+		border: 1px solid color-mix(in srgb, var(--site-primary) 14%, transparent);
+		background: rgba(255, 255, 255, 0.96);
 		display: grid;
 		place-items: center;
 		overflow: hidden;
@@ -290,23 +277,17 @@
 		width: 26px;
 		height: 26px;
 		border-radius: 999px;
-		border: 1px solid #D7DFE6;
-		background: #ffffff;
-		color: #5E6A78;
+		border: 1px solid color-mix(in srgb, var(--site-primary) 18%, transparent);
+		background: rgba(255, 255, 255, 0.92);
+		color: var(--site-accent-text);
 		cursor: pointer;
 		font-weight: 950;
 		display: grid;
 		place-items: center;
-		transition: background 0.15s ease, border-color 0.15s ease;
-	}
-
-	.photoDelete:hover {
-		background: #F4F6F8;
-		border-color: #173B63;
 	}
 
 	.photoPlaceholder {
-		color: #5E6A78;
+		color: rgba(194, 65, 12, 0.82);
 	}
 
 	.photoIcon {
@@ -329,19 +310,13 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		border-radius: 10px;
-		border: 1px solid #D7DFE6;
-		background: #ffffff;
-		color: #173B63;
+		border-radius: 12px;
+		border: 1px solid color-mix(in srgb, var(--site-primary) 18%, transparent);
+		background: linear-gradient(135deg, color-mix(in srgb, var(--site-primary) 12%, transparent), color-mix(in srgb, var(--site-gradient-end) 6%, transparent));
+		color: var(--site-accent-text);
 		padding: 10px 12px;
-		font-weight: 600;
+		font-weight: 900;
 		user-select: none;
-		transition: background 0.15s ease, border-color 0.15s ease;
-	}
-
-	.uploadBtn:hover {
-		background: #F4F6F8;
-		border-color: #173B63;
 	}
 </style>
 

@@ -139,13 +139,6 @@
 					"slate": "Pizarra",
 					"greenMint": "Verde menta"
 				},
-				"palettes": {
-					"classicBlue": "Azul clásico",
-					"forestGreen": "Verde bosque",
-					"wine": "Vino",
-					"plum": "Ciruela",
-					"charcoal": "Grafito"
-				},
 				"langLevels": {
 					"basic": "Básico",
 					"intermediate": "Intermedio",

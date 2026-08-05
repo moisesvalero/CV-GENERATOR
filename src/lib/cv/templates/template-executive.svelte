@@ -3,8 +3,7 @@
 	import { normalizeIdiomaNivel } from '$lib/i18n/lang-level';
 	import type { CVData } from '../types';
 
-	const { cvData, mode = 'normal' } = $props<{ cvData: CVData; mode?: 'normal' | 'full' }>();
-	const isFull = $derived(mode === 'full');
+	const { cvData } = $props<{ cvData: CVData }>();
 type ExpItem = CVData['experiencia'][number];
 type EduItem = CVData['educacion'][number];
 type IdiomaItem = CVData['idiomas'][number];
@@ -72,10 +71,8 @@ type IdiomaItem = CVData['idiomas'][number];
 <div
 	id="cv-preview-render"
 	class="cv cv-executive"
-	class:is-full={isFull}
 	style={`--color-primary:${cvData.colorPrimario}; --color-primary-rgb:${primaryRgb}; --color-secondary:${cvData.colorSecundario}; --font-titles:'${cvData.fuenteTitulos}'; --font-body:'${cvData.fuenteCuerpo}'; --text-scale:${textScale};`}
 >
-	{#if !isFull}
 	<div class="left">
 		<div class="left-inner">
 			<div class="photoWrap">
@@ -231,9 +228,8 @@ type IdiomaItem = CVData['idiomas'][number];
 			{/if}
 		</div>
 	</div>
-	{/if}
 
-	<div class="right" class:full-width={isFull}>
+	<div class="right">
 		<div class="right-inner">
 			{#if hasText(cvData.resumen)}
 				<div class="summary">
@@ -588,58 +584,6 @@ type IdiomaItem = CVData['idiomas'][number];
 		margin-top: 8px;
 		line-height: 1.35;
 		opacity: 0.9;
-	}
-
-	.cv-executive.is-full {
-		flex-direction: column;
-	}
-
-	.cv-executive.is-full .left {
-		width: 100%;
-		padding: 20px 36px;
-	}
-
-	.cv-executive.is-full .left-inner {
-		flex-direction: row;
-		flex-wrap: wrap;
-		gap: 16px;
-		align-items: center;
-	}
-
-	.cv-executive.is-full .photoWrap {
-		margin: 0;
-	}
-
-	.cv-executive.is-full .nameBlock {
-		text-align: left;
-	}
-
-	.cv-executive.is-full .divider {
-		display: none;
-	}
-
-	.cv-executive.is-full .section {
-		margin: 0;
-	}
-
-	.cv-executive.is-full .contact {
-		flex-direction: row;
-		flex-wrap: wrap;
-		gap: 12px;
-	}
-
-	.cv-executive.is-full .langList {
-		flex-direction: row;
-		flex-wrap: wrap;
-		gap: 12px;
-	}
-
-	.cv-executive.is-full .pillWrap {
-		gap: 8px;
-	}
-
-	.cv-executive.is-full .right {
-		width: 100%;
 	}
 </style>
 

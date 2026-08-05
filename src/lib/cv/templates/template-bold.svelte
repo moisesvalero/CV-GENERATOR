@@ -14,8 +14,7 @@
 		bareUrl
 	} from './helpers';
 
-	const { cvData, mode = 'normal' } = $props<{ cvData: CVData; mode?: 'normal' | 'full' }>();
-	const isFull = $derived(mode === 'full');
+	const { cvData } = $props<{ cvData: CVData }>();
 
 	const textScale = $derived(
 		computeTextScale(
@@ -55,10 +54,8 @@
 <div
 	id="cv-preview-render"
 	class="cv cv-bold"
-	class:is-full={isFull}
 	style={`--color-primary:${cvData.colorPrimario}; --color-primary-rgb:${primaryRgb}; --color-secondary:${cvData.colorSecundario}; --font-titles:'${cvData.fuenteTitulos}'; --font-body:'${cvData.fuenteCuerpo}'; --text-scale:${textScale};`}
 >
-	{#if !isFull}
 	<aside class="side">
 		<div class="sideTop">
 			<div class="photoWrap">
@@ -111,9 +108,8 @@
 			</div>
 		{/if}
 	</aside>
-	{/if}
 
-	<main class="main" class:full-width={isFull}>
+	<main class="main">
 		{#if hasText(cvData.resumen)}
 			<section class="block">
 				<h2 class="bTitle">{$t('cv.preview.sectionSummary')}</h2>
@@ -376,15 +372,5 @@
 		margin: 8px 0 0;
 		line-height: 1.5;
 		color: rgba(28, 28, 31, 0.78);
-	}
-
-	.cv-bold.is-full {
-		flex-direction: column;
-	}
-
-	.cv-bold .full-width,
-	.cv-bold.is-full .main {
-		width: 100%;
-		padding: 36px;
 	}
 </style>

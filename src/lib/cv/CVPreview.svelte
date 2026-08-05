@@ -19,7 +19,7 @@
 	import TemplateMono from './templates/template-mono.svelte';
 	import TemplateBento from './templates/template-bento.svelte';
 
-	const TEMPLATES: Record<CVData['template'], Component<{ cvData: CVData; mode?: 'normal' | 'full' }>> = {
+	const TEMPLATES: Record<CVData['template'], Component<{ cvData: CVData }>> = {
 		executive: TemplateExecutive,
 		editorial: TemplateEditorial,
 		minimal: TemplateMinimal,
@@ -44,15 +44,18 @@
 		get(locale);
 		return get(t)(`cv.templates.${activeTemplate}`);
 	});
+	const badgeAria = $derived.by(() => {
+		const loc = get(locale);
+		return translateParams(loc, 'cv.templates.badgeAria', { name: templateLabel });
+	});
 
+	/** Estimated number of A4 sheets the current content occupies (after the one-page fit). */
 	let pageCount = $state(1);
-	let contentLevel = $state<ContentLevel>('optimal');
 	let fitScale = $state(1);
+	let contentLevel = $state<ContentLevel>('optimal');
 	const pages = $derived(Array.from({ length: pageCount }, (_, i) => i));
-
 	$effect(() => {
 		if (typeof document === 'undefined') return;
-		// Track all reactive fields
 		const d = cvData;
 		d.nombre;
 		d.titulo;
@@ -73,17 +76,15 @@
 			e.fechaInicio;
 			e.fechaFin;
 		}
-		for (const h of d.habilidades) h;
+		for (const h of d.habilidades) {
+			h;
+		}
 		for (const l of d.idiomas) {
 			l.idioma;
 			l.nivel;
 		}
-
 		const el = document.getElementById('cv-preview-render');
 		if (!el) return;
-
-		let observer: ResizeObserver | undefined;
-
 		const update = () => {
 			const h = el.scrollHeight;
 			const { scale, level } = computeAdaptiveScale(h);
@@ -95,41 +96,32 @@
 			const rem = scaledH - full * SHEET_H;
 			pageCount = rem > 80 ? full + 1 : Math.max(1, full);
 		};
-
 		update();
-
-		if (typeof ResizeObserver !== 'undefined') {
-			observer = new ResizeObserver(() => update());
-			observer.observe(el);
-		}
-
-		const id = window.setTimeout(update, 300);
-		return () => {
-			window.clearTimeout(id);
-			observer?.disconnect();
-		};
+		const id = window.setTimeout(update, 500);
+		return () => window.clearTimeout(id);
 	});
 </script>
 
 <div class="previewOuter">
-	<div class="previewHeader">
-		<span class="headerBadge">{templateLabel}</span>
-		{#if pageCount > 1}
-			<span class="headerBadge pages">
-				{translateParams($locale, 'cv.preview.pagesMany', { n: String(pageCount) })}
-			</span>
-		{/if}
-		<span class="headerBadge level" class:level-medium={contentLevel === 'medium'} class:level-high={contentLevel === 'high'}>
-			{contentLevelLabel(contentLevel, get(t))}
-		</span>
+	<div class="badge" aria-label={badgeAria}>{templateLabel}</div>
+	{#if pageCount > 1}
+		<div class="badge pages">
+			{translateParams($locale, 'cv.preview.pagesMany', { n: String(pageCount) })}
+		</div>
+	{/if}
+	<div class="badge level" class:level-medium={contentLevel === 'medium'} class:level-high={contentLevel === 'high'}>
+		{contentLevelLabel(contentLevel, get(t))}
 	</div>
 
 	<div class="previewScale">
 		{#each pages as i (i)}
 			<div class="pageSheet">
-				<div class="pageSheetInner" style="transform: translateY(-{i * SHEET_H}px);">
+				<div
+					class="pageSheetInner"
+					style="transform: translateY(-{i * SHEET_H}px);"
+				>
 					<div class="fitWrap" style="zoom: {fitScale};">
-						<ActiveComponent cvData={cvData} mode="normal" />
+						<ActiveComponent cvData={cvData} />
 					</div>
 				</div>
 			</div>
@@ -179,46 +171,46 @@
 		width: 794px;
 	}
 
-	.previewHeader {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 8px;
-		padding: 2px 4px 12px;
-	}
-
-	.headerBadge {
-		background: #ffffff;
-		border: 1px solid var(--border-card);
-		color: var(--text-secondary);
-		font-weight: 700;
+	.badge {
+		position: absolute;
+		top: 12px;
+		left: 12px;
+		z-index: 2;
+		background: color-mix(in srgb, var(--site-primary) 12%, transparent);
+		border: 1px solid color-mix(in srgb, var(--site-primary) 20%, transparent);
+		color: var(--site-accent-text);
+		backdrop-filter: blur(10px);
+		font-weight: 800;
 		font-size: 11px;
-		padding: 6px 10px;
+		padding: 8px 10px;
 		border-radius: 999px;
 	}
 
-	.headerBadge.pages {
-		background: color-mix(in srgb, var(--site-primary) 8%, transparent);
-		border-color: color-mix(in srgb, var(--site-primary) 22%, transparent);
-		color: var(--site-primary);
+	.badge.pages {
+		left: auto;
+		right: 12px;
+		background: color-mix(in srgb, var(--site-gradient-end) 14%, transparent);
+		border-color: color-mix(in srgb, var(--site-gradient-end) 26%, transparent);
 	}
 
-	.headerBadge.level {
+	.badge.level {
+		left: 50%;
+		transform: translateX(-50%);
 		background: color-mix(in srgb, #10b981 12%, transparent);
 		border-color: color-mix(in srgb, #10b981 26%, transparent);
-		color: #065f46;
+		color: #047857;
 	}
 
-	.headerBadge.level.level-medium {
+	.badge.level.level-medium {
 		background: color-mix(in srgb, #f59e0b 12%, transparent);
 		border-color: color-mix(in srgb, #f59e0b 26%, transparent);
 		color: #92400e;
 	}
 
-	.headerBadge.level.level-high {
+	.badge.level.level-high {
 		background: color-mix(in srgb, #ef4444 12%, transparent);
 		border-color: color-mix(in srgb, #ef4444 26%, transparent);
-		color: #991b1b;
+		color: #b91c1c;
 	}
 
 	@media (max-width: 768px) {
@@ -228,6 +220,22 @@
 
 		.previewScale {
 			--sheet-zoom: 0.445;
+		}
+
+		.badge {
+			top: 8px;
+			left: 12px;
+			transform: none;
+		}
+
+		.badge.pages {
+			left: auto;
+			right: 8px;
+		}
+
+		.badge.level {
+			left: 50%;
+			transform: translateX(-50%);
 		}
 	}
 </style>
