@@ -12,6 +12,9 @@
 	import TemplateTimeline from './templates/template-timeline.svelte';
 	import TemplateSplit from './templates/template-split.svelte';
 	import TemplateAcademic from './templates/template-academic.svelte';
+	import TemplateSide from './templates/template-side.svelte';
+	import TemplateMono from './templates/template-mono.svelte';
+	import TemplateBento from './templates/template-bento.svelte';
 
 	const activeTemplate = $derived(cvData.template);
 	const templateLabel = $derived.by(() => {
@@ -94,8 +97,14 @@
 			<TemplateTimeline cvData={cvData} />
 		{:else if activeTemplate === 'split'}
 			<TemplateSplit cvData={cvData} />
-		{:else}
+		{:else if activeTemplate === 'academic'}
 			<TemplateAcademic cvData={cvData} />
+		{:else if activeTemplate === 'side'}
+			<TemplateSide cvData={cvData} />
+		{:else if activeTemplate === 'mono'}
+			<TemplateMono cvData={cvData} />
+		{:else}
+			<TemplateBento cvData={cvData} />
 		{/if}
 	</div>
 </div>

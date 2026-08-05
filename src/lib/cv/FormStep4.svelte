@@ -21,7 +21,10 @@
 		'compact',
 		'timeline',
 		'split',
-		'academic'
+		'academic',
+		'side',
+		'mono',
+		'bento'
 	] as const;
 
 	const langLevels: IdiomaNivel[] = ['basic', 'intermediate', 'advanced', 'native'];
@@ -254,6 +257,46 @@
 								<rect x="20" y="70" width="30" height="5" rx="2.5" fill="currentColor" opacity="0.5" />
 								<rect x="20" y="80" width="132" height="4" rx="2" fill="currentColor" opacity="0.12" />
 								<rect x="20" y="88" width="108" height="4" rx="2" fill="currentColor" opacity="0.12" />
+							{:else if key === 'side'}
+								<rect x="10" y="10" width="160" height="100" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />
+								<rect x="10" y="10" width="160" height="4" rx="2" fill="currentColor" opacity="0.5" />
+								<rect x="10" y="14" width="52" height="96" rx="8" fill="currentColor" opacity="0.06" />
+								<circle cx="36" cy="32" r="12" fill="currentColor" opacity="0.4" />
+								<rect x="20" y="52" width="32" height="5" rx="2.5" fill="currentColor" opacity="0.6" />
+								<rect x="20" y="62" width="28" height="3" rx="1.5" fill="currentColor" opacity="0.25" />
+								<rect x="20" y="72" width="30" height="3" rx="1.5" fill="currentColor" opacity="0.25" />
+								<rect x="72" y="26" width="5" height="3" rx="1.5" fill="currentColor" opacity="0.4" />
+								<rect x="82" y="26" width="78" height="4" rx="2" fill="currentColor" opacity="0.16" />
+								<rect x="72" y="40" width="5" height="3" rx="1.5" fill="currentColor" opacity="0.4" />
+								<rect x="82" y="40" width="70" height="4" rx="2" fill="currentColor" opacity="0.13" />
+								<rect x="72" y="56" width="5" height="3" rx="1.5" fill="currentColor" opacity="0.4" />
+								<rect x="82" y="56" width="80" height="4" rx="2" fill="currentColor" opacity="0.13" />
+								<rect x="82" y="64" width="62" height="4" rx="2" fill="currentColor" opacity="0.11" />
+							{:else if key === 'mono'}
+								<rect x="10" y="10" width="160" height="100" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />
+								<rect x="56" y="18" width="68" height="7" rx="3.5" fill="currentColor" opacity="0.9" />
+								<rect x="20" y="30" width="140" height="4" rx="2" fill="currentColor" opacity="0.55" />
+								<rect x="20" y="42" width="40" height="5" rx="2.5" fill="currentColor" opacity="0.7" />
+								<rect x="20" y="52" width="140" height="4" rx="2" fill="currentColor" opacity="0.14" />
+								<rect x="20" y="60" width="120" height="4" rx="2" fill="currentColor" opacity="0.14" />
+								<rect x="20" y="72" width="40" height="5" rx="2.5" fill="currentColor" opacity="0.7" />
+								<rect x="20" y="82" width="130" height="4" rx="2" fill="currentColor" opacity="0.14" />
+								<rect x="20" y="90" width="110" height="4" rx="2" fill="currentColor" opacity="0.14" />
+							{:else if key === 'bento'}
+								<rect x="10" y="10" width="160" height="100" rx="8" fill="currentColor" opacity="0.07" />
+								<rect x="16" y="16" width="120" height="7" rx="3.5" fill="currentColor" opacity="0.85" />
+								<rect x="16" y="28" width="148" height="18" rx="6" fill="#ffffff" stroke="currentColor" stroke-width="1.5" opacity="0.9" />
+								<rect x="22" y="33" width="70" height="4" rx="2" fill="currentColor" opacity="0.18" />
+								<rect x="22" y="39" width="120" height="3" rx="1.5" fill="currentColor" opacity="0.1" />
+								<rect x="16" y="52" width="92" height="44" rx="6" fill="#ffffff" stroke="currentColor" stroke-width="1.5" opacity="0.9" />
+								<rect x="22" y="58" width="6" height="6" rx="2" fill="currentColor" opacity="0.5" />
+								<rect x="32" y="59" width="60" height="4" rx="2" fill="currentColor" opacity="0.16" />
+								<rect x="22" y="68" width="80" height="3" rx="1.5" fill="currentColor" opacity="0.12" />
+								<rect x="22" y="76" width="72" height="3" rx="1.5" fill="currentColor" opacity="0.12" />
+								<rect x="114" y="52" width="52" height="44" rx="6" fill="#ffffff" stroke="currentColor" stroke-width="1.5" opacity="0.9" />
+								<rect x="120" y="58" width="40" height="10" rx="5" fill="currentColor" opacity="0.2" />
+								<rect x="120" y="72" width="40" height="10" rx="5" fill="currentColor" opacity="0.14" />
+								<rect x="120" y="86" width="40" height="6" rx="3" fill="currentColor" opacity="0.1" />
 							{:else}
 								<rect x="10" y="10" width="160" height="22" rx="8" fill="currentColor" opacity="0.16" />
 								<rect x="10" y="32" width="104" height="78" rx="8" fill="none" stroke="currentColor" stroke-width="2" opacity="0.9" />

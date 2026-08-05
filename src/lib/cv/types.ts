@@ -70,7 +70,10 @@ export type CVData = {
 		| 'compact'
 		| 'timeline'
 		| 'split'
-		| 'academic';
+		| 'academic'
+		| 'side'
+		| 'mono'
+		| 'bento';
 	colorPrimario: string; // hex
 	colorSecundario: string; // hex
 	fuenteTitulos: string; // nombre de Google Font

@@ -48,6 +48,9 @@
 			"timeline": "Línea de tiempo",
 			"split": "Split",
 			"academic": "Académico",
+			"side": "Sidebar",
+			"mono": "Monocromo",
+			"bento": "Bento",
 			"badgeAria": "Plantilla activa: {{name}}"
 		},
 		"form": {
@@ -203,6 +206,7 @@
 			"errorTooLarge": "El PDF supera el tamaño máximo de 5 MB.",
 			"errorEmpty": "No se encontró texto extraíble en el PDF.",
 			"errorAi": "El servicio de IA no respondió. Inténtalo de nuevo.",
+			"errorTimeout": "La importación tardó demasiado. Inténtalo de nuevo.",
 			"errorNotConfigured": "La importación con IA no está configurada en el servidor.",
 			"errorGeneric": "No se pudo importar el PDF. Inténtalo de nuevo."
 		},

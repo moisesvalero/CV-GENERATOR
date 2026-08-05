@@ -48,10 +48,16 @@
 	}
 
 	async function runImport(file: File) {
+		const controller = new AbortController();
+		const timer = setTimeout(() => controller.abort(), 35000);
 		try {
 			const fd = new FormData();
 			fd.append('file', file);
-			const res = await fetch('/api/import/linkedin', { method: 'POST', body: fd });
+			const res = await fetch('/api/import/linkedin', {
+				method: 'POST',
+				body: fd,
+				signal: controller.signal
+			});
 			const body = (await res.json().catch(() => ({}))) as { message?: string };
 			if (!res.ok) {
 				setError(mapError(res.status, body.message));
@@ -59,8 +65,11 @@
 			}
 			result = body as unknown as ImportedCVData;
 			status = 'done';
-		} catch {
-			setError(get(t)('cv.import.errorGeneric'));
+		} catch (err) {
+			const aborted = err instanceof DOMException && err.name === 'AbortError';
+			setError(get(t)(aborted ? 'cv.import.errorTimeout' : 'cv.import.errorGeneric'));
+		} finally {
+			clearTimeout(timer);
 		}
 	}
 

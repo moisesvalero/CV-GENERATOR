@@ -6,7 +6,14 @@ import type { Output } from 'pdf2json';
 import type { CVData, IdiomaNivel, ImportedCVData, ImportedEducacion, ImportedExperiencia } from '$lib/cv/types';
 
 const MAX_PDF_BYTES = 5 * 1024 * 1024;
-const DEFAULT_MODEL = 'gemini-3.6-flash';
+const DEFAULT_MODEL = 'gemini-flash-lite-latest';
+const PARSE_TIMEOUT_MS = 8000;
+const GEMINI_TIMEOUT_MS = 25000;
+
+/** Vercel: allow the function to run longer than the 10s free-tier default. */
+export const config = {
+	maxDuration: 60
+};
 
 const LEVELS: Set<IdiomaNivel> = new Set(['basic', 'intermediate', 'advanced', 'native']);
 const MAX_EXPERIENCIA = 30;
@@ -114,11 +121,22 @@ function extractPlainText(data: Output): string {
 function parsePdfText(buffer: Buffer): Promise<string> {
 	return new Promise((resolve, reject) => {
 		const parser = new PDFParser(null, true);
+		const timer = setTimeout(() => {
+			try {
+				parser.destroy();
+			} catch {
+				/* ignore */
+			}
+			reject(new Error('PDF parse timed out'));
+		}, PARSE_TIMEOUT_MS);
+		const cleanup = () => clearTimeout(timer);
 		parser.on('pdfParser_dataError', (errData) => {
+			cleanup();
 			parser.destroy();
 			reject(errData instanceof Error ? errData : new Error('PDF parse failed'));
 		});
 		parser.on('pdfParser_dataReady', (data) => {
+			cleanup();
 			try {
 				resolve(extractPlainText(data));
 			} finally {
@@ -298,6 +316,8 @@ export const POST: RequestHandler = async ({ request }) => {
 	};
 
 	let geminiResponse: Response;
+	const controller = new AbortController();
+	const geminiTimer = setTimeout(() => controller.abort(), GEMINI_TIMEOUT_MS);
 	try {
 		geminiResponse = await fetch(
 			`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent`,
@@ -307,11 +327,14 @@ export const POST: RequestHandler = async ({ request }) => {
 					'Content-Type': 'application/json',
 					'x-goog-api-key': apiKey
 				},
-				body: JSON.stringify(geminiBody)
+				body: JSON.stringify(geminiBody),
+				signal: controller.signal
 			}
 		);
 	} catch {
 		throw error(502, 'Could not reach the Gemini API');
+	} finally {
+		clearTimeout(geminiTimer);
 	}
 
 	if (!geminiResponse.ok) {
