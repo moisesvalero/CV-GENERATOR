@@ -38,6 +38,6 @@
 		"@sanity/image-url": "^2.1.1",
 		"html2canvas": "^1.4.1",
 		"jspdf": "^4.2.1",
-		"pdf2json": "^4.0.3"
+		"pdf2json": "^4.1.0"
 	}
 }
